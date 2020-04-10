@@ -155,6 +155,34 @@
 							</c:if>	
 				
 				
+				<c:if test="${!empty sessionScope.utilisateur}">
+					
+					
+							  
+							  
+									<ul >
+									
+										<li> <a class="dropdown-item bg-dark  text-light" href="addArticleMVC"> Vendre un Article</a> </li> 
+											
+											
+											
+										<li> <a class="dropdown-item bg-dark  text-light" href="mesCommandes"> Commandes </a> </li> 
+											
+										<li> <a class="dropdown-item bg-dark  text-light" href="mesVentes"> Ventes en cours </a> </li> 
+												
+												
+												
+										<li> <a class="dropdown-item bg-dark  text-light" href="mesAchats"> Mes Achats</a> </li> 
+																						
+										<li> ${sessionScope.utilisateur.login} : <a href="deconnexion">Déconnexion</a> </li> 	
+												
+										<li> <a class="dropdown-item bg-dark  text-light" href="webSocket.jsp">Tchat Cesi</a> </li>
+									
+									
+									
+									</ul>
+							
+							</c:if>	
 	 			
 							 
 							 		

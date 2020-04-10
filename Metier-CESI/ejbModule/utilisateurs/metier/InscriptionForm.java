@@ -25,7 +25,9 @@ public class InscriptionForm implements InscriptionFormInterface  {
 	private MetierItfUserTeacher metier;*/
 	
 	private List<User> users;
-
+	   private final String CHAMP_USERBDD  = "userInBDD";
+	   
+	   
     private final String CHAMP_USERNAME  = "username";
     private final String CHAMP_LOGIN   = "login";
     private final String CHAMP_EMAIL  = "email";
@@ -97,7 +99,17 @@ public class InscriptionForm implements InscriptionFormInterface  {
         
         System.out.println("metier: Analsye des erreurs et exceptions ");
         
+       User userInBDD = persistanceUser.lireLoginUser(login);
         
+       /* Validation du champ username */
+       try {
+           validationUsername( username );
+       } catch ( Exception e ) {
+       	this.setErreur( CHAMP_USERNAME, e.getMessage() );
+       	this.setErreur( CHAMP_ERRORS, e.getMessage() );
+       }
+       
+       
         System.out.println("Test  metier : username ");
         /* Validation du champ username */
         try {
@@ -414,15 +426,16 @@ public void init() {
 	
 	System.out.println("Metier - init");
 	
-	
-	User user = new User("Hiii","Galiere", "lesondusud@13oklm.fr", "puissantleMDP");
-	persistanceUser.persisterUser(user);
-	
-	User user1 = new User("bijour","ehooo", "leson@oklmtest.fr", "lighttleMDP");
-	persistanceUser.persisterUser(user1);
-	
-	User user2 = new User("bijour","admin", "password", "leson@oklmtest.fr", Role.Administrateur);
-	persistanceUser.persisterUser(user2);
+		/*
+		 * User user = new User("Hiii","Galiere", "lesondusud@13oklm.fr",
+		 * "puissantleMDP"); persistanceUser.persisterUser(user);
+		 * 
+		 * User user1 = new User("bijour","ehooo", "leson@oklmtest.fr", "lighttleMDP");
+		 * persistanceUser.persisterUser(user1);
+		 * 
+		 * User user2 = new User("bijour","admin", "password", "leson@oklmtest.fr",
+		 * Role.Administrateur); persistanceUser.persisterUser(user2);
+		 */
 	
 		/*
 		 * User user2 = new User("salut","ehooo", "baba@oklmtest.fr", "MDPahash");

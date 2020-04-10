@@ -56,6 +56,10 @@ public class LoginServlet extends HttpServlet {
 	     if(utilisateur!=null) {
 	     	session.setAttribute(ATTRIBUT_USER_LOGIN,utilisateur.getLogin());
 	     	request.setAttribute(ATTRIBUT_USER_LOGIN, utilisateur.getLogin());
+	     	
+	     	
+	    	session.setAttribute(ATTRIBUT_USER,utilisateur);
+	     	request.setAttribute(ATTRIBUT_USER, utilisateur);
 
 	     	System.out.println(session.getAttribute(ATTRIBUT_USER_LOGIN));
 	     	

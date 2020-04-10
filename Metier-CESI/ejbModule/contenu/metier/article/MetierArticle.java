@@ -273,23 +273,7 @@ public class MetierArticle implements MetierInterfaceArticle {
         }
         article.setContenu(art_contenu);
         
-        
-        
-       // session.
-       
-     //    User userSession = (User) session.getAttribute(ATTRIBUT_USER);
-        
-		/*
-		 * HttpSession sessionServlet = request.getSession(); Principal userPrincipal =
-		 * request.getUserPrincipal();
-		 */
-       
-        
-   //     article.setUser_vendeur(userParams.getUser_id());
-        
-        
-        // || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
-        
+         
         /* Initialisation du résultat global de la validation. */
         if ( erreurs.isEmpty()   || ( !article.getTitre().isEmpty()  && !article.getDescription().isEmpty() && !article.getContenu().isEmpty() ) ) {
         	//|| ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() && !article.getArt_description().isEmpty() && !article.getArt_contenu().isEmpty() )

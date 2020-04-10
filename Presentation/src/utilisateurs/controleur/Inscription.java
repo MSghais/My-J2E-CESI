@@ -94,7 +94,7 @@ public class Inscription extends HttpServlet {
 				        
 				        System.out.println("doPOST renvoi page en forward" );
 				        
-				        this.getServletContext().getRequestDispatcher( VUE ).include( request, response );
+				       request.getRequestDispatcher( VUE ).include( request, response );
 				        
 				       // this.getServletContext().getRequestDispatcher( VUE ).include( request, response );
 				        
