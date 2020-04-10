@@ -84,7 +84,7 @@ public class User {
 	
 	@OneToMany
 	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_vendeur_id")
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
 	private Collection<Article> ventesArticles = new ArrayList<Article>();
 	
@@ -102,7 +102,7 @@ public class User {
 	private Collection<Article> achatArticles = new ArrayList<Article>();
 	
 	
-	public void addArticles(Article article) {
+	public void addArticlesVentes(Article article) {
 		
 		ventesArticles.add(article);
 	}

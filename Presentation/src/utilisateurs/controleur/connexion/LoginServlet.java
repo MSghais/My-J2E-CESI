@@ -70,7 +70,7 @@ public class LoginServlet extends HttpServlet {
 	     	request.setAttribute(ATTRIBUT_ERREUR_MSG,erreurMsg);
 	     	session.setAttribute("utilisateur",null);
 	     }
-	     request.getRequestDispatcher(URL_VUE_CONNEXION).forward(request, response); 
+	     request.getRequestDispatcher(URL_VUE_CONNEXION).include(request, response); 
 	 
 	//request.getAttribute(ATTRIBUT_USER);
 	}

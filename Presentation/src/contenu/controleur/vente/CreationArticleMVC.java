@@ -114,20 +114,28 @@ public class CreationArticleMVC extends HttpServlet {
 		        System.out.println("Inscription Article EJB " );
 			  
 			  Article articleUser =  form.creerArticleUser(request, userSession);
+			  
+			  
+			  if( (articleUser != null) && (userSession != null)  ) {
+				  
+			       System.out.println("Insertion JPQL Query " );
+			       
+			       
+				  form.insertJoinArticleUserWithQuery( userSession , articleUser);
+				  
+				  form.insertJoinArticleUserWithQueryIndex(userSession.getUser_id(), articleUser.getId());
+			  }
+	
+			  
+			  
+			  
 		        request.setAttribute( ATT_FORM, form );
 		        request.setAttribute( ATT_USER, articleUser);
 			  
 		        request.setAttribute( ATTRIBUT_ERREUR_MSG, form.getErreurs());
 		 
 		 
-		       
-			  
-		 			
-				       
-				        
-				        
-				
-				        
+      
 				        /* Stockage du formulaire et du bean dans l'objet request */
 				       
 				      

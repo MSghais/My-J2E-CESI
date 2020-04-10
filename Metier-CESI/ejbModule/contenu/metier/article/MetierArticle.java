@@ -110,6 +110,119 @@ public class MetierArticle implements MetierInterfaceArticle {
 		*/
 	
 	}
+	
+	@Override
+	public Article creerArticleUser(HttpServletRequest request, User userParams) {
+		// TODO Auto-generated method stub
+
+		
+	
+
+        String art_titre = request.getParameter("art_titre");
+        String art_url = request.getParameter("art_url");
+        
+        String art_description = request.getParameter("art_description");
+        String art_contenu = request.getParameter("art_contenu");
+        String art_frais = request.getParameter("art_frais");
+        String art_prix = request.getParameter("art_prix");
+        
+        Article article = new Article();
+
+     
+      
+        System.out.println("Test des exceptions du formulaire a partir du MEtier");
+        
+        System.out.println("Test  metier : titre ");
+        /* Validation du champ username */
+        try {
+           validationTitre(art_titre);
+        } catch ( Exception e ) {
+            this.setErreur( CHAMP_TITRE, e.getMessage() );
+        }       
+        article.setTitre(art_titre);
+        
+        System.out.println("Test  metier : url ");
+        /* Validation du champ username */
+        try {
+            validationUrl(art_url);
+            
+        } catch ( Exception e ) {
+            this.setErreur( CHAMP_URL, e.getMessage() );
+        }       
+        article.setUrl(art_url);
+        
+        
+        System.out.println("Test  metier : description ");
+        /* Validation du champ username */
+        try {
+         validationDescription(art_description);
+            
+        } catch ( Exception e ) {
+            setErreur( CHAMP_DESCL, e.getMessage() );
+        }       
+        article.setDescription(art_description);
+        
+        
+        
+        System.out.println("Test  metier : Contenu");
+        /* Validation du champ mot de passe. */
+        try {
+            validationContenu(art_contenu);
+        } catch ( Exception e ) {
+            setErreur( CHAMP_CONTENT, e.getMessage() );
+        }
+        article.setContenu(art_contenu);
+        
+        
+        if(art_frais != null) {
+            article.setFrais(art_frais);
+        }
+        
+        if(art_prix != null) {
+        	 article.setPrix(art_prix);
+        }
+       
+        
+        article.setUser_vendeur(userParams);
+        
+        
+        
+        /* Initialisation du résultat global de la validation. */
+        if ( erreurs.isEmpty()   || ( !article.getTitre().isEmpty()  && !article.getDescription().isEmpty() && !article.getContenu().isEmpty() ) ) {
+        	//|| ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() && !article.getArt_description().isEmpty() && !article.getArt_contenu().isEmpty() )
+        	this.setResultat("Succès dépot Article");
+        	this.resultat = "Succès du dépot Article";
+        	
+       
+            resultat = "Succès de la connexion.";
+            System.out.println("Succes du dépot Article ");
+         	System.out.println("Erreurs : " + erreurs);
+       
+         	persistanceArticle.persisterUserArticle(userParams, article);
+         
+         	
+         //	insertJoinArticleUserWithQuery(userParams, article);
+         
+     //    persistanceArticle.persisterUserAndArticle(userParams, article);
+         
+   
+         
+         System.out.println("Persister Article OK ");
+         return article;
+        } else {
+            resultat = "Échec de la connexion.";
+            
+
+        	this.setResultat(resultat);
+        	
+            System.out.println("Echec de la connexion ");
+         	System.out.println("Erreur : " + erreurs);
+        }
+
+        
+       // return user;
+        return article;
+	}
 
 
 	@Override
@@ -124,6 +237,9 @@ public class MetierArticle implements MetierInterfaceArticle {
         
         String art_description = request.getParameter("art_description");
         String art_contenu = request.getParameter("art_contenu");
+        
+        String art_frais = request.getParameter("art_frais");
+        String art_prix = request.getParameter("art_prix");
         Article article = new Article();
 
      
@@ -214,94 +330,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 	}
 	
 
-	@Override
-	public Article creerArticleUser(HttpServletRequest request, User userParams) {
-		// TODO Auto-generated method stub
-
-		
 	
-
-        String art_titre = request.getParameter("art_titre");
-        String art_url = request.getParameter("art_url");
-        
-        String art_description = request.getParameter("art_description");
-        String art_contenu = request.getParameter("art_contenu");
-        Article article = new Article();
-
-     
-      
-        System.out.println("Test des exceptions du formulaire a partir du MEtier");
-        
-        System.out.println("Test  metier : titre ");
-        /* Validation du champ username */
-        try {
-           validationTitre(art_titre);
-        } catch ( Exception e ) {
-            this.setErreur( CHAMP_TITRE, e.getMessage() );
-        }       
-        article.setTitre(art_titre);
-        
-        System.out.println("Test  metier : url ");
-        /* Validation du champ username */
-        try {
-            validationUrl(art_url);
-            
-        } catch ( Exception e ) {
-            this.setErreur( CHAMP_URL, e.getMessage() );
-        }       
-        article.setUrl(art_url);
-        
-        
-        System.out.println("Test  metier : description ");
-        /* Validation du champ username */
-        try {
-         validationDescription(art_description);
-            
-        } catch ( Exception e ) {
-            setErreur( CHAMP_DESCL, e.getMessage() );
-        }       
-        article.setDescription(art_description);
-        
-        
-        
-        System.out.println("Test  metier : Contenu");
-        /* Validation du champ mot de passe. */
-        try {
-            validationContenu(art_contenu);
-        } catch ( Exception e ) {
-            setErreur( CHAMP_CONTENT, e.getMessage() );
-        }
-        article.setContenu(art_contenu);
-        
-         
-        /* Initialisation du résultat global de la validation. */
-        if ( erreurs.isEmpty()   || ( !article.getTitre().isEmpty()  && !article.getDescription().isEmpty() && !article.getContenu().isEmpty() ) ) {
-        	//|| ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() && !article.getArt_description().isEmpty() && !article.getArt_contenu().isEmpty() )
-        	this.setResultat("Succès dépot Article");
-        	this.resultat = "Succès du dépot Article";
-        	
-       
-            resultat = "Succès de la connexion.";
-            System.out.println("Succes du dépot Article ");
-         	System.out.println("Erreurs : " + erreurs);
-         persistanceArticle.persisterUserArticle(userParams, article);
-         
-         System.out.println("Persister Article OK ");
-         return article;
-        } else {
-            resultat = "Échec de la connexion.";
-            
-
-        	this.setResultat(resultat);
-        	
-            System.out.println("Echec de la connexion ");
-         	System.out.println("Erreur : " + erreurs);
-        }
-
-        
-       // return user;
-        return article;
-	}
 
 	@Override
 	public Article creerArticle(HttpServletRequest request) {
@@ -380,9 +409,7 @@ public class MetierArticle implements MetierInterfaceArticle {
          	System.out.println("Erreurs : " + erreurs);
          persistanceArticle.persisterArticle(article);
          
-         
-         persistanceArticle.persisterArticle(article);
-         
+
          System.out.println("Persister utilisateur OK ");
         } else {
             resultat = "Échec de la connexion.";
@@ -614,6 +641,19 @@ public class MetierArticle implements MetierInterfaceArticle {
 		etudiant.setAbsence(absence++);
 	}   */ 
 	
-	
+
+	@Override
+	public void insertJoinArticleUserWithQuery(User user, Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.insertJoinArticleUserWithQuery(user, article);
+	}
+
+
+	@Override
+	public void insertJoinArticleUserWithQueryIndex(Long user_id, Long id) {
+		// TODO Auto-generated method stub
+		persistanceArticle.insertJoinArticleUserWithQueryIndex(user_id, id);
+	}
+
 	
 }

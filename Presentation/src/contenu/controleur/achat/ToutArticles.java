@@ -69,8 +69,13 @@ public class ToutArticles extends HttpServlet {
 			request.setAttribute("modelContenu", modelContenu);
 			
 			request.getRequestDispatcher(VUE).forward(request, response); 
+			
+			
 	
-		
+		if(request.getParameter("supprimer") != null ) {
+			
+			
+		}
 		
 	}
 }

@@ -44,7 +44,7 @@ public class Article {
 	private Date date;
 	
 	
-	private String titre,  image,  url, description,   contenu;
+	private String titre,  image,  url, description,   contenu, frais, prix;
 	
 
 	
@@ -152,6 +152,25 @@ public Article(String nom, Theme theme, String description) {
 		this.description = art_description;
 		this.contenu = art_contenu;
 		this.url = art_img;
+	}
+
+
+
+	public Article(Long id, Date date, String titre, String image, String url, String description, String contenu,
+			String frais, String prix, Theme theme, User user_vendeur, StatutArticle status) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.titre = titre;
+		this.image = image;
+		this.url = url;
+		this.description = description;
+		this.contenu = contenu;
+		this.frais = frais;
+		this.prix = prix;
+		this.theme = theme;
+		this.user_vendeur = user_vendeur;
+		this.status = status;
 	}
 
 
@@ -265,6 +284,31 @@ public Article(String nom, Theme theme, String description) {
 
 	public void setTheme(Theme theme) {
 		this.theme = theme;
+	}
+
+
+	
+
+	public String getFrais() {
+		return frais;
+	}
+
+
+
+	public void setFrais(String frais) {
+		this.frais = frais;
+	}
+
+
+
+	public String getPrix() {
+		return prix;
+	}
+
+
+
+	public void setPrix(String prix) {
+		this.prix = prix;
 	}
 
 

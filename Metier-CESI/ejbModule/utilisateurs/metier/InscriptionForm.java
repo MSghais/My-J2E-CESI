@@ -99,7 +99,7 @@ public class InscriptionForm implements InscriptionFormInterface  {
         
         System.out.println("metier: Analsye des erreurs et exceptions ");
         
-       User userInBDD = persistanceUser.lireLoginUser(login);
+      // User userInBDD = persistanceUser.lireLoginUser(login);
         
        /* Validation du champ username */
        try {

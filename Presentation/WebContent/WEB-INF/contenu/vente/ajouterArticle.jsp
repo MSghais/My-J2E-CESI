@@ -62,6 +62,7 @@
                  <span class="erreur">${form.erreurs['art_description']}</span>
                 <br />
                 
+                  <label for="art_contenu"> Contenu <span class="requis">*</span> </label>
                 <div class="field">
 					<textarea name="art_contenu" id="art_contenu" placeholder="Message">
 					 
@@ -71,6 +72,17 @@
                                 
              
                 
+ 			<label for="art_frais"> Frais <span class="requis">*</span> </label>
+                <input type="text" id="art_frais" name="art_frais" value="<c:out value="${article.frais}"/>" size="20" maxlength="20" />
+                 <span class="erreur">${form.erreurs['art_frais']}</span>
+                <br />
+
+           
+ 			<label for="art_frais"> Prix <span class="requis">*</span> </label>
+                <input type="text" id="art_prix" name="art_prix" value="<c:out value="${article.prix}"/>" size="20" maxlength="20" />
+                 <span class="erreur">${form.erreurs['art_prix']}</span>
+                <br />
+
 
 
 

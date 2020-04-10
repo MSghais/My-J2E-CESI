@@ -49,6 +49,11 @@ public interface MetierInterfaceArticle {
 	Article creerArticleRequest(HttpServletRequest request, HttpSession session);
 	Article creerArticleUser(HttpServletRequest request, User user);
 	
+	void insertJoinArticleUserWithQuery(User user, Article article);
+	
+
+	void insertJoinArticleUserWithQueryIndex(Long user_id, Long id);
+	
 	
 	
 	/*

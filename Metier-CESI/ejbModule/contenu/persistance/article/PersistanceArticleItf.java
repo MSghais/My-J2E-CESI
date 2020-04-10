@@ -30,5 +30,10 @@ public interface PersistanceArticleItf {
 	void supprimerArticle(Article article);
 	Article insertUserByArticle(Long article_id);
 	void persisterArticleInUser(User user, Article article);
+	void persisterUserAndArticle(User user, Article article);
+	
+	
+	void insertJoinArticleUserWithQuery(User user, Article article);
+	void insertJoinArticleUserWithQueryIndex(Long userid, Long articleid);
 	
 }

@@ -40,7 +40,7 @@
 	<div class="table-wrapper">
 										<table class="alt">
 		
-			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th></thead>
+			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>  </thead>
 			  
 			  	<tbody>
 			  	
@@ -52,6 +52,14 @@
 					<td><c:out value="${article.description}"/></td>
 					
 					<td><c:out value="${article.contenu}"/></td>
+					
+					
+					<td><c:out value="${article.frais}"/></td>
+					
+					<td><c:out value="${article.prix}"/></td>
+					
+					
+					<td> <button type="submit" name="acheter"> Acheter un article </button></td>
 				</tr> 
 		      </c:forEach>
 		      
