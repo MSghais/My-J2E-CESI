@@ -19,6 +19,14 @@ public class PersisterUser implements PersistanceUserItf {
 	
 	private EntityManager entityManager;
 	
+	@Override
+	public User connecterUtilisateurLoginMdp(String login, String passwd) {
+		System.out.println("PersistanceUtilisateur - connecterUtilisateur");
+		Query query = entityManager.createQuery("select u from User u where login=:login and password=:password");
+		query.setParameter("login", login);
+		query.setParameter("password", passwd);
+		return (User) query.getSingleResult();
+	}
 	
 	@Override
 	public User lireUser(Long id) {
@@ -121,6 +129,16 @@ public class PersisterUser implements PersistanceUserItf {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/*
+	 * @Override public User userAlreadyExist(String login, String password) throws
+	 * Exception { // TODO Auto-generated method stub
+	 * System.out.println("PersistanceUtilisateur - connecterUtilisateur"); Query
+	 * query = entityManager.
+	 * createQuery("select u from User u where login=:login and password=:password"
+	 * ); query.setParameter("login", login); query.setParameter("password",
+	 * password); return (User) query.getSingleResult(); }
+	 */
 	
 	
 	

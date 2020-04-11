@@ -81,31 +81,71 @@ public class User {
 
 	protected Role role;
 	
-	
 	@OneToMany
 	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
-	private Collection<Article> ventesArticles = new ArrayList<Article>();
+	private Map<Long, Article> ventesArticles;
 	
 	@OneToMany
 	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_userCommande_id")
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
-	private Collection<Article> commandesArticles = new ArrayList<Article>();
+	private Map<Long, Article> commandesArticles;
 	
 	
 	@OneToMany
 	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_acheteur_id")
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
-	private Collection<Article> achatArticles = new ArrayList<Article>();
+	private Map<Long, Article> achatsArticles;
+
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinTable(name="vendeur_article",
+	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
+	 * Article> ventesArticles;
+	 * 
+	 * @OneToMany
+	 * 
+	 * @JoinTable(name="commandes_article",
+	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
+	 * Article> commandesArticles;
+	 * 
+	 * 
+	 * @OneToMany
+	 * 
+	 * @JoinTable(name="achat_article",
+	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
+	 * Article> achatsArticles;
+	 */
 	
+	/*
+
+	*/
+	
+	/* 	@OneToMany(mappedBy= "id")
+	private Map<Long, Article> ventesArticles;
+	
+	@OneToMany(mappedBy= "id")
+	private Map<Long, Article> commandesArticles;
+	
+	
+	@OneToMany(mappedBy= "id")
+	private Map<Long, Article> achatsArticles; */
 	
 	public void addArticlesVentes(Article article) {
 		
-		ventesArticles.add(article);
+		ventesArticles.put(this.user_id, article);
 	}
+	
+	/*  WITH COLLECTIONS
+	@OneToMany
+	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
+			)
+	private Collection<Article> ventesArticles = new ArrayList<Article>(); */
 	
 	/*
 	@OneToOne(optional = true)
@@ -208,7 +248,7 @@ public class User {
 
 
 	public User(Long user_id, String username, String login, String email, String password,
-			Collection<Article> articlesLus, Collection<Article> articles) {
+			HashMap<Long, Article> ventesArticles, HashMap<Long, Article> achatsArticles) {
 		super();
 		this.user_id = user_id;
 		this.username = username;
@@ -220,17 +260,7 @@ public class User {
 
 
 
-	public User(Long user_id, String username, String login, String email, String password,
-			Collection<Theme> user_theme, 
-			Collection<Article> articles_finis, Collection<Article> articles_now) {
-		super();
-		this.user_id = user_id;
-		this.username = username;
-		this.login = login;
-		this.email = email;
-		this.password = password;
-
-	}
+	
 
 	
 
@@ -286,31 +316,59 @@ public class User {
 		this.role = role;
 	}
 
-	public Collection<Article> getVentesArticles() {
+	public Map<Long, Article> getVentesArticles() {
 		return ventesArticles;
 	}
 
-	public void setVentesArticles(Collection<Article> ventesArticles) {
+	public void setVentesArticles(Map<Long, Article> ventesArticles) {
 		this.ventesArticles = ventesArticles;
 	}
 
-	public Collection<Article> getCommandesArticles() {
+	public Map<Long, Article> getCommandesArticles() {
 		return commandesArticles;
 	}
 
-	public void setCommandesArticles(Collection<Article> commandesArticles) {
+	public void setCommandesArticles(Map<Long, Article> commandesArticles) {
 		this.commandesArticles = commandesArticles;
 	}
 
-	public Collection<Article> getAchatArticles() {
-		return achatArticles;
+	public Map<Long, Article> getAchatArticles() {
+		return achatsArticles;
 	}
 
-	public void setAchatArticles(Collection<Article> achatArticles) {
-		this.achatArticles = achatArticles;
+	public void setAchatArticles(Map<Long, Article> commandesArticles) {
+		this.achatsArticles = achatsArticles;
 	}
 
+	public User(Long user_id, String username, String login, String email, String password, Role role,
+			Map<Long, Article> ventesArticles, Map<Long, Article> achatsArticles,
+			Map<Long, Article> commandesArticles) {
+		super();
+		this.user_id = user_id;
+		this.username = username;
+		this.login = login;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.ventesArticles =  new HashMap<Long, Article>();
+		this.commandesArticles = new HashMap<Long, Article>();
+		this.achatsArticles = new HashMap<Long, Article>();
+	}
 
+/* 	public User(Long user_id, String username, String login, String email, String password, Role role,
+			Collection<Article> ventesArticles, Collection<Article> commandesArticles,
+			Collection<Article> achatArticles) {
+		super();
+		this.user_id = user_id;
+		this.username = username;
+		this.login = login;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.ventesArticles =  new HashMap<Long, Article>();
+		this.commandesArticles = new ArrayList<Article>();
+		this.achatArticles = new ArrayList<Article>();
+	} */
 	
 	
 	

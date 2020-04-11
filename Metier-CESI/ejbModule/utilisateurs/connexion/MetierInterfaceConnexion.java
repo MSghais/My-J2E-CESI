@@ -24,4 +24,12 @@ public interface MetierInterfaceConnexion {
 	
 
 	User selectUserConnexion(String login);
+
+	User selectUserAllArgs(String login);
+
+	User lireLoginUser(String login);
+
+	User connecterUtilisateurLoginMdp(String login, String motDePasse);
+
+	User connexionUtilisateurSimplyBDD(String login, String password);
 }

@@ -126,7 +126,7 @@
 														</li>
 					
 				
-						<c:if test="${!empty sessionScope.utilisateur}">
+						<c:if test="${!empty sessionScope.userId}">
 					
 					
 							  
@@ -156,7 +156,7 @@
 							</c:if>	
 				
 				
-				<c:if test="${!empty sessionScope.utilisateur}">
+				<c:if test="${!empty sessionScope.userId}">
 					
 					
 							  
@@ -187,7 +187,7 @@
 	 			
 							 
 							 		
-							<c:if test="${empty sessionScope.utilisateur}">
+							<c:if test="${empty sessionScope.userId}">
 							   
 							<ul>										
 												 

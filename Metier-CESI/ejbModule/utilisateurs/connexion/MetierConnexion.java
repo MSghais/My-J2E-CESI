@@ -26,6 +26,8 @@ public class MetierConnexion implements MetierInterfaceConnexion {
     private static final String CHAMP_PASS   = "password";
 	
     private static final String CHAMP_ERRORS   = "erreurs";
+
+    private static final String CHAMP_ERRORS_MSG   = "msgErreurs";
 	private Map<String,User> utilisateurs;
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
@@ -34,14 +36,14 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		utilisateurs = new HashMap<String, User>();
 		initialiser();
 	}
-	public boolean connexionUtilisateurTest(String login,String password) {
+	public boolean connexionUtilisateurSimply(String login,String password) {
 		
 	   	 //User user = persistanceUser.selectUserLogin(login);
 	   	 
 	   	User userBDD;
 		try {
-			userBDD = findUserNotBDD(login, password);
-			if( userBDD.getPassword().equals(password) && userBDD != null)
+			userBDD = connecterUtilisateurLoginMdp(login, password);
+			if( userBDD.getPassword().equals(password) || userBDD.equals(null) )
 				{ return true; }
 		return true;
 		
@@ -57,6 +59,38 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		if( userBDD.getPassword().equals(passwd) && userBDD != null)
 			return true;
 		else return false;*/
+	}
+	@Override
+	public User connexionUtilisateurSimplyBDD(String login,String password) {
+		
+	   	 //User user = persistanceUser.selectUserLogin(login);
+	   	 
+	   	User userBDD=null;
+		try {
+			userBDD = connecterUtilisateurLoginMdp(login, password);
+			if( userBDD.getPassword().equals(password) || userBDD.equals(null) )
+				{ return userBDD; }
+		return userBDD;
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Catch exception connexion User");
+			this.setErreur( CHAMP_LOGIN, e.getMessage() );
+			
+			this.setErreur( CHAMP_ERRORS, e.getMessage() );
+			
+		
+			//return false;
+		}
+		
+		return userBDD;
+	   	 /*
+		if( userBDD.getPassword().equals(passwd) && userBDD != null)
+			return true;
+		else return false;*/
+		//userBDD = connecterUtilisateurLoginMdp(login, password);
+	//	return userBDD;
 	}
 	
 	
@@ -82,7 +116,7 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println("Catch exception connexion User");
-			e.printStackTrace();
+			//e.printStackTrace();
 			this.setErreur( CHAMP_LOGIN, e.getMessage() );
 			
 			this.setErreur( CHAMP_ERRORS, e.getMessage() );
@@ -96,7 +130,42 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 	}
 	
 	
-	public boolean connexionUtilisateurBDD(String login,String passwd) {
+	public boolean connexionUtilisateurBDDBoolean(String login,String password) {
+		
+		
+	 	User userBDD;
+			try {
+				userBDD = connecterUtilisateurLoginMdp(login, password);
+				if(userBDD != null) {
+					
+					System.out.println("connexionUser boolean : return true ");
+					return true;
+				}
+				/*
+				 * if( userBDD.getPassword().equals(password) && userBDD != null) { return true;
+				 * }
+				 */
+				System.out.println("return true");
+			return true;
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("Catch exception connexion User");
+				//e.printStackTrace();
+				this.setErreur( CHAMP_LOGIN, e.getMessage() );
+				
+				this.setErreur( CHAMP_ERRORS, e.getMessage() );
+				System.out.println("return false with ERRORS");
+				return false;
+			}
+		   	 /*
+			if( userBDD.getPassword().equals(passwd) && userBDD != null)
+				return true;
+			else return false;*/
+	}
+	
+	
+public boolean connexionUtilisateurBDD(String login,String passwd) {
 		
 		
 		if(utilisateurs.containsKey(login)&&utilisateurs.get(login).getPassword().equals(passwd))
@@ -110,10 +179,12 @@ public class MetierConnexion implements MetierInterfaceConnexion {
    	public User findUserNotBDD(String login, String password) throws Exception {
    		// TODO Auto-generated method stub
 	       
-	   	 User user = persistanceUser.selectUserLogin(login);
+	   	User user = persistanceUser.selectUserLogin(login);
    	   	 
+    	// User user = persistanceUser.lireLoginUser(login);
+	   	 
    	   	 
-   		if(  user.equals(null) ){
+   		if(  user.equals(null) || user == null  ){
 
          throw new Exception( "Veuillez ressaisir votre login ou votre mot de passe !" );
          
@@ -215,6 +286,29 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 	    	   	    	
    	}
     
+    @Override
+   	public User selectUserAllArgs(String login) {
+   		// TODO Auto-generated method stub
+	       
+	  // 	 User user = persistanceUser.selectUserLogin(login);
+   	   	 
+	   	// User user = persistanceUser.lireLoginUser(login);
+	   	 
+    	System.out.println("selectUserConnexion : go select UserLogin de la persistance");
+	   	 
+	   	 User user = persistanceUser.selectUserLogin(login);
+	   	 
+	   	 System.out.println("user select connexion" + user.toString()) ;
+	   	 
+   		
+	    	
+	    			
+	    		 return user;
+
+	 
+	    	   	    	
+   	}
+    
     
 	public User getUtilisateur(String login) {
 		return utilisateurs.get(login);
@@ -251,6 +345,16 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		// TODO Auto-generated method stub
 		  erreurs.put( champ, message );
 		
+	}
+	@Override
+	public User lireLoginUser(String login) {
+		// TODO Auto-generated method stub
+		return persistanceUser.lireLoginUser(login);
+	}
+	@Override
+	public User connecterUtilisateurLoginMdp(String login, String password) {
+		// TODO Auto-generated method stub
+		return persistanceUser.connecterUtilisateurLoginMdp(login, password);
 	}
 	
 }

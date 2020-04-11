@@ -44,5 +44,6 @@ public interface PersistanceArticleItf {
 	void insertionJoinTableObject(User user, Article article);
 	
 	void insertionJoinTableId(Long userid, Long articleId);
+	void insertionJoinTableIdAndKey(Long userid, Long articleId);
 	
 }

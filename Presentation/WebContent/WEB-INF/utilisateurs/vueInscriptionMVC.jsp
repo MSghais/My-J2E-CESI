@@ -32,6 +32,9 @@
 		
 		<c:set var="roleVALUES" value="<%=Role.values()%>"/>
 		
+		                 <p class="${empty inscriptionForm.erreurs ? 'succes' : 'erreur'}">${inscriptionForm.resultat}</p>
+		                 
+		                 	<c:out value="${erreurs}"/><br>
 		
 		<h4> Inscription Field SET </h4>
 		<form action="Inscription" method="post" >
@@ -39,10 +42,10 @@
 		
 					<label for="rubrique_name"> Role <span class="requis">* </span> </label>
 							
-							 <select name="role"> 
+								 <select name="role"> 
 							 
 							 
-						<c:forEach var="roleVal" items="${roleStatus}">
+									<c:forEach var="roleVal" items="${roleStatus}">
 									
 									<option> <c:out value="${roleVal}"/> </option>
 									
@@ -94,16 +97,7 @@
 		<br/>
 		
 			
-		
-		
 	
-		
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-				
 					
 
 			<%@ include file="/WEB-INF/footerPhantom.jsp" %>

@@ -33,6 +33,7 @@ public class InscriptionForm implements InscriptionFormInterface  {
     private final String CHAMP_EMAIL  = "email";
     private final String CHAMP_PASS   = "password";
     
+    private final String CHAMP_EXISTE   = "existeErreurs";
     private final String CHAMP_CONF   = "confirmation";
     private static final String CHAMP_ERRORS   = "erreurs";
 
@@ -149,24 +150,55 @@ public class InscriptionForm implements InscriptionFormInterface  {
             this.setErreur( CHAMP_ERRORS, e.getMessage() );
         }
         user.setPassword( password );
-  
+        
+		/*
+		 * System.out.println("Test  metier: User already in BDD ?"); try { User
+		 * userAlreadyExist = persistanceUser.connecterUtilisateurLoginMdp(login,
+		 * password); if(userAlreadyExist!= null) {
+		 * 
+		 * 
+		 * } } catch ( Exception e ) {
+		 * 
+		 * this.setErreur( CHAMP_PASS, e.getMessage() ); this.setErreur( CHAMP_ERRORS,
+		 * e.getMessage() ); }
+		 */
+     
+        
+        System.out.println("Test  metier: User already in BDD ?");       
+        //User userAlready;
+        try {
+        	 userAlreadyExist(login, password);
+    
+        } catch ( Exception e ) { 
+
+            this.setErreur( CHAMP_EXISTE, e.getMessage() );
+        }
+        
+        
         // || !user.getLogin().isEmpty() 
         
         /* Initialisation du résultat global de la validation. */
-        if ( erreurs.isEmpty() ||  ( !user.getLogin().isEmpty() && !user.getPassword().isEmpty() && !user.getEmail().isEmpty() ) )  {
+        if ( erreurs.isEmpty() 
+        		|| !getErreurs().containsKey(CHAMP_EXISTE)
+        		|| !erreurs.containsKey(CHAMP_EXISTE)
+        		|| !erreurs.containsValue(CHAMP_EXISTE)
+        		||  ( !user.getLogin().isEmpty() && !user.getPassword().isEmpty() && !user.getEmail().isEmpty() )         ) 
+        	{
             
-        	this.setResultat("Succès de l'inscription.");
-        	this.resultat = "Succès de l'inscription.";
-        	
-            System.out.println("Succes de l'inscription");
-            persistanceUser.persisterUser(user);
-            
-          
-         	System.out.println("Erreurs : " + erreurs);
-            System.out.println("Persister user  metier");
+			        	this.setResultat("Succès de l'inscription.");
+			        	this.resultat = "Succès de l'inscription.";
+			        	
+			            System.out.println("Succes de l'inscription");
+			            persistanceUser.persisterUser(user);
+   
+			         	System.out.println("Erreurs : " + erreurs);
+			            System.out.println("Persister user  metier");
            
         } else {
-        	        	
+        	       /*  erreurs.isEmpty() 
+        		|| !getErreurs().containsKey(CHAMP_EXISTE)
+        		|| !erreurs.containsKey(CHAMP_EXISTE)
+        		|| !erreurs.containsValue(CHAMP_EXISTE) */ 	
         	this.setResultat("Échec de l'inscription.");
         	this.resultat = "Échec de  l'inscription..";
             resultat = "Échec de la connexion.";
@@ -365,6 +397,24 @@ public class InscriptionForm implements InscriptionFormInterface  {
 	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
 	    }
 	}
+  
+  @Override
+  public void userAlreadyExist( String login, String password ) throws Exception {
+	  
+	  User userExist = persistanceUser.connecterUtilisateurLoginMdp(login, password);
+	  
+	    //if ( motDePasse != null && confirmation != null ) {
+	        if ( userExist!=null ) {
+	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
+	        }
+	      /*  } else if ( password.length() < 3 ) {
+	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
+	        }
+	     else {
+	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
+	    }*/
+	}
+
 
   /*  
   @Override

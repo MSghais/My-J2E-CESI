@@ -21,6 +21,11 @@
         <a href="accesPublic.jsp">acces public</a>
         <a href="accesrestreint">acces privé</a>
 		<h4>Login</h4>
+		
+			<c:out value="${requestScope.erreurs}"/><br>
+		
+		<c:out value="${requestScope.msgErreur}"/><br>
+				<c:out value="${msgErreur}"/><br>
 		<form action="Connexion" method="post">
 			<table>
 				<tr>
@@ -38,6 +43,7 @@
 			</table>
 		</form>	
 		<br>
+			<c:out value="${requestScope.msgErreur}"/><br>
 		<c:out value="${msgErreur}"/><br>
         </form>
         

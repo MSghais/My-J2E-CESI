@@ -38,4 +38,9 @@ public interface PersistanceUserItf {
 
 	User selectLoginUser(String login);
 
+
+	User connecterUtilisateurLoginMdp(String login, String passwd);
+
+
+
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,8 +56,7 @@ public class CreationArticleMVC extends HttpServlet {
 	        /* Affichage de la page d'inscription */
 	    	System.out.println("Arrivé doGET");
 	    	
-	      	
-	    	ModelAllContent modelAll = new ModelAllContent();
+	      	/*  ModelAllContent modelAll = new ModelAllContent();
 	    	 
 	    	
 	        
@@ -69,9 +69,13 @@ public class CreationArticleMVC extends HttpServlet {
 	        
 	        
 	  
+	     	User user =  (User) request.getAttribute(ATTRIBUT_USER);
+	     	
+	     	
 	    //	modelAll.setSecteurAll(secteurValues);
 	    	
 	    	request.getRequestDispatcher(VUE).include(request, response);
+	    	 */
 	    	
 	    	doPost(request,response);/*
 	        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
@@ -84,15 +88,47 @@ public class CreationArticleMVC extends HttpServlet {
 	    	System.out.println("doPOST entree");
 	  
 	      //  InscriptionForm form = new InscriptionForm();
+	    		ModelAllContent modelAll = new ModelAllContent();
+	    	 
+	    	
+	        
+	        List<Theme> themes = formContent.lireTousTheme();
+	        
+	        modelAll.setThemes(themes);
+	        
+	        
+	        request.setAttribute("modelAll", modelAll);
+	        
+	        
+	  
+	     	User user =  (User) request.getAttribute(ATTRIBUT_USER);
+	     // User user =  (User) request.getAttribute(ATTRIBUT_USER);
+	     	System.out.println(user);
+	     	
+	    //	modelAll.setSecteurAll(secteurValues);
+	    	
+	    	request.getRequestDispatcher(VUE).include(request, response);
+	    	
 	    
 	    	System.out.println("doPOST envoi la vue");
 	    	HttpSession session = request.getSession();
 	    	
+	     	HttpSession sessionServlet = request.getSession();
+	     	Cookie[] cookies = request.getCookies(); System.out.println(cookies);
+	     	
+	     	
+	     //	System.out.println("User request are :" + user.getValues());
+	     	
+	    	System.err.println( "Request cookie in addArticle : " + request.getCookies());
 	    //	HttpSession session = request.getSession();
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER));
+	    	System.out.println(session.getAttribute(ATTRIBUT_USER));   	
+	    	User userTESTING = (User) session.getAttribute(ATTRIBUT_USER);
+	    	
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ID));
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER_LOGIN));
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ROLE));
+	    	
+	    	
 
 	   if(request.getParameter("creationArticle") != null ) {
 
@@ -100,27 +136,22 @@ public class CreationArticleMVC extends HttpServlet {
 		 	
 				        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
 
-		 	HttpSession sessionServlet = request.getSession();
-			Principal userPrincipal = request.getUserPrincipal();
 			
-			System.out.println("User principale " + userPrincipal);
+					System.out.println("Request User object " +request.getAttribute(ATTRIBUT_USER));
+					
+					System.out.println("Request ID" + request.getAttribute(ATTRIBUT_USER_ID));
+					System.out.println("Request LOGIN " + request.getAttribute(ATTRIBUT_USER_LOGIN));
+					
+					System.out.println("session User object " +sessionServlet.getAttribute(ATTRIBUT_USER));
+					
+					System.out.println("session ID" + sessionServlet.getAttribute(ATTRIBUT_USER_ID));
+					System.out.println("session LOGIN " + sessionServlet.getAttribute(ATTRIBUT_USER_LOGIN));
+					
+					sessionServlet.setAttribute(ATTRIBUT_USER,user);
+			     	request.setAttribute(ATTRIBUT_USER, (User) user);
+			     	
+	     	
 			
-			System.out.println("Request User object " +request.getAttribute(ATTRIBUT_USER));
-			
-			System.out.println("Request ID" + request.getAttribute(ATTRIBUT_USER_ID));
-			System.out.println("Request LOGIN " + request.getAttribute(ATTRIBUT_USER_LOGIN));
-			
-			  if(userPrincipal!=null) {
-			     	sessionServlet.setAttribute(ATTRIBUT_USER,userPrincipal);
-			     	request.setAttribute(ATTRIBUT_USER, (User) userPrincipal);
-			     }
-			     else {
-			     	request.setAttribute(ATTRIBUT_ERREUR_MSG,erreurMsg);
-			     	sessionServlet.setAttribute("utilisateur",null);
-			     //response.sendRedirect(getContext + "login");
-			     }
-		
-		//	  User userSession = (User) sessionServlet.getAttribute(ATTRIBUT_USER);
 			  
 			  User userRequest= (User) request.getAttribute(ATTRIBUT_USER);
 			  
@@ -131,11 +162,41 @@ public class CreationArticleMVC extends HttpServlet {
 			  System.out.println("user SESSION = " + userSession);
 			  
 				//Article article = form.creerArticle(request);
-		        System.out.println("Inscription Article EJB " );
 			  
-			  Article articleUser =  form.creerArticleUser(request, userSession);
+		        System.out.println("Inscription Article EJB  " );
+		        Article articleSessionRequest =  form.creerArticleUserRequestSession(request, userTESTING, session);
+		        System.out.println(articleSessionRequest);
+			/*
+			 * System.out.println("Article request métier"); Article articleRequestMetier =
+			 * form.creerArticleRequest(request); System.out.println(articleRequestMetier);
+			 */
+		        
+			 // Article articleUser =  form.creerArticleUser(request, userSession);
 			  
-			  System.out.println(articleUser);
+			/*
+			 * Long user_ID = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+			 * System.out.println("User ID params for metier is : " + user_ID);
+			 * 
+			 * 
+			 * Article articleUser = form.creerArticleUserIndex(request, user_ID );
+			 * System.out.println(articleUser) ;
+			 *   request.setAttribute( ATT_USER, articleUser);
+			 */
+		//	  Article articleUser =  form.creerArticleUserIndex(request, (Long) session.getAttribute(ATTRIBUT_USER_ID) );
+
+			  
+			  
+			   request.setAttribute( ATT_FORM, form );
+		      
+			  
+		        request.setAttribute( ATTRIBUT_ERREUR_MSG, form.getErreurs());
+		        
+		        System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );
+		        
+		        
+		        System.out.println("doPOST Article renvoi page en forward" );
+
+		      	request.getRequestDispatcher(VUE).forward(request, response);
 			  
 			/*
 			 * System.out.println("Insertion Join table Object");
@@ -193,25 +254,27 @@ public class CreationArticleMVC extends HttpServlet {
 			  } */
 			  
 			  
-		        request.setAttribute( ATT_FORM, form );
+			  
+			  
+			  
+		     /*   request.setAttribute( ATT_FORM, form );
 		        request.setAttribute( ATT_USER, articleUser);
 			  
 		        request.setAttribute( ATTRIBUT_ERREUR_MSG, form.getErreurs());
-		 
+		        
+		        System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );
+		        
+		        
+		        System.out.println("doPOST Article renvoi page en forward" );
+
+		      	request.getRequestDispatcher(VUE).forward(request, response);*/
 		 
       
 				        /* Stockage du formulaire et du bean dans l'objet request */
 				       
 				      
-				        System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );
-				        
-				
-				        
-				        
-				        
-				        System.out.println("doPOST Article renvoi page en forward" );
-				        
-				      	request.getRequestDispatcher(VUE).include(request, response);
+				  
+				      //	request.getRequestDispatcher(VUE).include(request, response);
 	   		}
 	   
 	   

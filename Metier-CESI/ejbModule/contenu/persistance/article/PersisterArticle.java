@@ -29,7 +29,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 	public List<Article> lireTousArticle() {
 		// TODO Auto-generated method stub
 		Query rep = entityManager.createQuery("select a from Article a");
-		return rep.getResultList();
+		return (List<Article>)  rep.getResultList();
 	}
 	
 
@@ -238,15 +238,35 @@ public class PersisterArticle implements PersistanceArticleItf{
 		
 			Query query = entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id) VALUES (?,?)");
 
-		  entityManager.getTransaction().begin();
+		 // entityManager.getTransaction().begin();
 			
 	      query.setParameter(1,userid);
 	      query.setParameter(2, articleId);
 	   
 	      query.executeUpdate();
 			
-			entityManager.getTransaction().commit();
+		//	entityManager.getTransaction().commit();
 	}
+	
+	@Override
+	public void insertionJoinTableIdAndKey(Long userid, Long articleId) {
+		
+	
+		
+		
+			Query query = entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id, ventesArticles_KEY) VALUES (?,?, ?)");
+
+		 // entityManager.getTransaction().begin();
+			
+	      query.setParameter(1,userid);
+	      query.setParameter(2, articleId);
+	      query.setParameter(3, userid);
+	      
+	      query.executeUpdate();
+			
+		//	entityManager.getTransaction().commit();
+	}
+
 
 
 
@@ -271,7 +291,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 	@Override
 	public void updateArticleWithUser(Article article, User user) {
 		
-		  entityManager.getTransaction().begin();
+		//  entityManager.getTransaction().begin();
 		  
 		Article articleModif = entityManager.find(Article.class, article.getId());
 		
@@ -280,7 +300,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 		
 		 //  entityManager.persist(articleModif);
 		 
-		  entityManager.getTransaction().commit();
+		//  entityManager.getTransaction().commit();
 		  
 		  
 		
@@ -294,8 +314,9 @@ public class PersisterArticle implements PersistanceArticleItf{
 		
 		//entityManager.getTransaction().begin();
 		
+		user.addArticlesVentes(article);
 		
-		user.getVentesArticles().add(article);
+		user.getVentesArticles().put(user.getUser_id(), article);
 		
 		
 		// entityManager.getTransaction().commit();

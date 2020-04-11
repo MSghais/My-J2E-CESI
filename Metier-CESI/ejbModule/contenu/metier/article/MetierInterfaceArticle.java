@@ -46,8 +46,10 @@ public interface MetierInterfaceArticle {
 	Map<String, String> getErreurs();
 	String getResultat();
 	
-	Article creerArticleRequest(HttpServletRequest request, HttpSession session);
+	Article creerArticleRequest(HttpServletRequest request);
+	Article creerArticleRequestSession(HttpServletRequest request, HttpSession session);
 	Article creerArticleUser(HttpServletRequest request, User user);
+	Article creerArticleUserIndex(HttpServletRequest request, Long user_id);
 	
 	void insertJoinArticleUserWithQuery(User user, Article article);
 	
@@ -62,6 +64,9 @@ public interface MetierInterfaceArticle {
 
 		void insertionJoinTableId(Long userid, Long articleId);
 		void insertionJoinTableObject(User user, Article article);
+		
+		Article creerArticleUserRequestSession(HttpServletRequest request, User userParams, HttpSession session);
+
 	
 	/*
 	User connecterUser(HttpServletRequest request);

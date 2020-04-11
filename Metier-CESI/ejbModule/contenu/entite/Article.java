@@ -8,9 +8,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -39,7 +41,8 @@ public class Article {
 	
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="article_id")
 	private Long id;
 
 	
@@ -55,13 +58,28 @@ public class Article {
 	@JoinColumn(name="theme_id")
 	private Theme theme;
 
-
-	//@MapsId
-	// 	@OneToOne(optional = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@OneToOne(optional = false, cascade = CascadeType.PERSIST)
+	@OneToOne(optional = true, cascade = CascadeType.ALL)
 	@JoinColumn(name="vendeur_id")
 	private User user_vendeur;
+	/*
+	 * @OneToOne(optional = false, cascade = CascadeType.ALL)
+	 * 
+	 * @JoinColumn(name="vendeur_id") private User user_vendeur;
+	 */
 
+	
+	//@MapsId
+	// 	@OneToOne(optional = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	/*
+	 * @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+	 * 
+	 * @JoinColumn(name="vendeur_id")
+	 * 
+	 * @MapsId
+	 * 
+	 * @PrimaryKeyJoinColumn private User user_vendeur;
+	 */
+	
 	private Long fk_user_id;
 	
 	protected StatutArticle status;
@@ -345,9 +363,27 @@ public Article(String nom, Theme theme, String description) {
 
 	public void setUser_Id(Long user_id) {
 
-		this.fk_user_id = user_id;
+		this.setFk_user_id(user_id);
 		
 	}
+
+
+	public void addUser(Long user_id) {
+		// TODO Auto-generated method stub
+		
+		this.setUser_Id(user_id);
+	}
+
+
+	public Long getFk_user_id() {
+		return fk_user_id;
+	}
+
+
+	public void setFk_user_id(Long fk_user_id) {
+		this.fk_user_id = fk_user_id;
+	}
+
 
 	
 	
