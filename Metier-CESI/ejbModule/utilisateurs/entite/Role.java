@@ -4,7 +4,7 @@ import java.util.List;
 
 public enum Role {
 
-	Administrateur, Visiteur, Acheteur, Vendeur;
+	Administrateur, Visiteur, Acheteur, Vendeur, Business;
 
 
 
@@ -12,7 +12,7 @@ public enum Role {
 	public String action() {
 		switch(this) {
 			case Administrateur : return "cinema";
-			case Visiteur : return "dormir";
+			case Business : return "determiner";
 			default : return "travailler";
 		}
  	}

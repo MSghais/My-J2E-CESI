@@ -34,16 +34,17 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		utilisateurs = new HashMap<String, User>();
 		initialiser();
 	}
-	public boolean connexionUtilisateur(String login,String passwd) {
+	public boolean connexionUtilisateurTest(String login,String password) {
 		
 	   	 //User user = persistanceUser.selectUserLogin(login);
 	   	 
 	   	User userBDD;
 		try {
-			userBDD = findUserNotBDD(login, passwd);
-			if( userBDD.getPassword().equals(passwd) && userBDD != null)
+			userBDD = findUserNotBDD(login, password);
+			if( userBDD.getPassword().equals(password) && userBDD != null)
 				{ return true; }
 		return true;
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,15 +59,42 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		else return false;*/
 	}
 	
-	/*  	public boolean connexionUtilisateur(String login,String passwd) {
+	
+	public boolean connexionUtilisateur(String login,String password) {
 		
-	   	 User user = persistanceUser.selectUserLogin(login);
+	   	 //User user = persistanceUser.selectUserLogin(login);
 	   	 
-	   	 
-		if(utilisateurs.containsKey(login)&&utilisateurs.get(login).getPassword().equals(passwd))
+	   	User userBDD;
+		try {
+			userBDD = findUserNotBDD(login, password);
+			if(userBDD != null) {
+				
+				System.out.println("connexionUser boolean : return true ");
+				return true;
+			}
+			/*
+			 * if( userBDD.getPassword().equals(password) && userBDD != null) { return true;
+			 * }
+			 */
+			System.out.println("return true");
+		return true;
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Catch exception connexion User");
+			e.printStackTrace();
+			this.setErreur( CHAMP_LOGIN, e.getMessage() );
+			
+			this.setErreur( CHAMP_ERRORS, e.getMessage() );
+			System.out.println("return false with ERRORS");
+			return false;
+		}
+	   	 /*
+		if( userBDD.getPassword().equals(passwd) && userBDD != null)
 			return true;
-		else return false;
-	} */
+		else return false;*/
+	}
+	
 	
 	public boolean connexionUtilisateurBDD(String login,String passwd) {
 		
@@ -93,16 +121,96 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 	     	
 	    	 } else if( ( ( user.getPassword().contentEquals(password) ) && ( user.getLogin().contentEquals(login) ) )
 	    			  
+	    			 
 			 
 	    			 )  {
 	    		 
+	    		 System.out.println("Good response in content");
+			/*
+			 * User userBDD = new User(user.getUser_id(), user.getRole(),
+			 * user.getUsername());
+			 * 
+			 * return userBDD;
+			 */
+	    		 
+	    		// return user;
+	    		 
+	    	   	 User userBDDScope = new User(user.getUser_id(),  user.getLogin(),user.getUsername(), user.getRole());
 	    			
-	    		 return user;
+	    	   	 System.out.println("User in IF : " + userBDDScope.getUser_id() + user.getLogin() + userBDDScope.getUsername() + userBDDScope.getRole() );
+	    	   	 
+	    	 	// System.out.println("Return User in IF" + userBDD);
+	    		 //return userBDD;
+	    		
+	    	 
+	    	     	//
+	     }
+   		
+
+   	 User userBDD = new User(user.getUser_id(),  user.getLogin(),  user.getUsername(), user.getRole());
+   	 System.out.println("User in Global findUserNotBDD : " + userBDD.getUser_id() + userBDD.getUsername() + userBDD.getRole() );
+   	 
+	 System.out.println("Return User global findUserNotBDD" + userBDD);
+	 return userBDD;
+
+	
+   	// return user;
+	 
+	    	   	    	
+   	}
+    
+    @Override
+   	public User findUserBDD(String login, String password) throws Exception {
+   		// TODO Auto-generated method stub
+	       
+	   	 User user = persistanceUser.selectUserLogin(login);
+   	   	 
+	   	 User userBDD;
+   	   	 
+   		if(  user.equals(null) ){
+
+         throw new Exception( "Veuillez ressaisir votre login ou votre mot de passe !" );
+         
+	    	//return null;
+	     	
+	    	 } else if( ( ( user.getPassword().contentEquals(password) ) && ( user.getLogin().contentEquals(login) ) )
+	    			  
+			 
+	    			 )  {
+	    		 userBDD = new User(user.getUser_id(), user.getUsername(), user.getRole());
+	    			
+	    		 return userBDD;
 	    		
 	    	     	//
 	     }
    		
-   	 return user;
+   	return user;
+	 
+	    	   	    	
+   	}
+    
+    @Override
+   	public User selectUserConnexion(String login) {
+   		// TODO Auto-generated method stub
+	       
+	  // 	 User user = persistanceUser.selectUserLogin(login);
+   	   	 
+	   	// User user = persistanceUser.lireLoginUser(login);
+	   	 
+    	System.out.println("selectUserConnexion : go select UserLogin de la persistance");
+	   	 
+	   	 User user = persistanceUser.selectUserLogin(login);
+	   	 
+	   	 System.out.println("user select connexion" + user) ;
+	   	 
+	   	 User userConnexion = new User(user.getUser_id(),  user.getLogin(),  user.getUsername(), user.getRole());
+   	   	 
+		 System.out.println("user args connexion" + userConnexion) ;
+   		
+	    	
+	    			
+	    		 return userConnexion;
+
 	 
 	    	   	    	
    	}
@@ -144,4 +252,5 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		  erreurs.put( champ, message );
 		
 	}
+	
 }

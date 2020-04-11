@@ -184,7 +184,12 @@ public class MetierArticle implements MetierInterfaceArticle {
        
         
         article.setUser_vendeur(userParams);
+        System.out.println(article.getUser_vendeur());
+        article.addUser(userParams);
+        System.out.println(article.getUser_vendeur());
         
+        article.setUser_Id(userParams.getUser_id());
+
         
         
         /* Initialisation du résultat global de la validation. */
@@ -198,8 +203,46 @@ public class MetierArticle implements MetierInterfaceArticle {
             System.out.println("Succes du dépot Article ");
          	System.out.println("Erreurs : " + erreurs);
        
-         	persistanceArticle.persisterUserArticle(userParams, article);
-         
+         	System.out.println("Persister Article in User Method");
+         	
+        	persistanceArticle.persisterArticleInUser(userParams, article);
+         	
+         	
+        	System.out.println("Persister Article in User Method");
+         	
+        	persistanceArticle.persisterArticle(article);
+        	
+        //	updateArticleWithUser(article, userParams);
+    //     	persistanceArticle.persisterUserArticle(userParams, article);
+        // 	persistanceArticle.persisterArticleInUser(userParams, article);
+			/*
+			 * System.out.println("Updadte Article column");
+			 * 
+			 * persistanceArticle.updateArticleWithUser(article, userParams);
+			 * 
+			 * 
+			 * System.out.println("Inssert into Vender with List");
+			 * 
+			 * persistanceArticle.insertIntoVenteUser(userParams, article);
+			 * 
+			 * 
+			 * 
+			 * System.out.println("Insertion Join table Object");
+			 * 
+			 * persistanceArticle.insertionJoinTableObject(userParams, article);
+			 * 
+			 * 
+			 * System.out.println("Insertion Join table Index");
+			 * 
+			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
+			 * article.getId());
+			 * 
+			 * 
+			 * 
+			 * System.out.println("Persister UserAndArticle Method");
+			 */
+       //  	persistanceArticle.persisterUserAndArticle(userParams, article);
+         //	
          	
          //	insertJoinArticleUserWithQuery(userParams, article);
          
@@ -223,6 +266,143 @@ public class MetierArticle implements MetierInterfaceArticle {
        // return user;
         return article;
 	}
+	
+	/* EXEMPLE */
+	
+	public Article creerArticleUserExemple(HttpServletRequest request, User userParams) {
+		// TODO Auto-generated method stub
+
+		
+	
+
+        String art_titre = request.getParameter("art_titre");
+        String art_url = request.getParameter("art_url");
+        
+        String art_description = request.getParameter("art_description");
+        String art_contenu = request.getParameter("art_contenu");
+        String art_frais = request.getParameter("art_frais");
+        String art_prix = request.getParameter("art_prix");
+        
+        Article article = new Article();
+
+     
+      
+        System.out.println("Test des exceptions du formulaire a partir du MEtier");
+        
+        System.out.println("Test  metier : titre ");
+        /* Validation du champ username */
+        try {
+           validationTitre(art_titre);
+        } catch ( Exception e ) {
+            this.setErreur( CHAMP_TITRE, e.getMessage() );
+        }       
+        article.setTitre(art_titre);
+        
+        System.out.println("Test  metier : url ");
+        /* Validation du champ username */
+        try {
+            validationUrl(art_url);
+            
+        } catch ( Exception e ) {
+            this.setErreur( CHAMP_URL, e.getMessage() );
+        }       
+        article.setUrl(art_url);
+        
+        
+        System.out.println("Test  metier : description ");
+        /* Validation du champ username */
+        try {
+         validationDescription(art_description);
+            
+        } catch ( Exception e ) {
+            setErreur( CHAMP_DESCL, e.getMessage() );
+        }       
+        article.setDescription(art_description);
+        
+        
+        
+        System.out.println("Test  metier : Contenu");
+        /* Validation du champ mot de passe. */
+        try {
+            validationContenu(art_contenu);
+        } catch ( Exception e ) {
+            setErreur( CHAMP_CONTENT, e.getMessage() );
+        }
+        article.setContenu(art_contenu);
+        
+        
+        if(art_frais != null) {
+            article.setFrais(art_frais);
+        }
+        
+        if(art_prix != null) {
+        	 article.setPrix(art_prix);
+        }
+       
+        
+        article.setUser_vendeur(userParams);
+        
+        
+        
+        /* Initialisation du résultat global de la validation. */
+        if ( erreurs.isEmpty()   || ( !article.getTitre().isEmpty()  && !article.getDescription().isEmpty() && !article.getContenu().isEmpty() ) ) {
+        	//|| ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() && !article.getArt_description().isEmpty() && !article.getArt_contenu().isEmpty() )
+        	this.setResultat("Succès dépot Article");
+        	this.resultat = "Succès du dépot Article";
+        	
+       
+            resultat = "Succès de la connexion.";
+            System.out.println("Succes du dépot Article ");
+         	System.out.println("Erreurs : " + erreurs);
+       
+        	System.out.println("Persister Article in User Method");
+         	
+        	persistanceArticle.persisterArticle(article);
+        	
+        //	updateArticleWithUser(article, userParams);
+    //     	persistanceArticle.persisterUserArticle(userParams, article);
+        // 	persistanceArticle.persisterArticleInUser(userParams, article);
+         	
+			/*
+			 * System.out.println("Insertion Join table Object");
+			 * 
+			 * persistanceArticle.insertionJoinTableObject(userParams, article);
+			 * 
+			 * 
+			 * System.out.println("Insertion Join table Index");
+			 * 
+			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
+			 * article.getId());
+			 */
+        	
+         	
+         	System.out.println("Persister UserAndArticle Method");
+       //  	persistanceArticle.persisterUserAndArticle(userParams, article);
+         //	
+         	
+         //	insertJoinArticleUserWithQuery(userParams, article);
+         
+     //    persistanceArticle.persisterUserAndArticle(userParams, article);
+         
+   
+         
+         System.out.println("Persister Article OK ");
+         return article;
+        } else {
+            resultat = "Échec de la connexion.";
+            
+
+        	this.setResultat(resultat);
+        	
+            System.out.println("Echec de la connexion ");
+         	System.out.println("Erreur : " + erreurs);
+        }
+
+        
+       // return user;
+        return article;
+	}
+
 
 
 	@Override
@@ -654,6 +834,40 @@ public class MetierArticle implements MetierInterfaceArticle {
 		// TODO Auto-generated method stub
 		persistanceArticle.insertJoinArticleUserWithQueryIndex(user_id, id);
 	}
+
+
+
+	@Override
+	public void updateArticleWithUser(Article article, User user) {
+		persistanceArticle.updateArticleWithUser(article, user);
+		
+	}
+
+
+
+	@Override
+	public void insertIntoVenteUser(User user, Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.insertIntoVenteUser(user, article);
+	}
+
+
+
+	@Override
+	public void insertionJoinTableId(Long userid, Long articleId) {
+		// TODO Auto-generated method stub
+		persistanceArticle.insertionJoinTableId(userid, articleId);
+	}
+
+
+
+	@Override
+	public void insertionJoinTableObject(User user, Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.insertionJoinTableObject(user, article);
+	}
+	
+	
 
 	
 }

@@ -32,7 +32,7 @@ public class PersisterUser implements PersistanceUserItf {
 	@Override
 	public User selectUserName(String username) {
 		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery("select e from User e where e.username =: username ");
+		Query req = entityManager.createQuery("select u from User u where u.username =: username ");
 		req.setParameter("username", username);
 		return (User) req.getSingleResult();
 		
@@ -56,7 +56,7 @@ public class PersisterUser implements PersistanceUserItf {
 	public List<User> lireTousUser() {
 		// TODO Auto-generated method stub
 		Query req = entityManager.createQuery("select e from User e");
-		return req.getResultList();
+		return (List<User>) req.getResultList();
 		
 	}
 
@@ -116,6 +116,11 @@ public class PersisterUser implements PersistanceUserItf {
 			return  requ.getResultList();
 			
 		}
+	@Override
+	public User selectLoginUser(String login) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

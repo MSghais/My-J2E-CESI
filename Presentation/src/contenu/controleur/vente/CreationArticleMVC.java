@@ -40,6 +40,10 @@ public class CreationArticleMVC extends HttpServlet {
 	    public static final String ATT_USER = "utilisateur";
 	    public static final String ATT_FORM = "form";
 		public static final String ATTRIBUT_USER         = "utilisateur";
+		public static final String ATTRIBUT_USER_LOGIN         = "userLogin";
+		public static final String ATTRIBUT_USER_ID      = "userId";
+		public static final String ATTRIBUT_USER_ROLE      = "userRole";
+		
 	    public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
 	    public static final String VUE = "WEB-INF/contenu/vente/ajouterArticle.jsp";
 			
@@ -65,7 +69,7 @@ public class CreationArticleMVC extends HttpServlet {
 	  
 	    //	modelAll.setSecteurAll(secteurValues);
 	    	
-	    	request.getRequestDispatcher(VUE).forward(request, response);
+	    	request.getRequestDispatcher(VUE).include(request, response);
 	    	
 	    	doPost(request,response);/*
 	        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
@@ -82,6 +86,11 @@ public class CreationArticleMVC extends HttpServlet {
 	    	System.out.println("doPOST envoi la vue");
 	    	
 	    	
+	    	HttpSession session = request.getSession();
+	    	System.out.println(session.getAttribute(ATTRIBUT_USER));
+	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ID));
+	    	System.out.println(session.getAttribute(ATTRIBUT_USER_LOGIN));
+	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ROLE));
 
 	   if(request.getParameter("creationArticle") != null ) {
 
@@ -94,7 +103,10 @@ public class CreationArticleMVC extends HttpServlet {
 			
 			System.out.println("User principale " + userPrincipal);
 			
+			System.out.println("Request User object " +request.getAttribute(ATTRIBUT_USER));
 			
+			System.out.println("Request ID" + request.getAttribute(ATTRIBUT_USER_ID));
+			System.out.println("Request LOGIN " + request.getAttribute(ATTRIBUT_USER_LOGIN));
 			
 			  if(userPrincipal!=null) {
 			     	sessionServlet.setAttribute(ATTRIBUT_USER,userPrincipal);
@@ -108,14 +120,63 @@ public class CreationArticleMVC extends HttpServlet {
 		
 		//	  User userSession = (User) sessionServlet.getAttribute(ATTRIBUT_USER);
 			  
+			  User userRequest= (User) request.getAttribute(ATTRIBUT_USER);
+			  
+			  System.out.println(userRequest);
+			  
 			  User userSession = (User) sessionServlet.getAttribute(ATTRIBUT_USER);
+			  
+			  System.out.println("user SESSION" + userSession);
 			  
 				//Article article = form.creerArticle(request);
 		        System.out.println("Inscription Article EJB " );
 			  
 			  Article articleUser =  form.creerArticleUser(request, userSession);
 			  
+			  System.out.println(articleUser);
 			  
+			/*
+			 * System.out.println("Insertion Join table Object");
+			 * 
+			 * form.insertionJoinTableObject(userSession, articleUser);
+			 */
+	        	
+	        	
+			/*
+			 * System.out.println("Insertion Join table Index");
+			 * 
+			 * form.insertionJoinTableId(userSession.getUser_id(), articleUser.getId());
+			 */
+	        	
+	        	
+			/*
+			 * System.out.println("Insertion Article into List User " );
+			 * 
+			 * 
+			 * form.insertIntoVenteUser(userSession, articleUser);
+			 */
+			  
+			  
+			  
+			
+	        	
+			  
+
+		       
+		       
+			//  			  System.out.println("Insertion JPQL Query " ); form.insertJoinArticleUserWithQuery( userSession , articleUser);
+			  
+		//	  form.insertJoinArticleUserWithQueryIndex( userSession.getUser_id() , articleUser.getId());     System.out.println("Update JPQL Query " );
+			  
+			 
+			     
+			     
+			 // form.updateArticleWithUser(articleUser, userSession);
+			  
+			
+	
+			/*   
+						  
 			  if( (articleUser != null) && (userSession != null)  ) {
 				  
 			       System.out.println("Insertion JPQL Query " );
@@ -123,10 +184,11 @@ public class CreationArticleMVC extends HttpServlet {
 			       
 				  form.insertJoinArticleUserWithQuery( userSession , articleUser);
 				  
-				  form.insertJoinArticleUserWithQueryIndex(userSession.getUser_id(), articleUser.getId());
-			  }
-	
-			  
+				     System.out.println("Update JPQL Query " );
+				     
+				     
+				  form.updateArticleWithUser(articleUser, userSession);
+			  } */
 			  
 			  
 		        request.setAttribute( ATT_FORM, form );

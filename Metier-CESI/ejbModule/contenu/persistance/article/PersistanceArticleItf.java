@@ -35,5 +35,14 @@ public interface PersistanceArticleItf {
 	
 	void insertJoinArticleUserWithQuery(User user, Article article);
 	void insertJoinArticleUserWithQueryIndex(Long userid, Long articleid);
+	void updateArticleWithUser(Article article, User user);
+	
+
+	
+	void insertIntoVenteUser(User user, Article article);
+	
+	void insertionJoinTableObject(User user, Article article);
+	
+	void insertionJoinTableId(Long userid, Long articleId);
 	
 }

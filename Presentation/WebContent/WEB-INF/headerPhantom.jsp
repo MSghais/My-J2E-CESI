@@ -93,10 +93,11 @@
 				
 							</nav>
 					
-					</nav>
+			
 					
-					<span class="image main"><img src="images/commerce.png" alt="" /></span>
+					<!--   <span class="image main"><img src="images/commerce.png" alt="" /></span>
 					
+					-->
 					<div>
 					
 					

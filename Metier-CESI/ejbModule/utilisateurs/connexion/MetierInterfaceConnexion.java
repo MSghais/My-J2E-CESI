@@ -18,4 +18,10 @@ public interface MetierInterfaceConnexion {
 	User findUserNotBDD(String login, String password) throws Exception;
 
 	void setErreur(String champ, String message);
+
+	User findUserBDD(String login, String password) throws Exception;
+
+	
+
+	User selectUserConnexion(String login);
 }

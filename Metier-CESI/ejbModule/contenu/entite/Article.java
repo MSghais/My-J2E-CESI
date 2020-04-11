@@ -9,12 +9,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -54,16 +56,21 @@ public class Article {
 	private Theme theme;
 
 
-	
-	@OneToOne(optional = true, cascade = CascadeType.ALL)
+	//@MapsId
+	// 	@OneToOne(optional = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToOne(optional = false, cascade = CascadeType.PERSIST)
 	@JoinColumn(name="vendeur_id")
 	private User user_vendeur;
 
+	private Long fk_user_id;
 	
 	protected StatutArticle status;
 	//private Long user_vendeur;
 
-	
+	public void addUser(User user) {
+		
+		this.setUser_vendeur(user);
+	}
 	/*
 	@OneToMany
 	@JoinTable(name="article_skills", joinColumns=@JoinColumn(name="article_id"),
@@ -333,6 +340,13 @@ public Article(String nom, Theme theme, String description) {
 
 	public void setStatus(StatutArticle status) {
 		this.status = status;
+	}
+
+
+	public void setUser_Id(Long user_id) {
+
+		this.fk_user_id = user_id;
+		
 	}
 
 	

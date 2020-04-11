@@ -54,7 +54,14 @@ public interface MetierInterfaceArticle {
 
 	void insertJoinArticleUserWithQueryIndex(Long user_id, Long id);
 	
-	
+	 void updateArticleWithUser(Article article, User user);
+	 
+	 
+		void insertIntoVenteUser(User user, Article article);
+		
+
+		void insertionJoinTableId(Long userid, Long articleId);
+		void insertionJoinTableObject(User user, Article article);
 	
 	/*
 	User connecterUser(HttpServletRequest request);

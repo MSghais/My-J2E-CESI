@@ -29,11 +29,11 @@
 				</tr>
 				<tr>
 					<td>Mot de passe : </td>
-					<td><input type="text" name="motdepasse"></td>
+					<td><input type="password" name="password"></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" value="créer" name="connecter"></td>
+					<td><input type="submit" value="Se connecter" name="connecter"></td>
 				</tr>
 			</table>
 		</form>	

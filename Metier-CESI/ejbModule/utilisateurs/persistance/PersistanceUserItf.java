@@ -35,4 +35,7 @@ public interface PersistanceUserItf {
 
 	List selectCountLoginUser(String login);
 
+
+	User selectLoginUser(String login);
+
 }

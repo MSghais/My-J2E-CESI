@@ -152,6 +152,21 @@ public class User {
 		this.password = password;
 	}
 
+	public User(Long user_id, String username, String login, Role role) {
+		super();
+		this.user_id = user_id;
+		this.username = username;
+		this.login = login;
+		this.role = role;
+	}
+
+	public User(Long user_id, String login, Role role) {
+		super();
+		this.user_id = user_id;
+		this.login = login;
+		this.role = role;
+	}
+
 	public User(Long user_id, String username, String login, String email, String password, Role role) {
 		super();
 		this.user_id = user_id;
@@ -216,8 +231,6 @@ public class User {
 		this.password = password;
 
 	}
-
-	
 
 	
 
@@ -296,6 +309,7 @@ public class User {
 	public void setAchatArticles(Collection<Article> achatArticles) {
 		this.achatArticles = achatArticles;
 	}
+
 
 	
 	
