@@ -49,6 +49,8 @@ public class CreationArticleMVC extends HttpServlet {
 			
 		private String erreurMsg;
 		
+		
+		
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 	        /* Affichage de la page d'inscription */
 	    	System.out.println("Arrivé doGET");
@@ -84,9 +86,9 @@ public class CreationArticleMVC extends HttpServlet {
 	      //  InscriptionForm form = new InscriptionForm();
 	    
 	    	System.out.println("doPOST envoi la vue");
-	    	
-	    	
 	    	HttpSession session = request.getSession();
+	    	
+	    //	HttpSession session = request.getSession();
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER));
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ID));
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER_LOGIN));
@@ -122,11 +124,11 @@ public class CreationArticleMVC extends HttpServlet {
 			  
 			  User userRequest= (User) request.getAttribute(ATTRIBUT_USER);
 			  
-			  System.out.println(userRequest);
+			  System.out.println("userRequest = " + userRequest);
 			  
-			  User userSession = (User) sessionServlet.getAttribute(ATTRIBUT_USER);
+			  User userSession = (User) session.getAttribute(ATTRIBUT_USER);
 			  
-			  System.out.println("user SESSION" + userSession);
+			  System.out.println("user SESSION = " + userSession);
 			  
 				//Article article = form.creerArticle(request);
 		        System.out.println("Inscription Article EJB " );
