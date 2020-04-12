@@ -19,13 +19,65 @@ public class PersisterUser implements PersistanceUserItf {
 	
 	private EntityManager entityManager;
 	
+	/*
+	 * @Override public User connecterUtilisateurLoginMdp(String login, String
+	 * passwd) throws Exception{
+	 * System.out.println("PersistanceUtilisateur - connecterUtilisateur"); try{
+	 * Query query = entityManager.
+	 * createQuery("select u from User u where login=:login and password=:password"
+	 * ); query.setParameter("login", login); query.setParameter("password",
+	 * passwd); return (User) query.getSingleResult(); }catch(Exception) {
+	 * 
+	 * throws new Exception }
+	 * 
+	 * 
+	 * }
+	 */
+	
 	@Override
 	public User connecterUtilisateurLoginMdp(String login, String passwd) {
 		System.out.println("PersistanceUtilisateur - connecterUtilisateur");
-		Query query = entityManager.createQuery("select u from User u where login=:login and password=:password");
-		query.setParameter("login", login);
-		query.setParameter("password", passwd);
-		return (User) query.getSingleResult();
+		
+			Query query = entityManager.createQuery("select u from User u where login=:login and password=:password");
+			query.setParameter("login", login);
+			query.setParameter("password", passwd);
+		
+			return (User) query.getSingleResult();
+	
+	}
+	@Override
+	public User rechercherUserLoginMdp(String login, String passwd) {
+		System.out.println("PersistanceUtilisateur - connecterUtilisateur");
+		
+			Query query = entityManager.createQuery("select u from User u where login=:login and password=:password");
+			query.setParameter("login", login);
+			query.setParameter("password", passwd);
+		
+			return (User) query.getSingleResult();
+	
+	}
+	@Override
+	public User rechercherUserLogin(String login) {
+		System.out.println("rechercherUserLogin");
+		
+			Query query = entityManager.createQuery("select u from User u where login=:login ");
+			query.setParameter("login", login);
+		
+		
+			return (User) query.getSingleResult();
+	
+	}
+	
+	@Override
+	public User rechercherUserPassword(String password) {
+		System.out.println("rechercherUserLogin");
+		
+			Query query = entityManager.createQuery("select u from User u where password=:password ");
+			query.setParameter("password", password);
+		
+		
+			return (User) query.getSingleResult();
+	
 	}
 	
 	@Override

@@ -2,6 +2,8 @@ package utilisateurs.controleur.connexion;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -26,6 +28,8 @@ public class LoginServlet extends HttpServlet {
 	public static final String ATTRIBUT_USER_ROLE      = "userRole";
 	
     public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
+    public static final String ATTRIBUT_ERREUR_MAP  = "erreursMaps";
+    
     public static final String URL_VUE_CONNEXION     = "WEB-INF/connexion/login.jsp";
     public static final String URL_VUE_CONNEXION_OK  =  "WEB-INF/connexion/accesRestreint.jsp";
     
@@ -33,6 +37,10 @@ public class LoginServlet extends HttpServlet {
 	private MetierInterfaceConnexion metier;
     
 	private String erreurMsg;
+	
+	private String erreurs;
+	
+	 private Map<String, String> erreursMaps  = new HashMap<String, String>(); ;
 	
 	/*
 	 * public LoginServlet() { metier = new Metier(); }
@@ -67,31 +75,42 @@ public class LoginServlet extends HttpServlet {
 			     String password = request.getParameter("password");
 			        
 			     System.out.println("test connection utilisateur func servlet");
-			     User utilisateur = connecterUtilisateurSimply(login,password);
-			     System.out.println(utilisateur);
+			     //User utilisateur = connecterUtilisateurSimply(login,password);
+			     User utilisateur = connecterUtilisateurBDD(login,password);
+			     
+			     boolean isExist = boolConnecterUtilisateurSimply(login, password);
+			    
+			   //  System.out.println(utilisateur);
 			     
 			     
-			     System.out.println("LoginServlet utilisateur="+utilisateur);
+			    // System.out.println("LoginServlet utilisateur="+utilisateur);
 			   //  System.out.println(utilisateur.toString());
 	
 			        
-			        System.out.println(userPrincipal);
+			      //  System.out.println(userPrincipal);
 			     //    if(utilisateur.getUser_id().equals(null) || utilisateur.getLogin().isEmpty()  ){
 			        
-			        if( utilisateur.getLogin().isEmpty()  || utilisateur.getUser_id() == null || utilisateur.equals(null) || utilisateur==null){
-			        	
-			        	
+			    // if( utilisateur.getLogin().isEmpty()  || utilisateur.getUser_id() == null || utilisateur.equals(null) || utilisateur==null){
+			    // if( utilisateur.equals(null) || utilisateur==null){
+			        
+			     if(!isExist || isExist==false  ){
+			    	 
 				    	 request.setAttribute(ATTRIBUT_ERREUR_MSG,erreurMsg);
 				    	
-				    	 
+				    	 request.setAttribute(ATTRIBUT_ERREUR_MSG,erreursMaps);
 				    	// session.setAttribute(ATTRIBUT_ERREUR_MSG,erreurMsg);
 				    	 session.setAttribute("utilisateur",null);
+				    	 
+				   
 				    	 
 				    	 System.out.println("Renvoi au formulaire de connexion avec erreurs");
 				    	 request.getRequestDispatcher(URL_VUE_CONNEXION).include(request, response); 
 				     }
 			        
-			        if(utilisateur!=null) {
+			       // WITH USER TESTING 
+			     // if(utilisateur!=null) { // if(utilisateur!=null) {
+			     
+			  if( isExist || isExist == true) {
 					     	session.setAttribute(ATTRIBUT_USER_LOGIN,utilisateur.getLogin());
 					     	request.setAttribute(ATTRIBUT_USER_LOGIN, utilisateur.getLogin());   	
 					     	System.out.println(ATTRIBUT_USER_LOGIN + " = " + utilisateur.getLogin());
@@ -149,14 +168,55 @@ public class LoginServlet extends HttpServlet {
 		
 		//Fin do post
 	}
-	 private User connecterUtilisateurSimply(String login,String password) {
+	
+	
+	private User connecterUtilisateurBDD(String login,String password) {
 		 
-		 User utilisateur = metier.connexionUtilisateurSimplyBDD(login, password);
-	    // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
-         if(utilisateur==null)
-	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";   
-	     return utilisateur;
+		 
+		User user = metier.connexionUtilisateurTESTING(login, password);
+		 
+			  return user;
 	}
+	
+	 
+	 
+
+	 
+	 private boolean testConnecterUtilisateurSimply(String login,String password) {
+		 
+		 boolean isExist = metier.connexionUtilisateurTestBoolean(login, password);
+		 if(isExist)
+		 {
+			 User utilisateur = metier.connecterUtilisateurLoginMdp(login, password);
+			 System.out.println(utilisateur);
+			  return true;
+		 }
+	    // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+         if(!isExist) {
+	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";
+		return false;
+	 	}
+		return isExist;
+	       	
+	}
+	 private boolean boolConnecterUtilisateurSimply(String login,String password) {
+		 
+		 boolean isExist = metier.connexionUtilisateurTestBoolean(login, password);
+		 if(isExist)
+		 {
+			 User utilisateur = metier.connecterUtilisateurLoginMdp(login, password);
+			 System.out.println(utilisateur);
+			  return true;
+		 }
+	    // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+         if(!isExist) {
+	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";
+		return false;
+	 	}
+		return isExist;
+	       	
+	}
+	
 	     
 					
 	
@@ -165,6 +225,70 @@ public class LoginServlet extends HttpServlet {
 	
 }
 
+/*  	 private void ConnecterUtilisateurSimply(String login,String password) {
+		 
+		 boolean isExist = metier.connexionUtilisateurTestBoolean(login, password);
+		 if(isExist)
+		 {
+			 User utilisateur = metier.connecterUtilisateurLoginMdp(login, password);
+			 
+		 }
+	    // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+         if(!isExist) {
+	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";
+		
+	 	}
+		
+	       	
+	}*/
+
+/* 	private User connecterUtilisateurBDD(String login,String password) {
+		 
+		 
+		 User user = metier.connexionUtilisateur(login, password);
+		 if(isExist)
+		 {
+			 User utilisateur = metier.connecterUtilisateurLoginMdp(login, password);
+			  return utilisateur;
+		 }
+	    // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+         if(!isExist)
+	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";
+		return erreurMsg;   
+	 	} */
+
+/*  private User connecterUtilisateurSimply(String login,String password) {
+		 
+		 
+		 boolean isExist = metier.connexionUtilisateur(login, password);
+		 if(isExist)
+		 {
+			 User utilisateur = metier.connecterUtilisateurLoginMdp(login, password);
+			  return utilisateur;
+		 }
+	    // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+         if(!isExist)
+	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";
+		return erreurMsg;   
+	 	} */
+
+/*  private boolean connecterUtilisateurSimplyBDD(String login,String password) throws Exception {
+		 try {
+				if(  user.equals(null) || user == null  ){
+
+			         throw new Exception( "Veuillez ressaisir votre login ou votre mot de passe !" ); 
+			 User utilisateur = metier.connexionUtilisateurSimplyBDD(login, password);
+			 
+		 }
+		 catch(Exception e) {
+			 
+			 
+			 
+		 }
+	   /* // User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+         if(utilisateur==null)
+	       	erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associ�.";   
+	     return utilisateur;*/
 
 
 

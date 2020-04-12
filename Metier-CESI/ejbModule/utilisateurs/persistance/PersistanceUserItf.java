@@ -39,7 +39,16 @@ public interface PersistanceUserItf {
 	User selectLoginUser(String login);
 
 
-	User connecterUtilisateurLoginMdp(String login, String passwd);
+	User connecterUtilisateurLoginMdp(String login, String passwd) ;
+
+
+	User rechercherUserLoginMdp(String login, String passwd);
+
+
+	User rechercherUserPassword(String password);
+
+
+	User rechercherUserLogin(String login);
 
 
 

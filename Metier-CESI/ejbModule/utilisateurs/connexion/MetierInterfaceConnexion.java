@@ -22,6 +22,7 @@ public interface MetierInterfaceConnexion {
 	User findUserBDD(String login, String password) throws Exception;
 
 	
+	
 
 	User selectUserConnexion(String login);
 
@@ -32,4 +33,13 @@ public interface MetierInterfaceConnexion {
 	User connecterUtilisateurLoginMdp(String login, String motDePasse);
 
 	User connexionUtilisateurSimplyBDD(String login, String password);
+	
+	
+	User rechercherUserLogin(String login);
+
+	User rechercherUserPassword(String password);
+
+	User connexionUtilisateurTESTING(String login, String password);
+
+	boolean connexionUtilisateurTestBoolean(String login, String password);
 }
