@@ -27,4 +27,10 @@ public enum Role {
 		return allValues;
 	}
 
+
+	Role valueOf(Role role) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

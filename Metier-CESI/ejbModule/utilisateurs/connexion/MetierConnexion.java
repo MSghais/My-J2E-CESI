@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.servlet.http.HttpServletRequest;
 
 import utilisateurs.entite.User;
 import utilisateurs.persistance.PersistanceUserItf;
@@ -67,10 +68,10 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 	   	 
 	   	User userBDD=null;
 		try {
-			userBDD = connecterUtilisateurLoginMdp(login, password);
+			userBDD = findUserNotBDD(login, password);
 			if( userBDD.getPassword().equals(password) || userBDD.equals(null) )
 				{ return userBDD; }
-		return userBDD;
+			return userBDD;
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -79,12 +80,12 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 			this.setErreur( CHAMP_LOGIN, e.getMessage() );
 			
 			this.setErreur( CHAMP_ERRORS, e.getMessage() );
-			
+			return userBDD;
 		
 			//return false;
 		}
-		
-		return userBDD;
+	
+
 	   	 /*
 		if( userBDD.getPassword().equals(passwd) && userBDD != null)
 			return true;
@@ -101,17 +102,19 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 	   	User userBDD;
 		try {
 			userBDD = findUserNotBDD(login, password);
-			if(userBDD != null) {
-				
-				System.out.println("connexionUser boolean : return true ");
-				return true;
-			}
+			System.out.println("return true");
+			return true;
+			/*
+			 * if(userBDD != null) {
+			 * 
+			 * System.out.println("connexionUser boolean : return true "); return true; }
+			 */
 			/*
 			 * if( userBDD.getPassword().equals(password) && userBDD != null) { return true;
 			 * }
 			 */
-			System.out.println("return true");
-		return true;
+
+		
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -120,6 +123,7 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 			this.setErreur( CHAMP_LOGIN, e.getMessage() );
 			
 			this.setErreur( CHAMP_ERRORS, e.getMessage() );
+			this.setErreur( CHAMP_ERRORS_MSG, e.getMessage() );
 			System.out.println("return false with ERRORS");
 			return false;
 		}
@@ -171,17 +175,17 @@ public class MetierConnexion implements MetierInterfaceConnexion {
 		
 	 	User userBDD;
 			try {
-				userBDD = findUserBDD(login, password);
-				if(userBDD != null) {
-					
-					System.out.println("connexionUser boolean : return true ");
-					return true;
-				}
-				/*
-				 * if( userBDD.getPassword().equals(password) && userBDD != null) { return true;
-				 * }
-				 */
-				System.out.println("return true");
+				userBDD = findUserNotBDD(login, password);
+						/*
+						 * if(userBDD != null) {
+						 * 
+						 * System.out.println("connexionUser boolean : return true "); return true; }
+						 */
+						/*
+						 * if( userBDD.getPassword().equals(password) && userBDD != null) { return true;
+						 * }
+						 */
+				System.out.println("return true if no Errors");
 			return true;
 			
 			} catch (Exception e) {
@@ -259,52 +263,48 @@ public boolean connexionUtilisateurBDD(String login,String passwd) {
    	   	 
    		if(  user.equals(null) || user == null  ){
 
+   			System.out.println("No login and Password");
          throw new Exception( "Veuillez ressaisir votre login ou votre mot de passe !" );
          
 	    	//return null;
 	     	
-	    	 } else if( ( ( user.getPassword().contentEquals(password) ) && ( user.getLogin().contentEquals(login) ) )
-	    			  
-	    			 
-			 
-	    			 )  {
-	    		 
-	    		 System.out.println("Good response in content");
-			/*
-			 * User userBDD = new User(user.getUser_id(), user.getRole(),
-			 * user.getUsername());
-			 * 
-			 * return userBDD;
-			 */
-	    		 
-	    		// return user;
-	    		 
-	    	   	 User userBDDScope = new User(user.getUser_id(),  user.getLogin(),user.getUsername(), user.getRole());
-	    			
-	    	   	 System.out.println("User in IF : " + userBDDScope.getUser_id() + user.getLogin() + userBDDScope.getUsername() + userBDDScope.getRole() );
-	    	   	 
-	    	 	// System.out.println("Return User in IF" + userBDD);
-	    		 //return userBDD;
-	    		
-	    	 
-	    	     	//
-	     }
+	    	 }
+   		
+	   		else if( (!user.getPassword().contentEquals(password) ) || (!user.getPassword().equals(password) ) 
+	   				 ) 
+	   			{
+	   				
+				   			System.out.println("Good login BDD but not same password");
+				   			
+				   		 throw new Exception( "Mot de passe érroné \n Veuillez ressaisir votre login ou votre mot de passe !" );
+	   				
+	   				}
+					   		else //if( ( ( user.getPassword().contentEquals(password) ) && ( user.getLogin().contentEquals(login) ) )  )
+						
+					   					{
+						    		 
+										    		 System.out.println("Good response in content");
+					 
+										    	   	 User userBDDScope = new User(user.getUser_id(),  user.getLogin(),user.getUsername(), user.getRole());
+										    			
+										    	   	 System.out.println("User in IF : " + userBDDScope.getUser_id() + user.getLogin() + userBDDScope.getUsername() + userBDDScope.getRole() );
+										    	   	 
+					
+										   		  return userBDDScope;
+										    	 
+						     }
    		
 
 		
-		  User userBDD = new User(user.getUser_id(), user.getLogin(),
-		  user.getUsername(), user.getRole());
-		  System.out.println("User in Global findUserNotBDD : " + userBDD.getUser_id()
-		  + userBDD.getUsername() + userBDD.getRole() );
-		  
-		  System.out.println("Return User global findUserNotBDD" + userBDD); 
-		 
-		 
-
-	
-		  return userBDD;
-	 
-	    	   	    	
+		/*
+		 * // User userBDD = new User(user.getUser_id(), user.getLogin(),
+		 * user.getUsername(), user.getRole());
+		 * System.out.println("User in Global findUserNotBDD : " + userBDD.getUser_id()
+		 * + userBDD.getUsername() + userBDD.getRole() );
+		 * 
+		 * System.out.println("Return User global findUserNotBDD" + userBDD);
+		 */
+	 // return userBDD;    	   	    	
    	}
     
     @Override
@@ -318,20 +318,27 @@ public boolean connexionUtilisateurBDD(String login,String passwd) {
    		if(  user.equals(null) ){
 
          throw new Exception( "Utilisateur inexistant. \n Veuillez ressaisir votre login ou votre mot de passe !" );
-         
-	    	//return null;
+
 	     	
-	    	 } else if( ( ( user.getPassword().contentEquals(password) ) && ( user.getLogin().contentEquals(login) ) )
+	    	 }
+   		
+   		if( (!user.getPassword().contentEquals(password) ) &&  (!user.getLogin().contentEquals(login) ) ) {
+				
+   		 throw new Exception( "Mot de passe érroné \n Veuillez ressaisir votre login ou votre mot de passe !" );
+			
+   		}
+   		
+   			else if(  ( user.getPassword().contentEquals(password) ) && ( user.getLogin().contentEquals(login) )    )
 	    			  
 			 
-	    			 )  {
-	    		 userBDD = new User(user.getUser_id(), user.getUsername(), user.getRole());
-	    			
-	    		 return userBDD;
-	    		
-	    	     	//
-	     }
-   		
+	    			  {
+				    		 userBDD = new User(user.getUser_id(), user.getUsername(), user.getRole());
+				    			
+				    		 return userBDD;
+				    		
+				    	     	//
+				     	}
+   	 
    	return user;
 	 
 	    	   	    	
@@ -444,5 +451,10 @@ public boolean connexionUtilisateurBDD(String login,String passwd) {
 	public User rechercherUserPassword(String password) {
 		// TODO Auto-generated method stub
 		return persistanceUser.rechercherUserPassword(password);
+	}
+	@Override
+	public String getValeurChamp(HttpServletRequest request, String nomChamp) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

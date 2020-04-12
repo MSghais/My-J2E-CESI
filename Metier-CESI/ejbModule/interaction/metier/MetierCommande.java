@@ -52,7 +52,8 @@ public class MetierCommande implements MetierInterfaceCommande {
     private final String CHAMP_CONF   = "confirmation";
     
     
-    
+    public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
+    public static final String ATTRIBUT_ERREUR_MAP_CB   = "erreursMapCB";
     
 	
 	public MetierCommande() {
@@ -112,6 +113,28 @@ public class MetierCommande implements MetierInterfaceCommande {
 	
 	}
 
+	@Override
+	public void validationBanquaire(String CB) throws Exception {
+		// TODO Auto-generated method stub
+		 if ( CB != null ) {
+	          if ( CB.length() < 10 ) {
+	              throw new Exception( "Le code doit faire 10 chiffres." );
+	          }
+		 }
+	        
+	}
+	
+	@Override
+	public void validationPictogramme(String picto) throws Exception {
+		// TODO Auto-generated method stub
+		 if ( picto != null ) {
+	          if ( picto.length() < 2 ) {
+	              throw new Exception( "Le pictogramme doit faire 3 chiffres." );
+	          }
+		 }
+	  
+	     
+	}
 
 	@Override
 	public Commande creerCommandeRequest(HttpServletRequest request) {

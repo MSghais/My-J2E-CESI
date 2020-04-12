@@ -22,10 +22,11 @@
         <a href="accesrestreint">acces privé</a>
 		<h4>Login</h4>
 		
-			<c:out value="${requestScope.erreurs}"/><br>
+			
 		
-		<c:out value="${requestScope.msgErreur}"/><br>
-				<c:out value="${msgErreur}"/><br>
+					
+
+		
 		<form action="Connexion" method="post">
 			<table>
 				<tr>
@@ -43,11 +44,26 @@
 			</table>
 		</form>	
 		<br>
-			<c:out value="${requestScope.msgErreur}"/><br>
-		<c:out value="${msgErreur}"/><br>
-        </form>
-        
+		
+		<c:out value="${requestScope.erreurs}"/><br>
+						<c:out value="${requestScope.erreurs}"/><br>
+				<c:out value="${requestScope.msgErreur}"/><br>
+			<c:out value="${msgErreur}"/><br>
+		
+		
+			<c:out value="${requestScope.erreursMap}"/><br>
+			
+						<c:out value="${requestScope.erreurs}"/><br>
+						<c:out value="${requestScope.msgErreur}"/><br>
+						<c:out value="${msgErreur}"/><br>
+		
+
          <%@ include file="/WEB-INF/footerPhantom.jsp" %>
          
 	</body>
+	
+	
+	
 </html>
+
+<!--  -->

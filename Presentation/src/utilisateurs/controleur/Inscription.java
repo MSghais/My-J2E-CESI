@@ -1,6 +1,7 @@
 package utilisateurs.controleur;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -29,8 +30,11 @@ public class Inscription extends HttpServlet {
 	    public static final String ATT_USER = "utilisateur";
 	    public static final String ATT_FORM = "inscriptionForm";
 	    public static final String ATT_ERRORS = "erreurs";
+	    public static final String ATT_ERRORS_FORM = "erreursAllForm";
 	    public static final String VUE = "WEB-INF/utilisateurs/vueInscriptionMVC.jsp";
 	    private String erreurs;
+	    
+	    private HashMap<String,String> erreursMaps;
 			
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 	        /* Affichage de la page d'inscription */
@@ -76,7 +80,7 @@ public class Inscription extends HttpServlet {
 			     	//session.setAttribute(ATT_USER,user);
 			        //request.setAttribute( ATT_USER, user );
 			        System.out.println("User créer : renvoi page en forward Connexion" );
-			        request.setAttribute( ATT_FORM, inscriptionForm );
+			      //  request.setAttribute( ATT_FORM, inscriptionForm );
 				       
 			        request.setAttribute( ATT_USER, user );
 			        
@@ -85,8 +89,14 @@ public class Inscription extends HttpServlet {
 			        
 			        
 			     }
-			     else {
-			     	request.setAttribute(ATT_ERRORS, inscriptionForm.getErreurs() );
+			     else if(! inscriptionForm.getErreurs().isEmpty()  ) {
+			    	 
+			    	 // Gestion erreurs
+			    	 	request.setAttribute( ATT_FORM, inscriptionForm );
+				     	request.setAttribute(ATT_ERRORS, inscriptionForm.getErreurs() );
+				     	
+				     	erreursMaps.putAll(inscriptionForm.getErreurs() );
+				     	request.setAttribute(ATT_ERRORS_FORM, erreursMaps );
 			     	// session.setAttribute( ATT_ERRORS, inscriptionForm.getErreurs() );
 				        
 				        

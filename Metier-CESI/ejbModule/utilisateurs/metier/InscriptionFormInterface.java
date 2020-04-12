@@ -39,6 +39,7 @@ public interface InscriptionFormInterface {
 	void validationMotsDePasse(String motDePasse, String confirmation) throws Exception;
 //	void userAlreadyExist(String login, String password) throws Exception;
 	void userAlreadyExist(String login, String password) throws Exception;
+	void userAlreadyExistHard(String login, String password) throws Exception;
 	
 	
 	

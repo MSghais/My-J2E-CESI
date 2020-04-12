@@ -112,8 +112,11 @@ public class MetierArticle implements MetierInterfaceArticle {
 	
 	
 	String loginUser = (String) session.getAttribute("userLogin");
-	
 	System.err.println("Session Login User : "+ loginUser);
+	
+	Long user_id = (Long) session.getAttribute("userId");
+	System.err.println("Session USER_ID : "+ user_id);
+
 	Cookie[] cookies = request.getCookies();
 
 	
@@ -210,17 +213,65 @@ public class MetierArticle implements MetierInterfaceArticle {
 
 			persistanceArticle.persisterArticle(article);
 			
-			User userBDD = (User)persistanceUser.selectLoginUser(loginUser); System.out.println("User BDD select are : " + userBDD); System.out.println("User BDD  ID select are : " + userBDD.getUser_id( ));
+		//	User userBDD = (User)persistanceUser.selectLoginUser(loginUser); System.out.println("User BDD select are : " + userBDD); System.out.println("User BDD  ID select are : " + userBDD.getUser_id( ));
 			
 			
-			User userLectureBDD = (User)persistanceUser.lireLoginUser(loginUser); System.out.println("User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
 			
 			
-			System.out.println("insertion Join Table ID and Key");
+	//		User userLectureBDD = (User)persistanceUser.lireLoginUser(loginUser); System.out.println("User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
+			
+			
+			User userLectureBDD = (User)persistanceUser.lireUser(user_id); System.out.println("Lire User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
+			
+			
+			System.out.println("updateArticle");
+			
+			persistanceArticle.updateArticleWithUser(article, userLectureBDD);
 
-			persistanceArticle.insertionJoinTableIdAndKey(userBDD.getUser_id() ,	article.getId());
+			persistanceArticle.insertIntoVenteUser(userLectureBDD, article);
 			
-			persistanceArticle.updateArticleWithUser(article, userBDD);
+			//persistanceArticle.insertionJoinTableIdAndKey(userLectureBDD.getUser_id() ,	article.getId());
+			
+		
+			
+			
+			/*
+			 * User userRechercher = (User) rechercherUserLogin(loginUser);
+			 * System.out.println("User BDD select are : " + userRechercher);
+			 * System.out.println("User BDD  ID select are : " + userRechercher.getUser_id(
+			 * ));
+			 * 
+			 * System.out.println("updateArticle");
+			 * 
+			 * persistanceArticle.insertionJoinTableIdAndKey(userRechercher.getUser_id() ,
+			 * article.getId());
+			 * 
+			 * persistanceArticle.updateArticleWithUser(article, userRechercher);
+			 * 
+			 * 
+			 * User userRechercherIndex = (User) rechercherUserIndex(user_id);
+			 * System.out.println("User BDD select are : " + userRechercher);
+			 * System.out.println("User BDD  ID select are : " +
+			 * userRechercherIndex.getUser_id( ));
+			 * 
+			 * 
+			 * System.out.println("updateArticle");
+			 * 
+			 * persistanceArticle.insertionJoinTableIdAndKey(userRechercherIndex.getUser_id(
+			 * ) , article.getId());
+			 * 
+			 * persistanceArticle.updateArticleWithUser(article, userRechercherIndex);
+			 */
+			
+			
+			/*
+			 * System.out.println("insertion Join Table ID and Key");
+			 * 
+			 * persistanceArticle.insertionJoinTableIdAndKey(userBDD.getUser_id() ,
+			 * article.getId());
+			 * 
+			 * persistanceArticle.updateArticleWithUser(article, userBDD);
+			 */
 			
 			
 			
@@ -1110,6 +1161,13 @@ public class MetierArticle implements MetierInterfaceArticle {
 		// TODO Auto-generated method stub
 		persistanceArticle.insertionJoinTableObject(user, article);
 	}
+	
+	
+	@Override 
+	public User rechercherUserLogin(String login){
+		
+		return persistanceUser.rechercherUserLogin(login);
+	}
 
 	@Override
 	public Article creerArticleRequest(HttpServletRequest request) {
@@ -1255,4 +1313,36 @@ public class MetierArticle implements MetierInterfaceArticle {
 		return article;
 	}
 
+	@Override
+	public User rechercherUserIndex(Long index) {
+		// TODO Auto-generated method stub
+		return persistanceUser.rechercherUserIndex(index);
+	}
+
+	@Override
+	public List<Article> lireTousArticleByUserVente(Long user_id) {
+		// TODO Auto-generated method stub
+		return persistanceArticle.lireTousArticleByUserVente(user_id);
+	}
+
+	
+
+	@Override
+	public void ajouterArticleCommande(User user, Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.ajouterArticleCommande(user, article);
+	}
+
+	@Override
+	public void ajouterArticleAchat(User user, Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.ajouterArticleAchat(user, article);
+		
+	}
+
+	@Override
+	public Article rechercherArticleIndex(Long id) {
+		// TODO Auto-generated method stub
+		return persistanceArticle.rechercherArticleIndex(id);
+	}
 }

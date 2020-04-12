@@ -47,6 +47,9 @@ public interface MetierInterfaceCommande {
 	String getResultat();
 	Commande creerCommandeRequest(HttpServletRequest request);
 	
+	void validationPictogramme(String picto) throws Exception;
+	void validationBanquaire(String CB) throws Exception;
+	
 	
 	
 	/*

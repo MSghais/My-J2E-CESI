@@ -1,8 +1,10 @@
 package utilisateurs.connexion;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.ejb.Local;
+import javax.servlet.http.HttpServletRequest;
 
 import utilisateurs.entite.User;
 
@@ -17,12 +19,17 @@ public interface MetierInterfaceConnexion {
 
 	User findUserNotBDD(String login, String password) throws Exception;
 
-	void setErreur(String champ, String message);
+
 
 	User findUserBDD(String login, String password) throws Exception;
 
 	
+	String getValeurChamp(HttpServletRequest request, String nomChamp);
 	
+	void setErreur(String champ, String message);
+	
+	Map<String, String> getErreurs();
+	String getResultat();
 
 	User selectUserConnexion(String login);
 

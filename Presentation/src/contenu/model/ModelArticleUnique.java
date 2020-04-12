@@ -12,19 +12,29 @@ import utilisateurs.entite.User;
 
 
 
-public class ModelContenu {
+public class ModelArticleUnique {
 	private List<Article> articles;
-
+	private Article articleAchat;
+	
 	private List<User> usersLectures;
 	
 
 	private Map<Long,Article> articlesMap;
 	
-	public ModelContenu() {
+	public ModelArticleUnique() {
 
 	}
 	
-	public ModelContenu(List<Article> articles, List<User> usersLectures, HashMap<Long,Article> articlesMap) {
+	public ModelArticleUnique(List<Article> articles, Article article, List<User> usersLectures,
+			Map<Long, Article> articlesMap) {
+		super();
+		this.articles = articles;
+		this.articleAchat = article;
+		this.usersLectures = usersLectures;
+		this.articlesMap = articlesMap;
+	}
+
+	public ModelArticleUnique(List<Article> articles, List<User> usersLectures, HashMap<Long,Article> articlesMap) {
 		super();
 		this.articles = new ArrayList<Article>();
 
@@ -33,7 +43,7 @@ public class ModelContenu {
 		this.articlesMap = new HashMap<Long, Article>();
 	}
 
-	public ModelContenu(List<Article> articles, List<User> usersLectures) {
+	public ModelArticleUnique(List<Article> articles, List<User> usersLectures) {
 		super();
 		this.articles = articles;
 
@@ -41,6 +51,14 @@ public class ModelContenu {
 	}
 
 
+
+	public Article getArticle() {
+		return articleAchat;
+	}
+
+	public void setArticle(Article article) {
+		this.articleAchat = article;
+	}
 
 	public List<Article> getArticles() {
 		return articles;

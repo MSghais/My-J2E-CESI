@@ -14,6 +14,63 @@
 	</head>
 	<body>
 	
+	<h4>Tableau des Articles </h4>
+	<div class="table-wrapper">
+										<table class="alt">
+		
+			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>    <th> Achat </th> </thead>
+			  
+			  	<tbody>
+			  	
+			  	<c:forEach var="article" items="${modelArticle.article}"> 
+				<tr>
+				
+					<td><c:out value="${ article.titre}"/></td>
+					
+					<td><c:out value="${article.description}"/></td>
+					
+					<td><c:out value="${article.contenu}"/></td>
+					
+					
+					<td><c:out value="${article.frais}"/></td>
+					
+					<td><c:out value="${article.prix}"/></td>
+				
+				</tr> 
+		      </c:forEach>
+		      
+		      </tbody>
+		      
+		</table>
+		
+		</div>
+	
+	<form> 
+	<fieldset>
+			<label for="codeBancaire">Insérer votre Code Banquaire <span class="requis">*</span> </label>
+                <input type="text" id="codeBancaire" name="codeBancaire" value="<c:out value="${article.frais}"/>" size="20" maxlength="20" />
+                 <span class="erreur">${form.erreurs['art_frais']}</span>
+                <br />
+
+           
+ 			<label for="chiffreSecret"> Les pictogrammes <span class="requis">*</span> </label>
+                <input type="text" id="chiffreSecret" name="chiffreSecret" value="<c:out value="${article.prix}"/>" size="20" maxlength="20" />
+                 <span class="erreur">${form.erreurs['art_prix']}</span>
+                <br />
+
+
+
+
+                <input type="submit" value="Déposer"  name="acheterArticle"  />
+                <br />
+                
+                 <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+					
+	</fieldset>
+		</form>	
+	
+		<br/>
+	
 		
 		<h4> Mes Articles en Vente </h4>
 	

@@ -14,6 +14,7 @@ public interface PersistanceArticleItf {
 	
 	void persisterArticle(Article article);
 	List<Article> lireTousArticle();
+
 	Article lireArticle(Long id);
 	Article lireArticleName(String name);
 	
@@ -45,5 +46,12 @@ public interface PersistanceArticleItf {
 	
 	void insertionJoinTableId(Long userid, Long articleId);
 	void insertionJoinTableIdAndKey(Long userid, Long articleId);
+	List<Article> lireTousArticleByUserVente(Long user_id);
+	
+
+	void ajouterArticleAchat(User user, Article article);
+	void ajouterArticleCommande(User user, Article article);
+	
+	Article rechercherArticleIndex(Long id);
 	
 }

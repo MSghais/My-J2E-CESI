@@ -41,6 +41,7 @@ public class CreationArticleMVC extends HttpServlet {
 	    public static final String ATT_USER = "utilisateur";
 	    public static final String ATT_FORM = "form";
 		public static final String ATTRIBUT_USER         = "utilisateur";
+		public static final String ATTRIBUT_USER_SESSION         = "utilisateurSession";
 		public static final String ATTRIBUT_USER_LOGIN         = "userLogin";
 		public static final String ATTRIBUT_USER_ID      = "userId";
 		public static final String ATTRIBUT_USER_ROLE      = "userRole";
@@ -113,8 +114,9 @@ public class CreationArticleMVC extends HttpServlet {
 	    	System.out.println("doPOST envoi la vue");
 	    	HttpSession session = request.getSession();
 	    	
-	     	HttpSession sessionServlet = request.getSession();
+	     	//HttpSession sessionServlet = request.getSession();
 	     	Cookie[] cookies = request.getCookies(); System.out.println(cookies);
+	     	
 	     	
 	     	
 	     //	System.out.println("User request are :" + user.getValues());
@@ -122,6 +124,7 @@ public class CreationArticleMVC extends HttpServlet {
 	    	System.err.println( "Request cookie in addArticle : " + request.getCookies());
 	    //	HttpSession session = request.getSession();
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER));   	
+	    	System.out.println(session.getAttribute(ATTRIBUT_USER_SESSION));   	
 	    	User userTESTING = (User) session.getAttribute(ATTRIBUT_USER);
 	    	
 	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ID));
@@ -142,16 +145,15 @@ public class CreationArticleMVC extends HttpServlet {
 					System.out.println("Request ID" + request.getAttribute(ATTRIBUT_USER_ID));
 					System.out.println("Request LOGIN " + request.getAttribute(ATTRIBUT_USER_LOGIN));
 					
-					System.out.println("session User object " +sessionServlet.getAttribute(ATTRIBUT_USER));
+					System.out.println("session User object " +session.getAttribute(ATTRIBUT_USER));
 					
-					System.out.println("session ID" + sessionServlet.getAttribute(ATTRIBUT_USER_ID));
-					System.out.println("session LOGIN " + sessionServlet.getAttribute(ATTRIBUT_USER_LOGIN));
+					System.out.println("session ID" + session.getAttribute(ATTRIBUT_USER_ID));
+					System.out.println("session LOGIN " + session.getAttribute(ATTRIBUT_USER_LOGIN));
 					
-					sessionServlet.setAttribute(ATTRIBUT_USER,user);
+					session.setAttribute(ATTRIBUT_USER,user);
 			     	request.setAttribute(ATTRIBUT_USER, (User) user);
 			     	
 	     	
-			
 			  
 			  User userRequest= (User) request.getAttribute(ATTRIBUT_USER);
 			  
@@ -160,6 +162,10 @@ public class CreationArticleMVC extends HttpServlet {
 			  User userSession = (User) session.getAttribute(ATTRIBUT_USER);
 			  
 			  System.out.println("user SESSION = " + userSession);
+			  
+			  User userSessionTEST = (User) session.getAttribute(ATTRIBUT_USER_SESSION);
+			  
+			  System.out.println("user SESSION TEST boolean = " + userSession);
 			  
 				//Article article = form.creerArticle(request);
 			  

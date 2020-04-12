@@ -51,5 +51,9 @@ public interface PersistanceUserItf {
 	User rechercherUserLogin(String login);
 
 
+	User rechercherUserIndex(Long index);
+
+
+
 
 }

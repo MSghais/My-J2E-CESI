@@ -335,6 +335,51 @@ public class PersisterArticle implements PersistanceArticleItf{
 		  
 		
 	}
+
+
+	@Override
+	public List<Article> lireTousArticleByUserVente(Long user_id) {
+		// TODO Auto-generated method stub
+		Query req = entityManager.createQuery("select a from Article a  where vendeur_id =: user_id ");
+		req.setParameter("user_id", user_id);
+		return (List<Article>)  req.getResultList();
+	}
+
+	@Override
+	public Article rechercherArticleIndex(Long id) {
+		System.out.println("rechercherUserLogin");
+		
+			Query query = entityManager.createQuery("select u from Article u where id=:id ");
+			query.setParameter("id", id);
+		
+		
+			return (Article) query.getSingleResult();
+	
+	}
+	
+	@Override
+	public void ajouterArticleAchat(User user, Article article) {
+		// TODO Auto-generated method stub
+			user.addAchatArticles(article);
+		
+		user.getAchatArticles().put(user.getUser_id(), article);
+	}
+	
+	@Override
+	public void ajouterArticleCommande(User user, Article article) {
+		// TODO Auto-generated method stub
+			user.addCommandeArticles(article);
+		
+		user.getVentesArticles().put(user.getUser_id(), article);
+	}
+	
+	/*
+	 * @Override public List<Article> lireTousArticleByUserVenteInAsso(Long user_id)
+	 * { // TODO Auto-generated method stub Query req = entityManager.
+	 * createQuery("select a from vendeur_article a  where vendeur_id =: user_id ");
+	 * req.setParameter("user_id", user_id); return (List<Article>)
+	 * req.getResultList(); }
+	 */
 	
 	
 

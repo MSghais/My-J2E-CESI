@@ -22,6 +22,8 @@ public interface MetierInterfaceArticle {
 	void mettreAJourArticle(Article article);
 	void supprimerArticle(Article article);
 	List<Article> lireTousArticle();
+	
+	
 	void persisterArticle(Article article);
 	
 
@@ -67,6 +69,20 @@ public interface MetierInterfaceArticle {
 		
 		Article creerArticleUserRequestSession(HttpServletRequest request, User userParams, HttpSession session);
 
+
+		User rechercherUserLogin(String login);
+
+	
+		User rechercherUserIndex(Long index);
+		List<Article> lireTousArticleByUserVente(Long user_id);
+		
+
+		
+		
+		void ajouterArticleAchat(User user, Article article);
+		void ajouterArticleCommande(User user, Article article);
+		
+		Article rechercherArticleIndex(Long id);
 	
 	/*
 	User connecterUser(HttpServletRequest request);

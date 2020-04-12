@@ -81,6 +81,18 @@ public class PersisterUser implements PersistanceUserItf {
 	}
 	
 	@Override
+	public User rechercherUserIndex(Long index) {
+		System.out.println("rechercherUserLogin");
+		
+			Query query = entityManager.createQuery("select u from User u where user_id=:index ");
+			query.setParameter("index", index);
+		
+		
+			return (User) query.getSingleResult();
+	
+	}
+	
+	@Override
 	public User lireUser(Long id) {
 		return entityManager.find(User.class, id);
 	}
@@ -181,6 +193,7 @@ public class PersisterUser implements PersistanceUserItf {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 	/*
 	 * @Override public User userAlreadyExist(String login, String password) throws

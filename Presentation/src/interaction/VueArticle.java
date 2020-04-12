@@ -22,7 +22,7 @@ import utilisateurs.model.ModelUser;
 
 
 
-@WebServlet("/vueAllArticle")
+@WebServlet("/vueArticle")
 public class VueArticle extends HttpServlet { 
 	
 	

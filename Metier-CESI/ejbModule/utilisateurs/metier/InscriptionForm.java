@@ -37,6 +37,8 @@ public class InscriptionForm implements InscriptionFormInterface  {
     private final String CHAMP_CONF   = "confirmation";
     private static final String CHAMP_ERRORS   = "erreurs";
 
+	private static final String CHAMP_EXISTE_HARD = "userExistant";
+
 	
 	 private Map<String, String> erreurs  = new HashMap<String, String>(); ;
 	 
@@ -85,7 +87,13 @@ public class InscriptionForm implements InscriptionFormInterface  {
         String password = getValeurChamp( request, CHAMP_PASS );
         String confirmation = getValeurChamp( request, CHAMP_CONF );  */
 
-		
+        
+        // Role role = (Role) request.getParameter("role");
+        
+
+        String role =  request.getParameter("role");
+        System.out.println("Role params = " + role);
+      
         String username = request.getParameter("username");
         String login = request.getParameter("login");
         
@@ -103,6 +111,13 @@ public class InscriptionForm implements InscriptionFormInterface  {
       // User userInBDD = persistanceUser.lireLoginUser(login);
         
        /* Validation du champ username */
+        
+		/*
+		 * if(role != null) {
+		 * 
+		 * Role roleUser = Role.getRole(); user.setRole(role); }
+		 */
+        
        try {
            validationUsername( username );
        } catch ( Exception e ) {
@@ -174,6 +189,17 @@ public class InscriptionForm implements InscriptionFormInterface  {
             this.setErreur( CHAMP_EXISTE, e.getMessage() );
         }
         
+        System.out.println("Test  metier: User already in BDD Hardcore ?");       
+        //User userAlready;
+        try {
+        	 userAlreadyExistHard(login, password);
+    
+        } catch ( Exception e ) { 
+
+            this.setErreur( CHAMP_EXISTE_HARD, e.getMessage() );
+            //return false;
+        }
+        
         
         // || !user.getLogin().isEmpty() 
         
@@ -182,6 +208,7 @@ public class InscriptionForm implements InscriptionFormInterface  {
         		|| !getErreurs().containsKey(CHAMP_EXISTE)
         		|| !erreurs.containsKey(CHAMP_EXISTE)
         		|| !erreurs.containsValue(CHAMP_EXISTE)
+        		|| !CHAMP_EXISTE_HARD.isEmpty()
         		||  ( !user.getLogin().isEmpty() && !user.getPassword().isEmpty() && !user.getEmail().isEmpty() )         ) 
         	{
             
@@ -194,7 +221,12 @@ public class InscriptionForm implements InscriptionFormInterface  {
 			         	System.out.println("Erreurs : " + erreurs);
 			            System.out.println("Persister user  metier");
            
-        } else {
+        } else if (  !erreurs.isEmpty() 
+        		|| getErreurs().containsKey(CHAMP_EXISTE)
+        		|| erreurs.containsKey(CHAMP_EXISTE)
+        		|| erreurs.containsValue(CHAMP_EXISTE)
+        		|| CHAMP_EXISTE_HARD.isEmpty()
+        		||  ( user.getLogin().isEmpty() && user.getPassword().isEmpty() && user.getEmail().isEmpty() )    ){
         	       /*  erreurs.isEmpty() 
         		|| !getErreurs().containsKey(CHAMP_EXISTE)
         		|| !erreurs.containsKey(CHAMP_EXISTE)
@@ -203,10 +235,11 @@ public class InscriptionForm implements InscriptionFormInterface  {
         	this.resultat = "Échec de  l'inscription..";
             resultat = "Échec de la connexion.";
             
-            
+           // this.setErreur(CHAMP_EXISTE_HARD, message);
             this.getErreurs();
             
          	System.out.println("Erreurs : " + erreurs);
+         	//return erreurs;
             System.out.println("Echec de la connexion  metier ");
         }
         
@@ -223,102 +256,7 @@ public class InscriptionForm implements InscriptionFormInterface  {
     }
     
     
-    @Override
-    public Utilisateur connecterUtilisateur( HttpServletRequest request ) {
-        /* Récupération des champs du formulaire */
-    	/*
-    	System.out.println("Récupération des données utilisateurs ");
-        String username = getValeurChamp( request, CHAMP_USERNAME );
-        String login = getValeurChamp( request, CHAMP_LOGIN );
-        
-        
-        String email = getValeurChamp( request, CHAMP_EMAIL );
-        String password = getValeurChamp( request, CHAMP_PASS );
-        String confirmation = getValeurChamp( request, CHAMP_CONF);*/
-
-    	
-		
-        String username = request.getParameter("username");
-        String login = request.getParameter("login");
-        
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String confirmation = request.getParameter("confirmation");
-        
-        
-        User user = new User();
-
-        Utilisateur utilisateur = new Utilisateur();
-      
-        System.out.println("Test des exceptions du formulaire a partir du MEtier");
-        
-        System.out.println("Test  metier : username ");
-        /* Validation du champ username */
-        try {
-            validationUsername( username );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_USERNAME, e.getMessage() );
-        }       
-        utilisateur.setUsername(username);
-        
-        System.out.println("Test  metier : login ");
-        /* Validation du champ username */
-        try {
-            validationLogin( login );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_LOGIN, e.getMessage() );
-        }       
-        utilisateur.setLogin(login);
-        
-        
-        System.out.println("Test metier : email");
-        /* Validation du champ email. */
-        try {
-            validationEmail( email );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_EMAIL, e.getMessage() );
-        }     
-        utilisateur.setEmail( email );
-        
-        
-        System.out.println("Test  metier : mot de passe");
-        /* Validation du champ mot de passe. */
-        try {
-            validationMotsDePasse( password, confirmation );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_PASS, e.getMessage() );
-        }
-        utilisateur.setMotDePasse( password );
-        
-        
-        // || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
-        
-        /* Initialisation du résultat global de la validation. */
-        if ( erreurs.isEmpty()   || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty() ) ) {
-        	
-       
-        	this.setResultat("Succès de l'inscription.");
-        	this.resultat = "Succès de l'inscription.";
-        	
-            System.out.println("Succes de l'inscription");
-         
-            resultat = "Succès de la connexion.";
-            System.out.println("Succes de l'inscription ");
-         	System.out.println("Erreurs : " + erreurs);
-         persistanceUser.persisterUtilisateur(utilisateur);
-         
-         System.out.println("Persister utilisateur OK ");
-        } else {
-            resultat = "Échec de la connexion.";
-            System.out.println("Echec de la connexion ");
-         	System.out.println("Erreur : " + erreurs);
-        }
-
-        
-       // return user;
-        return utilisateur;
-    }
-
+   
   @Override
   public void validationUsername(String username)  throws Exception {
 		// TODO Auto-generated method stub
@@ -404,8 +342,32 @@ public class InscriptionForm implements InscriptionFormInterface  {
 	  User userExist = persistanceUser.connecterUtilisateurLoginMdp(login, password);
 	  
 	    //if ( motDePasse != null && confirmation != null ) {
-	        if ( userExist!=null ) {
+	        if ( userExist==null ) {
 	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
+	        }
+	      /*  } else if ( password.length() < 3 ) {
+	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
+	        }
+	     else {
+	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
+	    }*/
+	}
+  
+  @Override
+  public void userAlreadyExistHard( String login, String password ) throws Exception {
+	  
+	  User userExist = persistanceUser.rechercherUserLogin(login);
+	  
+	  
+	    //if ( motDePasse != null && confirmation != null ) {
+	        if ( userExist==null ) {
+	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
+	        }
+	        else if( userExist.getPassword().contentEquals(password) ) {
+	        	
+	        	
+	        	 throw new Exception( "Veuillez changez de Login et améliorer votre mot de passe. ");
+	        	
 	        }
 	      /*  } else if ( password.length() < 3 ) {
 	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
@@ -505,7 +467,197 @@ public void setResultat(String resultat) {
 	this.resultat = resultat;
 }
 
-	
+@Override
+public Utilisateur connecterUtilisateur( HttpServletRequest request ) {
+    /* Récupération des champs du formulaire */
+	/*
+	System.out.println("Récupération des données utilisateurs ");
+    String username = getValeurChamp( request, CHAMP_USERNAME );
+    String login = getValeurChamp( request, CHAMP_LOGIN );
+    
+    
+    String email = getValeurChamp( request, CHAMP_EMAIL );
+    String password = getValeurChamp( request, CHAMP_PASS );
+    String confirmation = getValeurChamp( request, CHAMP_CONF);*/
 
+	
+	
+    String username = request.getParameter("username");
+    String login = request.getParameter("login");
+    
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
+    String confirmation = request.getParameter("confirmation");
+    
+    
+    User user = new User();
+
+    Utilisateur utilisateur = new Utilisateur();
+  
+    System.out.println("Test des exceptions du formulaire a partir du MEtier");
+    
+    System.out.println("Test  metier : username ");
+    /* Validation du champ username */
+    try {
+        validationUsername( username );
+    } catch ( Exception e ) {
+        setErreur( CHAMP_USERNAME, e.getMessage() );
+    }       
+    utilisateur.setUsername(username);
+    
+    System.out.println("Test  metier : login ");
+    /* Validation du champ username */
+    try {
+        validationLogin( login );
+    } catch ( Exception e ) {
+        setErreur( CHAMP_LOGIN, e.getMessage() );
+    }       
+    utilisateur.setLogin(login);
+    
+    
+    System.out.println("Test metier : email");
+    /* Validation du champ email. */
+    try {
+        validationEmail( email );
+    } catch ( Exception e ) {
+        setErreur( CHAMP_EMAIL, e.getMessage() );
+    }     
+    utilisateur.setEmail( email );
+    
+    
+    System.out.println("Test  metier : mot de passe");
+    /* Validation du champ mot de passe. */
+    try {
+        validationMotsDePasse( password, confirmation );
+    } catch ( Exception e ) {
+        setErreur( CHAMP_PASS, e.getMessage() );
+    }
+    utilisateur.setMotDePasse( password );
+    
+    
+    // || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
+    
+    /* Initialisation du résultat global de la validation. */
+    if ( erreurs.isEmpty()   || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty() ) ) {
+    	
+   
+    	this.setResultat("Succès de l'inscription.");
+    	this.resultat = "Succès de l'inscription.";
+    	
+        System.out.println("Succes de l'inscription");
+     
+        resultat = "Succès de la connexion.";
+        System.out.println("Succes de l'inscription ");
+     	System.out.println("Erreurs : " + erreurs);
+     persistanceUser.persisterUtilisateur(utilisateur);
+     
+     System.out.println("Persister utilisateur OK ");
+    } else {
+        resultat = "Échec de la connexion.";
+        System.out.println("Echec de la connexion ");
+     	System.out.println("Erreur : " + erreurs);
+    }
+
+    
+   // return user;
+    return utilisateur;
+}
+
+
+/*   @Override
+    public Utilisateur connecterUtilisateur( HttpServletRequest request ) {
+        /* Récupération des champs du formulaire */
+    	/*
+    	System.out.println("Récupération des données utilisateurs ");
+        String username = getValeurChamp( request, CHAMP_USERNAME );
+        String login = getValeurChamp( request, CHAMP_LOGIN );
+        
+        
+        String email = getValeurChamp( request, CHAMP_EMAIL );
+        String password = getValeurChamp( request, CHAMP_PASS );
+        String confirmation = getValeurChamp( request, CHAMP_CONF);
+
+    	
+		
+        String username = request.getParameter("username");
+        String login = request.getParameter("login");
+        
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String confirmation = request.getParameter("confirmation");
+        
+        
+        User user = new User();
+
+        Utilisateur utilisateur = new Utilisateur();
+      
+        System.out.println("Test des exceptions du formulaire a partir du MEtier");
+        
+        System.out.println("Test  metier : username ");
+        /* Validation du champ username 
+        try {
+            validationUsername( username );
+        } catch ( Exception e ) {
+            setErreur( CHAMP_USERNAME, e.getMessage() );
+        }       
+        utilisateur.setUsername(username);
+        
+        System.out.println("Test  metier : login ");
+        /* Validation du champ username
+        try {
+            validationLogin( login );
+        } catch ( Exception e ) {
+            setErreur( CHAMP_LOGIN, e.getMessage() );
+        }       
+        utilisateur.setLogin(login);
+        
+        
+        System.out.println("Test metier : email");
+        /* Validation du champ email. 
+        try {
+            validationEmail( email );
+        } catch ( Exception e ) {
+            setErreur( CHAMP_EMAIL, e.getMessage() );
+        }     
+        utilisateur.setEmail( email );
+        
+        
+        System.out.println("Test  metier : mot de passe");
+        /* Validation du champ mot de passe. 
+        try {
+            validationMotsDePasse( password, confirmation );
+        } catch ( Exception e ) {
+            setErreur( CHAMP_PASS, e.getMessage() );
+        }
+        utilisateur.setMotDePasse( password );
+        
+        
+        // || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
+        
+        /* Initialisation du résultat global de la validation. */
+	/*
+	 * if ( erreurs.isEmpty() || ( !utilisateur.getLogin().isEmpty() &&
+	 * !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty() )
+	 * ) {
+	 * 
+	 * 
+	 * this.setResultat("Succès de l'inscription."); this.resultat =
+	 * "Succès de l'inscription.";
+	 * 
+	 * System.out.println("Succes de l'inscription");
+	 * 
+	 * resultat = "Succès de la connexion.";
+	 * System.out.println("Succes de l'inscription ");
+	 * System.out.println("Erreurs : " + erreurs);
+	 * persistanceUser.persisterUtilisateur(utilisateur);
+	 * 
+	 * System.out.println("Persister utilisateur OK "); } else { resultat =
+	 * "Échec de la connexion."; System.out.println("Echec de la connexion ");
+	 * System.out.println("Erreur : " + erreurs); }
+	 * 
+	 * 
+	 * // return user; return utilisateur; }
+	 */
+ 
 
 }

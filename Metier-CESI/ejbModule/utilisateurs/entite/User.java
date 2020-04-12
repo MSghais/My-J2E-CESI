@@ -140,6 +140,16 @@ public class User {
 		ventesArticles.put(this.user_id, article);
 	}
 	
+	public void addAchatArticles(Article article) {
+		// TODO Auto-generated method stub
+		achatsArticles.put(this.user_id, article);
+	}
+	
+	public void addCommandeArticles(Article article) {
+		// TODO Auto-generated method stub
+		commandesArticles.put(this.user_id, article);
+	}
+	
 	/*  WITH COLLECTIONS
 	@OneToMany
 	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
@@ -354,6 +364,8 @@ public class User {
 		this.commandesArticles = new HashMap<Long, Article>();
 		this.achatsArticles = new HashMap<Long, Article>();
 	}
+
+	
 
 /* 	public User(Long user_id, String username, String login, String email, String password, Role role,
 			Collection<Article> ventesArticles, Collection<Article> commandesArticles,

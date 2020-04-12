@@ -38,9 +38,60 @@
 							
 								<h4>Tableau des Articles </h4>
 	<div class="table-wrapper">
+	
+	<form>
+	<table class="alt">
+		
+			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>    <th> Achat </th> </thead>
+			  
+			  	<tbody>
+			  	
+			  	<c:forEach var="article" items="${modelContenu.articles}"> 
+				<tr>
+				
+					<td><c:out value="${ article.titre}"/></td>
+					
+					<td><c:out value="${article.description}"/></td>
+					
+					<td><c:out value="${article.contenu}"/></td>
+					
+					
+					<td><c:out value="${article.frais}"/></td>
+					
+					<td><c:out value="${article.prix}"/></td>
+					
+								
+					<td> <a  id="lienAcheter" href="acheterArticle?acheter_id=${article.id}" > Acheter Lien Scred</a> </td> 
+							
+					<td> <a  id="lienAcheterIn" href="?acheter_id=${article.id}" > Acheter Lien Scred Tout </a> </td> 
+					
+					
+						<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter A </a> </td> 
+					 
+ 
+					
+			
+					
+					<td> <a  href="acheterArticle"> Acheter </a> ></td> 
+					
+					<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter </a> </td>
+
+					
+				<c:url var="urlAcheter" value="acheterArticle">  
+  					<c:param name="article_id" value= "${ article.id} "/>  
+				</c:url> 
+		
+				</tr> 
+		      </c:forEach>
+		      
+		      </tbody>
+		      
+		</table>
+	
+	</form>
 										<table class="alt">
 		
-			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>  </thead>
+			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>    <th> Achat </th> </thead>
 			  
 			  	<tbody>
 			  	
@@ -59,7 +110,27 @@
 					<td><c:out value="${article.prix}"/></td>
 					
 					
-					<td> <button type="submit" name="acheter"> Acheter un article </button></td>
+								
+					<td> <a  id="lienAcheter" href="acheterArticle?acheter_id=${article.id}" > Acheter Lien Scred</a> </td> 
+							
+					<td> <a  id="lienAcheterIn" href="?acheter_id=${article.id}" > Acheter Lien Scred Tout </a> </td> 
+					
+					
+						<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter A </a> </td> 
+					 
+ 
+					
+			
+					
+					<td> <a  href="acheterArticle"> Acheter </a> ></td> 
+					
+					<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter </a> </td>
+
+					
+				<c:url var="urlAcheter" value="acheterArticle">  
+  					<c:param name="article_id" value= "${ article.id} "/>  
+				</c:url> 
+		
 				</tr> 
 		      </c:forEach>
 		      
@@ -134,12 +205,10 @@
 				
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			
 
    <%@ include file="/WEB-INF/footerPhantom.jsp" %>
 	</body>
 </html>
+
+

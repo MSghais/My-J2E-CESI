@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import contenu.entite.Article;
 import contenu.metier.article.MetierInterfaceArticle;
 import contenu.model.ModelContenu;
+import utilisateurs.entite.User;
 import utilisateurs.model.ModelUser;
 
 
@@ -30,7 +31,16 @@ public class MesVentes extends HttpServlet {
 	MetierInterfaceArticle metierArticle;
 	
 	public static final String ATTRIBUT_USER         = "utilisateur";
+	public static final String ATTRIBUT_USER_SESSION         = "utilisateurSession";
+	public static final String ATTRIBUT_USER_LOGIN         = "userLogin";
+	public static final String ATTRIBUT_USER_ID      = "userId";
+	public static final String ATTRIBUT_USER_ROLE      = "userRole";
+	
     public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
+    public static final String ATTRIBUT_ERREUR_MAP  = "erreursMaps";
+    
+	
+	
 	private String erreurMsg;
 
 	public static final String VUE   = "WEB-INF/contenu/vente/mesArticlesVente.jsp";
@@ -55,17 +65,24 @@ public class MesVentes extends HttpServlet {
 		System.out.println("MyServlet Accueil est la"+ nb);
 		nb++;
 	
-		
-		
+		HttpSession session = request.getSession();		
 		
 		
 		ModelUser modelUser = new ModelUser(); 
 		
 		ModelContenu modelContenu = new ModelContenu(); 
 		
-		List<Article> articles = metierArticle.lireTousArticle();
+		//List<Article> articles = metierArticle.lireTousArticle();
+		
+		User user = (User) session.getAttribute(ATTRIBUT_USER);
+		
+		Long user_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+		
+		System.out.println("USER ID session are = "+ user_id);
+		
+		List<Article> articlesVentes = metierArticle.lireTousArticleByUserVente(user_id);
 		 
-		 modelContenu.setArticles(articles);
+		 modelContenu.setArticles(articlesVentes);
 			request.setAttribute("modelContenu", modelContenu);
 			
 			request.getRequestDispatcher(VUE).forward(request, response); 
