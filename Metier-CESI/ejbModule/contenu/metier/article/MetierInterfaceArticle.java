@@ -80,7 +80,7 @@ public interface MetierInterfaceArticle {
 		
 		
 		void ajouterArticleAchat(User user, Article article);
-		void ajouterArticleCommande(User user, Article article);
+	
 		
 		Article rechercherArticleIndex(Long id);
 	

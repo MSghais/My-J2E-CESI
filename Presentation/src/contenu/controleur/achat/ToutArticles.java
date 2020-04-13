@@ -23,7 +23,7 @@ import utilisateurs.model.ModelUser;
 
 
 
-@WebServlet("/toutArticles")
+@WebServlet("/Shopping")
 public class ToutArticles extends HttpServlet { 
 	//private MetierItf metier = MetierEtudiantPromo.getInstance(); 
 	
@@ -38,7 +38,7 @@ public class ToutArticles extends HttpServlet {
 	public static final String ATTRIBUT_USER_ID      = "userId";
 	public static final String ATTRIBUT_USER_ROLE      = "userRole";
 	
-	public static final String ATTRIBUT_ARTICLE_ID      = "acheterArticleId";
+	public static final String ATTRIBUT_ARTICLE_ID      = "acheter";
 	public static final String ATTRIBUT_ARTICLE_ACHAT      = "acheterArticle";
     public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
     
@@ -155,10 +155,14 @@ public class ToutArticles extends HttpServlet {
 			 * System.out.println(" Response getContextPath acheter  Article forward");
 			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
 			 */
+				System.out.println(" response toutArticle sendRedirect acheter Article");
+				response.sendRedirect( request.getContextPath() + "acheterArticle");
+				
 				
 				System.out.println(" Acheter Article forward");
-				request.getRequestDispatcher("/acheterArticle").include(request, response);
-			//	request.getRequestDispatcher("/acheterArticle").include(request, response);
+				request.getRequestDispatcher("acheterArticle").forward(request, response);
+			//	System.out.println(" Acheter Article include"); 
+				//request.getRequestDispatcher("/acheterArticle").include(request, response);
 				//request.getRequestDispatcher("/acheterArticle").include(request, response);
 				
 				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);

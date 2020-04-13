@@ -3,8 +3,7 @@ package contenu.persistance.article;
 import java.util.List;
 
 import contenu.entite.Article;
-
-
+import contenu.enume.StatutArticle;
 import utilisateurs.entite.User;
 
 
@@ -50,8 +49,10 @@ public interface PersistanceArticleItf {
 	
 
 	void ajouterArticleAchat(User user, Article article);
-	void ajouterArticleCommande(User user, Article article);
+
 	
 	Article rechercherArticleIndex(Long id);
+	
+	void updateArticleStatut(Article article, StatutArticle status);
 	
 }

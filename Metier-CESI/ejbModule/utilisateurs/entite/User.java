@@ -4,8 +4,10 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -26,17 +28,8 @@ import contenu.entite.Article;
 
 
 import contenu.entite.Theme;
+import interaction.entite.Commande;
 
-
-//@Inheritance
-/* @DiscriminatorColumn(
-		
-		name="USER_TYPE",
-		discriminatorType = DiscriminatorType.STRING
-		) */
-//@MappedSuperclass
-/*@GeneratedValue(strategy = GenerationType.AUTO)
-@Column(name = â€œidâ€�, updatable = false, nullable = false)*/
 
 
 /*  @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -45,21 +38,6 @@ import contenu.entite.Theme;
 		name="USER_TYPE",
 		discriminatorType = DiscriminatorType.STRING
 		) */
-
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-
-//@MappedSuperclass
-
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-
-//@MappedSuperclass
-
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-
-//@MappedSuperclass
-
-
-
 
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 // @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -87,11 +65,12 @@ public class User {
 			)
 	private Map<Long, Article> ventesArticles;
 	
-	@OneToMany
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
-	private Map<Long, Article> commandesArticles;
+	private List<Commande> commandesArticles;
 	
 	
 	@OneToMany
@@ -100,30 +79,12 @@ public class User {
 			)
 	private Map<Long, Article> achatsArticles;
 
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinTable(name="vendeur_article",
-	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
-	 * Article> ventesArticles;
-	 * 
-	 * @OneToMany
-	 * 
-	 * @JoinTable(name="commandes_article",
-	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
-	 * Article> commandesArticles;
-	 * 
-	 * 
-	 * @OneToMany
-	 * 
-	 * @JoinTable(name="achat_article",
-	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
-	 * Article> achatsArticles;
-	 */
 	
-	/*
-
-	*/
+	/* @OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
+			)
+	private Map<Long, Commande> commandesArticles;  */
 	
 	/* 	@OneToMany(mappedBy= "id")
 	private Map<Long, Article> ventesArticles;
@@ -145,9 +106,19 @@ public class User {
 		achatsArticles.put(this.user_id, article);
 	}
 	
-	public void addCommandeArticles(Article article) {
+	/*
+	 * public void addCommandeArticles(Commande commande) { // TODO Auto-generated
+	 * method stub commandesArticles.put(this.user_id, commande); }
+	 */
+	public void addCommandeArticle(Commande commande) {
 		// TODO Auto-generated method stub
-		commandesArticles.put(this.user_id, article);
+		this.commandesArticles.add(commande);
+	}
+	
+	
+	public void addArticleAchat(Article article) {
+		// TODO Auto-generated method stub
+		this.achatsArticles.put(this.user_id, article);
 	}
 	
 	/*  WITH COLLECTIONS
@@ -334,11 +305,11 @@ public class User {
 		this.ventesArticles = ventesArticles;
 	}
 
-	public Map<Long, Article> getCommandesArticles() {
+	public List<Commande> getCommandesArticles() {
 		return commandesArticles;
 	}
 
-	public void setCommandesArticles(Map<Long, Article> commandesArticles) {
+	public void setCommandesArticles(List<Commande> commandesArticles) {
 		this.commandesArticles = commandesArticles;
 	}
 
@@ -346,7 +317,7 @@ public class User {
 		return achatsArticles;
 	}
 
-	public void setAchatArticles(Map<Long, Article> commandesArticles) {
+	public void setAchatArticles(Map<Long, Article> achatsArticles) {
 		this.achatsArticles = achatsArticles;
 	}
 
@@ -361,9 +332,11 @@ public class User {
 		this.password = password;
 		this.role = role;
 		this.ventesArticles =  new HashMap<Long, Article>();
-		this.commandesArticles = new HashMap<Long, Article>();
+		this.commandesArticles = new ArrayList<Commande>();
 		this.achatsArticles = new HashMap<Long, Article>();
 	}
+
+	
 
 	
 

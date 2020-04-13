@@ -79,17 +79,19 @@ public class Inscription extends HttpServlet {
 		        if(user != null) {
 			     	//session.setAttribute(ATT_USER,user);
 			        //request.setAttribute( ATT_USER, user );
-			        System.out.println("User créer : renvoi page en forward Connexion" );
+			       
 			      //  request.setAttribute( ATT_FORM, inscriptionForm );
 				       
 			        request.setAttribute( ATT_USER, user );
 			        
+			        System.out.println("User créer : renvoi page en include Connexion" );
+			        request.getRequestDispatcher("/Connexion" ).include( request, response );
 			        
-			        request.getRequestDispatcher("/Connexion" ).forward( request, response );
-			        
+			        System.out.println("User créer : renvoi page en forward Connexion" );
+			       // request.getRequestDispatcher("/Connexion" ).forward( request, response );
 			        
 			     }
-			     else if(! inscriptionForm.getErreurs().isEmpty()  ) {
+			     else if( !inscriptionForm.getErreurs().isEmpty() || user==null  ) {
 			    	 
 			    	 // Gestion erreurs
 			    	 	request.setAttribute( ATT_FORM, inscriptionForm );
@@ -97,15 +99,16 @@ public class Inscription extends HttpServlet {
 				     	
 				     	erreursMaps.putAll(inscriptionForm.getErreurs() );
 				     	request.setAttribute(ATT_ERRORS_FORM, erreursMaps );
+				     	
+				    	session.setAttribute( ATT_FORM, inscriptionForm );
+				    	session.setAttribute(ATT_ERRORS, inscriptionForm.getErreurs() );
 			     	// session.setAttribute( ATT_ERRORS, inscriptionForm.getErreurs() );
 				        
 				        
 			     	session.setAttribute("utilisateur",null);
 			     	
 			     	System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );
-			        
-			        
-			        
+  
 			        System.out.println("doPOST renvoi page en forward" );
 			        
 			        request.getRequestDispatcher(VUE).forward(request, response); 

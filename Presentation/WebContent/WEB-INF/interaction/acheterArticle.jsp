@@ -45,16 +45,16 @@
 		
 		</div>
 	
-	<form action="acheterArticle" method="get" > 
+	<form action="acheterArticle" method="post" > 
 	<fieldset>
 			<label for="codeBancaire">Insérer votre Code Banquaire <span class="requis">*</span> </label>
-                <input type="text" id="codeBancaire" name="codeBancaire"  size="20" maxlength="20" />
+                <input type="number" id="codeBanquaire" name="codeBanquaire"  size="20" maxlength="10" />
                  <span class="erreur">${form.erreurs['art_frais']}</span>
                 <br />
 
            
  			<label for="chiffreSecret"> Les pictogrammes <span class="requis">*</span> </label>
-                <input type="text" id="chiffreSecret" name="chiffreSecret" size="20" maxlength="20" />
+                <input type="number" id="chiffreSecret" name="chiffreSecret" size="10" maxlength="3" />
                  <span class="erreur">${form.erreurs['art_prix']}</span>
                 <br />
 

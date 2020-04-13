@@ -179,26 +179,24 @@ public class InscriptionForm implements InscriptionFormInterface  {
 		 */
      
         
-        System.out.println("Test  metier: User already in BDD ?");       
-        //User userAlready;
-        try {
-        	 userAlreadyExist(login, password);
-    
-        } catch ( Exception e ) { 
-
-            this.setErreur( CHAMP_EXISTE, e.getMessage() );
-        }
-        
-        System.out.println("Test  metier: User already in BDD Hardcore ?");       
-        //User userAlready;
-        try {
-        	 userAlreadyExistHard(login, password);
-    
-        } catch ( Exception e ) { 
-
-            this.setErreur( CHAMP_EXISTE_HARD, e.getMessage() );
-            //return false;
-        }
+		/*
+		 * System.out.println("Test  metier: User already in BDD ?"); //User
+		 * userAlready; try { userAlreadyExist(login, password);
+		 * 
+		 * } catch ( Exception e ) {
+		 * 
+		 * this.setErreur( CHAMP_EXISTE, e.getMessage() ); }
+		 */
+		/*
+		 * System.out.println("Test  metier: User already in BDD Hardcore ?"); //User
+		 * userAlready; try { userAlreadyExistHard(login, password);
+		 * 
+		 * } catch ( Exception e ) {
+		 * 
+		 * this.setErreur( CHAMP_EXISTE_HARD, e.getMessage() );
+		 * 
+		 * this.setErreur( CHAMP_EXISTE, e.getMessage() ); //return false; }
+		 */
         
         
         // || !user.getLogin().isEmpty() 
@@ -254,6 +252,55 @@ public class InscriptionForm implements InscriptionFormInterface  {
        // return user;
         return user;
     }
+    
+    @Override
+    public void userAlreadyExist( String login, String password ) throws Exception {
+  	  
+  	  User userExist = persistanceUser.connecterUtilisateurLoginMdp(login, password);
+  	  
+  	    //if ( motDePasse != null && confirmation != null ) {
+  	        if ( userExist!=null ) {
+  	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
+  	        }
+  	      /*  } else if ( password.length() < 3 ) {
+  	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
+  	        }
+  	     else {
+  	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
+  	    }*/
+  	}
+    
+    @Override
+    public void userAlreadyExistHard( String login, String password ) throws Exception {
+  	  
+  	  
+    	
+    		User userExist = persistanceUser.rechercherUserLogin(login);
+    	
+  	  
+  	  
+  	    //if ( motDePasse != null && confirmation != null ) {
+  	        if ( userExist!=null || userExist.getLogin().contentEquals(login) ) {
+  	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
+  	        }
+  	        else if( userExist.getPassword().contentEquals(password) ) {
+  	        	
+  	        	
+  	        	 throw new Exception( "Veuillez changez de Login et améliorer votre mot de passe. ");
+  	        	
+  	        }
+  	        
+  	        else {
+  	        	
+  	        	System.out.println("User non existant. Création en BDD");
+  	        }
+  	      /*  } else if ( password.length() < 3 ) {
+  	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
+  	        }
+  	     else {
+  	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
+  	    }*/
+  	}
     
     
    
@@ -336,46 +383,7 @@ public class InscriptionForm implements InscriptionFormInterface  {
 	    }
 	}
   
-  @Override
-  public void userAlreadyExist( String login, String password ) throws Exception {
-	  
-	  User userExist = persistanceUser.connecterUtilisateurLoginMdp(login, password);
-	  
-	    //if ( motDePasse != null && confirmation != null ) {
-	        if ( userExist==null ) {
-	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
-	        }
-	      /*  } else if ( password.length() < 3 ) {
-	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
-	        }
-	     else {
-	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
-	    }*/
-	}
-  
-  @Override
-  public void userAlreadyExistHard( String login, String password ) throws Exception {
-	  
-	  User userExist = persistanceUser.rechercherUserLogin(login);
-	  
-	  
-	    //if ( motDePasse != null && confirmation != null ) {
-	        if ( userExist==null ) {
-	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
-	        }
-	        else if( userExist.getPassword().contentEquals(password) ) {
-	        	
-	        	
-	        	 throw new Exception( "Veuillez changez de Login et améliorer votre mot de passe. ");
-	        	
-	        }
-	      /*  } else if ( password.length() < 3 ) {
-	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
-	        }
-	     else {
-	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
-	    }*/
-	}
+
 
 
   /*  

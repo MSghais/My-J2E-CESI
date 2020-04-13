@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import contenu.entite.Article;
 import contenu.entite.Theme;
+import contenu.enume.StatutArticle;
 import contenu.persistance.article.PersistanceArticleItf;
 import contenu.persistance.theme.PersistanceThemeItf;
 import interaction.entite.Commande;
+import interaction.enume.StatutCommande;
+import interaction.persistance.PersistanceCommandeItf;
 import utilisateurs.entite.User;
 import utilisateurs.entite.Utilisateur;
 
@@ -28,11 +31,14 @@ public class MetierCommande implements MetierInterfaceCommande {
 	
 	
 	
-	@EJB 
-	private PersistanceArticleItf persistanceArticle;
 	
 	@EJB 
 	private PersistanceThemeItf persistanceTheme;
+	
+	@EJB
+	private PersistanceCommandeItf persistanceCommande;
+	
+	
 
 	private Map<Long,Article> articles;
 	
@@ -66,12 +72,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 		init();
 	}
 	
-	
-	
-	public void persisterArticle(Article article) {
-		persistanceArticle.persisterArticle(article);
-	}
-	
+
 	
 	public void creerArticle(Article article) {
 		articles.put(article.getId(),article);
@@ -93,10 +94,10 @@ public class MetierCommande implements MetierInterfaceCommande {
 	}
 	
 	
-	public List<Article> lireTousArticle() {
+	public List<Commande> lireTousCommande() {
 		//return new ArrayList<>(etudiants.values());  
 		
-		return persistanceArticle.lireTousArticle();
+		return persistanceCommande.lireTousCommande();
 	}
 	
 	
@@ -113,28 +114,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	
 	}
 
-	@Override
-	public void validationBanquaire(String CB) throws Exception {
-		// TODO Auto-generated method stub
-		 if ( CB != null ) {
-	          if ( CB.length() < 10 ) {
-	              throw new Exception( "Le code doit faire 10 chiffres." );
-	          }
-		 }
-	        
-	}
 	
-	@Override
-	public void validationPictogramme(String picto) throws Exception {
-		// TODO Auto-generated method stub
-		 if ( picto != null ) {
-	          if ( picto.length() < 2 ) {
-	              throw new Exception( "Le pictogramme doit faire 3 chiffres." );
-	          }
-		 }
-	  
-	     
-	}
 
 	@Override
 	public Commande creerCommandeRequest(HttpServletRequest request) {
@@ -207,7 +187,7 @@ public class MetierCommande implements MetierInterfaceCommande {
             resultat = "Succès de la connexion.";
             System.out.println("Succes du dépot Article ");
          	System.out.println("Erreurs : " + erreurs);
-         persistanceArticle.persisterArticle(article);
+        // persistanceCommande.persisterArticle(article);
          
          System.out.println("Persister utilisateur OK ");
         } else {
@@ -408,13 +388,29 @@ public class MetierCommande implements MetierInterfaceCommande {
 	}
 
 
-
 	@Override
-	public List<Commande> lireTousCommande() {
+	public void validationBanquaire(String CB) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		 if ( CB != null ) {
+	          if ( CB.length() < 10
+	        		 ) {
+	              throw new Exception( "Le code doit faire 10 chiffres." );
+	          }
+		 }
+	        
 	}
-
+	
+	@Override
+	public void validationPictogramme(String picto) throws Exception {
+		// TODO Auto-generated method stub
+		 if ( picto != null ) {
+	          if ( picto.length() < 2 ) {
+	              throw new Exception( "Le pictogramme doit faire 3 chiffres." );
+	          }
+		 }
+	  
+	     
+	}
 
 
 	@Override
@@ -422,9 +418,92 @@ public class MetierCommande implements MetierInterfaceCommande {
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 
 
+	@Override
+	public void insertIntoUserAchat(User user, Article article ) {
+		
+		System.out.println("Add Article in User Achat list");
+		
+		//entityManager.getTransaction().begin();
+		
+		user.addAchatArticles(article);
+		
+		user.getAchatArticles().put(user.getUser_id(), article);
+		
+		
+		// entityManager.getTransaction().commit();
+		
+		/*
+		 * Article articleModif = entityManager.find(Article.class, article.getId());
+		 * 
+		 * articleModif.setUser_vendeur(user);
+		 * 
+		 * entityManager.getTransaction().begin(); //
+		 * entityManager.persist(articleModif);
+		 * 
+		 * entityManager.getTransaction().commit();
+		 */
+		  
+		  
+		
+	}
+	
+	
+	@Override
+	public void insertIntoUserCommande(User user, Article article ) {
+		
+		System.out.println("Add Article in User Commande list");
+		
+		//entityManager.getTransaction().begin();
+		
+	//	user.addCommandeArticles(article);
+		
+		//user.getCommandesArticles().put(user.getUser_id(), article);
+		
+		
+		// entityManager.getTransaction().commit();
+		
+		/*
+		 * Article articleModif = entityManager.find(Article.class, article.getId());
+		 * 
+		 * articleModif.setUser_vendeur(user);
+		 * 
+		 * entityManager.getTransaction().begin(); //
+		 * entityManager.persist(articleModif);
+		 * 
+		 * entityManager.getTransaction().commit();
+		 */
+		  
+		  
+		
+	}
+	
+
+	@Override
+	public void updateArticleStatut(Article article, StatutArticle status) {
+		
+
+		persistanceCommande.updateArticleStatut(article, status);
+		
+	}
+
+
+
+	@Override
+	public void updateCommandeStatut(Commande commande, StatutCommande status) {
+		// TODO Auto-generated method stub
+		persistanceCommande.updateCommandeStatut(commande, status);
+	}
+
+	
+	@Override
+	public Commande creerCommandeAll(Article article, User acheteur) {
+		
+		return persistanceCommande.creerCommandeAll(article, acheteur);
+	}
 /*
 	@Override
 	public User connecterUser(HttpServletRequest request) {
@@ -433,7 +512,37 @@ public class MetierCommande implements MetierInterfaceCommande {
 	}
  
 	*/
+
+
+	
+
+	@Override
+	public void insertIntoCommandeAcheteurVendeur(User user, Article article) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void ajouterArticleCommande(User user, Commande commande) {
+		// TODO Auto-generated method stub
+		persistanceCommande.ajouterArticleCommande(user, commande);
+	}
+
+
+
+	@Override
+	public void ajouterArticleAchat(User user, Article article) {
+		// TODO Auto-generated method stub
+		persistanceCommande.ajouterArticleAchat(user, article);
+	}
 	 
+	@Override
+	public Commande selectCommandeByAcheteur(Long user_id){
+		
+		return persistanceCommande.selectCommandeByAcheteur(user_id);
+	}
 	 
 	/* 
 	public void setErreurs(Map<String, String> erreurs) {

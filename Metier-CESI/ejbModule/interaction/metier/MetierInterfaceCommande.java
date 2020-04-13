@@ -7,7 +7,9 @@ import javax.ejb.Local;
 import javax.servlet.http.HttpServletRequest;
 
 import contenu.entite.Article;
+import contenu.enume.StatutArticle;
 import interaction.entite.Commande;
+import interaction.enume.StatutCommande;
 import utilisateurs.entite.User;
 import utilisateurs.entite.Utilisateur;
 
@@ -48,10 +50,26 @@ public interface MetierInterfaceCommande {
 	Commande creerCommandeRequest(HttpServletRequest request);
 	
 	void validationPictogramme(String picto) throws Exception;
-	void validationBanquaire(String CB) throws Exception;
+	void validationBanquaire(String cb_code) throws Exception;
+	
+	
+	void insertIntoUserAchat(User user, Article article);
+	void insertIntoUserCommande(User user, Article article);
+	
+	void updateArticleStatut(Article article, StatutArticle status);
+
+	void updateCommandeStatut(Commande commande, StatutCommande status);
 	
 	
 	
+	void insertIntoCommandeAcheteurVendeur(User user, Article article);
+	
+	void ajouterArticleCommande(User user, Commande commande);
+	void ajouterArticleAchat(User user, Article article);
+	
+	
+	Commande selectCommandeByAcheteur(Long user_id);
+	Commande creerCommandeAll(Article article, User acheteur);
 	/*
 	User connecterUser(HttpServletRequest request);
 	*/

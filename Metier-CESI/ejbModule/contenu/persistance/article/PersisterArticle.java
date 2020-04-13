@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import contenu.entite.Article;
-
+import contenu.enume.StatutArticle;
 import utilisateurs.entite.User;
 
 
@@ -273,19 +273,16 @@ public class PersisterArticle implements PersistanceArticleItf{
 	@Override
 	public void insertionJoinTableObject(User user, Article article) {
 		
-	
-		
-		
 			Query query = entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id) VALUES (:user_id,:fk_article_id);");
 
-		  entityManager.getTransaction().begin();
+		//  entityManager.getTransaction().begin();
 			
 	      query.setParameter("user_id" ,user.getUser_id());
 	      query.setParameter("fk_article_id", article.getId());
 	   
 	      query.executeUpdate();
 			
-			entityManager.getTransaction().commit();
+		//	entityManager.getTransaction().commit();
 	}
 
 	@Override
@@ -305,6 +302,25 @@ public class PersisterArticle implements PersistanceArticleItf{
 		  
 		
 	}
+	
+	@Override
+	public void updateArticleStatut(Article article, StatutArticle status) {
+		
+		//  entityManager.getTransaction().begin();
+		  
+		Article articleModif = entityManager.find(Article.class, article.getId());
+		
+		articleModif.setStatus(status);
+
+		
+		 //  entityManager.persist(articleModif);
+		 
+		//  entityManager.getTransaction().commit();
+		  
+		  
+		
+	}
+	
 	
 	
 	@Override
@@ -365,13 +381,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 		user.getAchatArticles().put(user.getUser_id(), article);
 	}
 	
-	@Override
-	public void ajouterArticleCommande(User user, Article article) {
-		// TODO Auto-generated method stub
-			user.addCommandeArticles(article);
-		
-		user.getVentesArticles().put(user.getUser_id(), article);
-	}
+
 	
 	/*
 	 * @Override public List<Article> lireTousArticleByUserVenteInAsso(Long user_id)

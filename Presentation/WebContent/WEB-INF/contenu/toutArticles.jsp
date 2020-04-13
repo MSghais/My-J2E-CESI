@@ -74,7 +74,7 @@
 					
 					
 					
-						<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter A </a> </td> 
+						<td> <a  href="acheterArticle?acheter=${article.id}" > Acheter A </a> </td> 
 					 
  
 					<c:if test="${ requestScope.userId == article.user_vendeur}">
@@ -85,7 +85,7 @@
 
 					
 					
-					<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter </a> </td>
+					<td> <a  href="acheterArticle?acheter=${article.id}" > Acheter </a> </td>
 
 					
 				<c:url var="urlAcheter" value="acheterArticle">  

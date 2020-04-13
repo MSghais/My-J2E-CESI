@@ -31,83 +31,16 @@
 						</div>
 					</header>
 
-				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						
-					
-						
-						 <p> <li><a href="Accueil"> Accueil</a></li>    </p>
-						 
-						
-							
-							 <p> <li><a href="poserArticle"> Déposer Article</a></li>   </p>
-							
-							 <p> <li><a href="vueArticle.jsp"> Vue articlem</a></li>  </p><br>
-							
-							 <p>  <br><li><a href="vueArticle.jsp"> Vue articlem</a></li>   </p>
-							 <p> <li><a href="vueConnection.jsp">Connexion</a></li>   </p><br> 
-							 <p>   <li> <a href="signUser">Incription</a>   </li>  </p>   <br>
-							 
-							 <p>   <li> <a href="MVCInscription">Incription MVC</a>   </li>  </p>   <br>
-							  <p>  <li><a href="signTeacher"> Devenir Teacher ? </a></li>   </p> <br>
-							  
-							 <p>  <li><a href="accueil.jsp"> A propos</a></li>   </p> <br>
-					
-						
-					
-										<c:if test="${!empty sessionScope.utilisateur}">
-							   
-							<ul>										
-																		
-																		<li> <a href="webSocket.jsp">Tchat Cesi</a> </li>
-																			
-												<li> ${sessionScope.utilisateur.login} : <a href="deconnexion">Déconnexion</a> </li> 
-												
-												<li><a href="addArticleMVC"> Déposer un Article</a></li>
-												
-											 
-							 
-								 
-								<li>  ${sessionScope.utilisateur.login} : <a href="deconnexion">déconnexion</a> </li>
-					
-							</ul>
-							</c:if>
-							
-							
-							
-					
-									<c:if test="${empty sessionScope.utilisateur}">
-								<li> <a href="Connexion">Connexion</a> </li>
-							
-								 <li> <a href="signUser">Incription</a></li> </li>
-								 
-								</c:if>
-								
-							
-										
+
+
+<!--  Menu BAR UP  -->
 	
-							
-							</ul>											
-							
-				
-							</nav>
-					
-			
-					
-					<!--   <span class="image main"><img src="images/commerce.png" alt="" /></span>
-					
-					-->
-					<div>
-					
-					
-					
                 <nav id="navBarUp">
                     <ul>
                    	 <li><a href="Accueil"> Accueil</a></li>
                       	
 
-				 			<li><a href="toutArticles"> Shopping </a></li>
+				 			<li><a href="Shopping"> Shopping </a></li>
 							 			
 							 			
 							<li><a href="vueArticle.jsp"> Categories</a></li>
@@ -215,6 +148,77 @@
                     
                     
                 </nav>
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						
+					
+						
+						 <p> <li><a href="Accueil"> Accueil</a></li>    </p>
+						 
+						
+							
+							 <p> <li><a href="poserArticle"> Déposer Article</a></li>   </p>
+							
+							 <p> <li><a href="vueArticle.jsp"> Vue articlem</a></li>  </p><br>
+							
+							 <p>  <br><li><a href="vueArticle.jsp"> Vue articlem</a></li>   </p>
+							 <p> <li><a href="vueConnection.jsp">Connexion</a></li>   </p><br> 
+							 <p>   <li> <a href="signUser">Incription</a>   </li>  </p>   <br>
+							 
+							 <p>   <li> <a href="MVCInscription">Incription MVC</a>   </li>  </p>   <br>
+							  <p>  <li><a href="signTeacher"> Devenir Teacher ? </a></li>   </p> <br>
+							  
+							 <p>  <li><a href="accueil.jsp"> A propos</a></li>   </p> <br>
+					
+						
+					
+										<c:if test="${!empty sessionScope.utilisateur}">
+							   
+							<ul>										
+																		
+																		<li> <a href="webSocket.jsp">Tchat Cesi</a> </li>
+																			
+												<li> ${sessionScope.utilisateur.login} : <a href="deconnexion">Déconnexion</a> </li> 
+												
+												<li><a href="addArticleMVC"> Déposer un Article</a></li>
+												
+											 
+							 
+								 
+								<li>  ${sessionScope.utilisateur.login} : <a href="deconnexion">déconnexion</a> </li>
+					
+							</ul>
+							</c:if>
+							
+							
+							
+					
+									<c:if test="${empty sessionScope.utilisateur}">
+								<li> <a href="Connexion">Connexion</a> </li>
+							
+								 <li> <a href="signUser">Incription</a></li> </li>
+								 
+								</c:if>
+								
+							
+										
+	
+							
+							</ul>											
+							
+				
+							</nav>
+					
+			
+					
+					<!--   <span class="image main"><img src="images/commerce.png" alt="" /></span>
+					
+					-->
+					<div>
+					
+					
+				
                 
                 </div>
                 

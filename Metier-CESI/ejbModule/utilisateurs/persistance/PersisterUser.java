@@ -102,6 +102,11 @@ public class PersisterUser implements PersistanceUserItf {
 	}
 	
 	@Override
+	public User lireUserLogin(String login) {
+		return entityManager.find(User.class, login);
+	}
+	
+	@Override
 	public User selectUserName(String username) {
 		// TODO Auto-generated method stub
 		Query req = entityManager.createQuery("select u from User u where u.username =: username ");

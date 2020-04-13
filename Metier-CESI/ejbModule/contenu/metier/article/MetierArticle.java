@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import contenu.entite.Article;
 import contenu.entite.Theme;
+import contenu.enume.StatutArticle;
 import contenu.persistance.article.PersistanceArticleItf;
 import contenu.persistance.theme.PersistanceThemeItf;
 import utilisateurs.entite.User;
@@ -185,6 +186,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 			article.setPrix(art_prix);
 		}
 
+		article.setStatus(StatutArticle.DISPONIBLE);
 		/*
 		 * User userSession = (User)session.getAttribute(ATTRIBUT_USER);
 		 * System.out.println("userSession are  + " + userSession.toString() + "login" +
@@ -1327,12 +1329,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 
 	
 
-	@Override
-	public void ajouterArticleCommande(User user, Article article) {
-		// TODO Auto-generated method stub
-		persistanceArticle.ajouterArticleCommande(user, article);
-	}
-
+	
 	@Override
 	public void ajouterArticleAchat(User user, Article article) {
 		// TODO Auto-generated method stub
