@@ -72,6 +72,7 @@ public class ToutArticles extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		Long user_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+		System.out.println("userId = " + user_id);
 		User userSession = (User) session.getAttribute(ATTRIBUT_USER);
 		System.out.println("User session Tout Article = " + userSession);
 		
@@ -123,77 +124,9 @@ public class ToutArticles extends HttpServlet {
 				//metier.ajouterRetard(id);
 				
 			}
-			
-			if(request.getParameter("acheter_id") != null ) {
-				System.out.println("acheter article ID capté");
-				Long id = Long.valueOf(request.getParameter("article_id"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
-			/*
-			 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
-			 * System.out.println("article Achat = " + articleAchat);
-			 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * 
-			 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-			 */
-				
-				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				response.sendRedirect( request.getContextPath() + "/acheterArticle");
-				
-				
-				System.out.println("Redirection metier commande vue Acheter Article forward");
-				request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-			//	request.getRequestDispatcher("/acheterArticle").include(request, response);
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				
-			}
-			if(request.getParameter("lienAcheter") != null ) {
-				System.out.println("acheter article ID capté");
-				Long id = Long.valueOf(request.getParameter("article_id"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
-			/*
-			 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
-			 * System.out.println("article Achat = " + articleAchat);
-			 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * 
-			 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-			 */
-				
-				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-				
-				System.out.println("Redirection metier commande vue Acheter Article forward");
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				request.getRequestDispatcher(VUE_COMMANDE).include(request, response);
-			
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				
-			}
 			if(request.getParameter("lienAcheterIn") != null ) {
 				System.out.println("Lien acheter In : acheter article ID capté");
-				Long id = Long.valueOf(request.getParameter("article_id"));
+				Long id = Long.valueOf(request.getParameter("acheter"));
 				System.out.println("achat article id=" + id);
 				
 				
@@ -202,10 +135,39 @@ public class ToutArticles extends HttpServlet {
 				
 		
 				
-				System.out.println("Redirection metier commande vue Acheter Article forward");
+				System.out.println("lienIn include ");
+				//request.getRequestDispatcher("/acheterArticle").include(request, response);
+				request.getRequestDispatcher("/acheterArticle").include(request, response);
+
+					
+			}
+			if(request.getParameter("acheter") != null ) {
+				System.out.println("acheter article ID capté");
+				Long id = Long.valueOf(request.getParameter("acheter"));
+				System.out.println("achat article id=" + id);
+				
+				
+				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
+				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
+				
+			
+			/*
+			 * System.out.println(" Response getContextPath acheter  Article forward");
+			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
+			 */
+				
+				System.out.println(" Acheter Article forward");
+				request.getRequestDispatcher("/acheterArticle").include(request, response);
+			//	request.getRequestDispatcher("/acheterArticle").include(request, response);
 				//request.getRequestDispatcher("/acheterArticle").include(request, response);
 				
-				request.getRequestDispatcher(VUE_COMMANDE).include(request, response);
+				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
+				
+			//	metierArticle.
+				//metier.ajouterRetard(id);
+				
+				
+			//request.getRequestDispatcher(VUE_COMMANDE).include(request, response);
 			
 				//request.getRequestDispatcher("/acheterArticle").include(request, response);
 				
@@ -223,8 +185,43 @@ public class ToutArticles extends HttpServlet {
 				 */
 					
 					//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-					
+				
 			}
+			if(request.getParameter("lienAcheter") != null ) {
+				System.out.println("lienacheter article");
+				Long id = Long.valueOf(request.getParameter("acheter"));
+				System.out.println("achat article id=" + id);
+				
+				
+				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
+				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
+				
+			/*
+			 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
+			 * System.out.println("article Achat = " + articleAchat);
+			 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
+			 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
+			 * 
+			 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
+			 */
+				
+				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
+				
+				
+				System.out.println("Redirection metier commande vue Acheter Article forward");
+				//request.getRequestDispatcher("/acheterArticle").include(request, response);
+				
+				request.getRequestDispatcher("/acheterArticle").include(request, response);
+			
+				//request.getRequestDispatcher("/acheterArticle").include(request, response);
+				
+				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
+				
+			//	metierArticle.
+				//metier.ajouterRetard(id);
+				
+			}
+			
 			
 			if(request.getParameter("acheterButton") != null ) {
 				System.out.println("acheter article ID capté");

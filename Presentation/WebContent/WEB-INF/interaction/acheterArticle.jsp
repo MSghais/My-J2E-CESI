@@ -45,7 +45,7 @@
 		
 		</div>
 	
-	<form post="acheterArticle"> 
+	<form action="acheterArticle" method="get" > 
 	<fieldset>
 			<label for="codeBancaire">Insérer votre Code Banquaire <span class="requis">*</span> </label>
                 <input type="text" id="codeBancaire" name="codeBancaire"  size="20" maxlength="20" />
@@ -59,9 +59,21 @@
                 <br />
 
 
-	            <input type="submit" value="Déposer"  name="acheterArticleButton"  />
+	            
                 <br />
                 
+                 
+                
+                <input type="submit" value="Déposer"  name="acheterArticleInput" id="acheterArticleInput" /> 
+                
+                <br>
+                
+                    <button type="button" value="Déposer"  name="acheterArticleButton">  
+                  </button> 
+               
+                  
+                <!--   <button type="button" value="Déposer"  name="acheterArticleButton">  
+                  </button> -->
                  <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
 					
 	</fieldset>

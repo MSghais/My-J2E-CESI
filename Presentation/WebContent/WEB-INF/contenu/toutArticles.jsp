@@ -8,7 +8,7 @@
 -->
 <html>
 	<head>
-		<title>Phantom by HTML5 UP</title>
+		<title> Good POEI </title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	
@@ -37,14 +37,21 @@
 							
 							
 								<h4>Tableau des Articles </h4>
+								
+								<c:if test="${empty sessionScope.utilisateur }">
+								
+								<a href="Connexion" > </a>
+								</c:if>
 	<div class="table-wrapper">
-	
-	<form>
+					
+					
+	<form action="toutArticles" method="post">
 	<table class="alt">
 		
 			<thead> <th> Titre </th><th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>    <th> Achat </th> </thead>
 			  
 			  	<tbody>
+			  	
 			  	
 			  	<c:forEach var="article" items="${modelContenu.articles}"> 
 				<tr>
@@ -61,18 +68,22 @@
 					<td><c:out value="${article.prix}"/></td>
 					
 								
-					<td> <a  id="lienAcheter" href="acheterArticle?acheter_id=${article.id}" > Acheter Lien Scred</a> </td> 
+					<td> <a  id="lienAcheter" href="acheterArticle?acheter=${article.id}" > Acheter Lien Scred</a> </td> 
 							
-					<td> <a  id="lienAcheterIn" href="?acheter_id=${article.id}" > Acheter Lien Scred Tout </a> </td> 
+					<td> <a  id="lienAcheterIn" href="?acheter=${article.id}" > Acheter Lien Scred Tout </a> </td> 
+					
 					
 					
 						<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter A </a> </td> 
 					 
  
-					
+					<c:if test="${ requestScope.userId == article.user_vendeur}">
+					<td> <a  href="mesVentes"> Modifier </a> ></td> 
+					  </c:if>
 			
 					
-					<td> <a  href="acheterArticle"> Acheter </a> ></td> 
+
+					
 					
 					<td> <a  href="acheterArticle?acheterA=${article.id}" > Acheter </a> </td>
 
@@ -84,6 +95,7 @@
 				</tr> 
 		      </c:forEach>
 		      
+		    
 		      </tbody>
 		      
 		</table>

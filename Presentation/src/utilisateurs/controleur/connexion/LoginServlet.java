@@ -114,8 +114,15 @@ public class LoginServlet extends HttpServlet {
 						  utilisateurBoolean.getLogin());
 						  
 						  
-						  session.setAttribute(ATTRIBUT_USER_ID, utilisateurBoolean.getUser_id() );
-						  request.setAttribute(ATTRIBUT_USER_ID, utilisateurBoolean.getUser_id());
+				/*
+				 * session.setAttribute(ATTRIBUT_USER_ID, utilisateurBoolean.getUser_id() );
+				 * request.setAttribute(ATTRIBUT_USER_ID, utilisateurBoolean.getUser_id());
+				 */
+						  Long userId = (Long) utilisateurBoolean.getUser_id() ;
+								 
+						  session.setAttribute(ATTRIBUT_USER_ID, userId );
+							 request.setAttribute(ATTRIBUT_USER_ID, userId);  
+						  
 						  System.out.println(ATTRIBUT_USER_ID + " = " +
 						  utilisateurBoolean.getUser_id());
 						  
@@ -126,20 +133,17 @@ public class LoginServlet extends HttpServlet {
 						  
 						  session.setAttribute(ATTRIBUT_USER,utilisateurBoolean);
 						  request.setAttribute(ATTRIBUT_USER, utilisateurBoolean);
-						  session.getAttribute(ATTRIBUT_USER);
+							 
+						  System.out.println(" utilisateur ="  + session.getAttribute(ATTRIBUT_USER));
 						  
 						  
 						  
 						  session.setAttribute(ATTRIBUT_USER_SESSION,userSession);
 						  request.setAttribute(ATTRIBUT_USER_SESSION, userSession);
-						  session.getAttribute(ATTRIBUT_USER_SESSION);
+						  System.out.println("userSession = " + session.getAttribute(ATTRIBUT_USER_SESSION));
+					
 						  
-						  session.setAttribute(ATTRIBUT_USER,utilisateurBoolean);
-						  request.setAttribute(ATTRIBUT_USER, utilisateurBoolean);
-						  
-						  
-						  System.out.println(session.getAttribute(ATTRIBUT_USER));
-						  
+					
 						  Cookie cook_log =new
 						  Cookie("user_login",utilisateurBoolean.getLogin());//creating cookie object
 						  response.addCookie(cook_log);//adding cookie in the response
@@ -157,7 +161,7 @@ public class LoginServlet extends HttpServlet {
 						  request.getRequestDispatcher("/addArticleMVC").include(request, response);
 						  
 						  
-						  System.out.println("Redirection toutArticles");
+						 
 			  
 			  }
 			 
