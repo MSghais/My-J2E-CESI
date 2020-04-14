@@ -14,24 +14,62 @@
 	</head>
 	<body>
 	
+	
+	<h4> Mes Articles en Vente </h4>
+	
+		<table border="1">
+			<thead> <th>Prix </th><th> Statut </th>  <th> Prix </th> <th>PRENOM</th></thead>
+			  <c:forEach var="commande" items="${modelCommande.commandesListe}"> 
+				
+				
+					  	<tbody>
+					  	
+					  	<tr>
+					  	
+					  	<td><c:out value="${ commande.prix}"/></td>
+					
+				
+				
+					 	<td><c:out value="${ commande.frais}"/></td>
+					 	
+					 	
+					<td><c:out value="${ commande.statutCommande}"/></td>
+					
+					
+				
+					<td><c:out value="${ commande.article_id}"/></td>
+					
+						
+						</tr> 
+						
+						   </tbody>
+		      </c:forEach>
+		      
+		  
+		      
+		</table>
 		
 		<h4> Mes Articles en Vente </h4>
 	
 		<table border="1">
-			<th>NOM</th><th>PRENOM</th>
-			  <c:forEach var="article" items="${model.articles}"> 
+			<thead> <th>Prix </th><th> Statut </th>  <th> Prix </th> <th>PRENOM</th></thead>
+			  <c:forEach var="commande" items="${modelCommande.commandesListe}"> 
 				<tr>
 				
-				<td><c:out value="${ article.id}"/></td>
+					  	<tbody>
+					  	
+					  	<tr>
+					  	
+					  	<td><c:out value="${ commande.prix}"/></td>
+					
 				
-					<td><c:out value="${ article.nom}"/></td>
+					<td><c:out value="${ commande.statutCommande}"/></td>
 					
-						<td><c:out value="${ article.themeString}"/></td>
-					<td><c:out value="${article.description}"/></td>
-					
-					<td><c:out value="${article.contenu}"/></td>
-				</tr> 
+						
+						</tr> 
 		      </c:forEach>
+		      
+		     </tbody>
 		      
 		</table>
 	

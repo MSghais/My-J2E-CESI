@@ -230,8 +230,9 @@ public class MetierArticle implements MetierInterfaceArticle {
 			
 			persistanceArticle.updateArticleWithUser(article, userLectureBDD);
 
-			persistanceArticle.insertIntoVenteUser(userLectureBDD, article);
-			
+			/*
+			 * persistanceArticle.insertIntoVenteUser(userLectureBDD, article);
+			 */
 			//persistanceArticle.insertionJoinTableIdAndKey(userLectureBDD.getUser_id() ,	article.getId());
 			
 		

@@ -25,66 +25,72 @@ import utilisateurs.entite.User;
 
 import utilisateurs.model.ModelUser;
 
-
-
 @WebServlet("/acheterArticle")
-public class AjouterArticleAchat extends HttpServlet { 
-	
-	
-	@EJB 
+public class AjouterArticleAchat extends HttpServlet {
+
+	@EJB
 	MetierInterfaceArticle metierArticle;
-	
+
 	@EJB
 	MetierInterfaceCommande metierCommande;
-	
-	
-    public static final String ATT_USER = "utilisateur";
-    public static final String ATT_FORM = "form";
-	public static final String ATTRIBUT_USER         = "utilisateur";
-	public static final String ATTRIBUT_USER_SESSION         = "utilisateurSession";
-	public static final String ATTRIBUT_USER_LOGIN         = "userLogin";
-	public static final String ATTRIBUT_USER_ID      = "userId";
-	public static final String ATTRIBUT_USER_ROLE      = "userRole";
-	
-	// public static final String ATTRIBUT_ARTICLE_ID      = "acheterArticleId";
-	public static final String ATTRIBUT_ARTICLE_ID      = "acheter";
-	
-    public static final String ATTRIBUT_ARTICLE_ACHAT  = "acheterArticle";
-    
-    public static final String ATTRIBUT_ERREUR   = "erreurs";
-    public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";   
-    public static final String ATTRIBUT_ERREUR_MAP_CB   = "erreursMapCB";
-    public static final String ATTRIBUT_ERREUR_CB   = "erreurCB";
-    public static final String ATTRIBUT_ERREUR_PICTO   = "erreurPicto";
-    
-    public static final String VUE_ACHETER_ARTICLE = "WEB-INF/interaction/acheterArticle.jsp";
-		
+
+	public static final String ATT_USER = "utilisateur";
+	public static final String ATT_FORM = "form";
+	public static final String ATTRIBUT_USER = "utilisateur";
+	public static final String ATTRIBUT_USER_SESSION = "utilisateurSession";
+	public static final String ATTRIBUT_USER_LOGIN = "userLogin";
+	public static final String ATTRIBUT_USER_ID = "userId";
+	public static final String ATTRIBUT_USER_ROLE = "userRole";
+
+	// public static final String ATTRIBUT_ARTICLE_ID = "acheterArticleId";
+	public static final String ATTRIBUT_ARTICLE_ID = "acheter";
+
+	public static final String ATTRIBUT_ARTICLE_ACHAT = "acheterArticle";
+
+	public static final String ATTRIBUT_ERREUR = "erreurs";
+	public static final String ATTRIBUT_ERREUR_MSG = "msgErreur";
+	public static final String ATTRIBUT_ERREUR_MAP_CB = "erreursMapCB";
+	public static final String ATTRIBUT_ERREUR_CB = "erreurCB";
+	public static final String ATTRIBUT_ERREUR_PICTO = "erreurPicto";
+
+	public static final String VUE_ACHETER_ARTICLE = "WEB-INF/interaction/acheterArticle.jsp";
+
 	private String erreurMsg;
-	
-	
+
 	private String erreurPicto;
-	
+
 	private HashMap<Long, Article> articleMap;
-	
+
 	private HashMap<String, String> erreursMap;
-	
+
+	private Long nombreCommande = 1L;
+
 	@PostConstruct
 	public void init() {
 		System.out.println("MyServlet init");
 	}
+
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		System.out.println("Entrer do Get Acheter article");
+
+		//
+		HttpSession sessionGET = request.getSession();
+		//Long acheter_id = Long.valueOf(request.getParameter("acheter"));
 		
+		// Long acheter_id = Long.valueOf(request.getParameter(ATTRIBUT_ARTICLE_ID));
 		
-		  
-		  //
-		 HttpSession sessionGET = request.getSession();
 		Long acheter_id = Long.valueOf(request.getParameter("acheter"));
-		sessionGET.setAttribute(ATTRIBUT_ARTICLE_ID, acheter_id);
+		System.out.println("acheter id DO GET = " + acheter_id);
+		//sessionGET.setAttribute(ATTRIBUT_ARTICLE_ID, acheter_id);
+		
 		request.setAttribute(ATTRIBUT_ARTICLE_ID, acheter_id);
+		sessionGET.setAttribute(ATTRIBUT_ARTICLE_ID, acheter_id);
+		//request.setCharacterEncoding(ATTRIBUT_ARTICLE_ID);
+		
+	
 		/*
 		 * HttpSession sessionGET = request.getSession();
 		 * 
@@ -95,363 +101,476 @@ public class AjouterArticleAchat extends HttpServlet {
 		 * Long user_id = (Long) sessionGET.getAttribute(ATTRIBUT_USER_ID);
 		 * System.out.println("user id connecter est : " + user_id);
 		 */
-		 
-		
-		
-	//request.getRequestDispatcher(VUE_ACHETER_ARTICLE).forward(request, response);
-	
-		//Long acheter_id = Long.valueOf(request.getParameter(ATTRIBUT_ARTICLE_ID));
-		
-		doPost(request,response);
-	}
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(" Acheter Article doPost");
-		
 
-		
+		// request.getRequestDispatcher(VUE_ACHETER_ARTICLE).forward(request, response);
+
+		// Long acheter_id = Long.valueOf(request.getParameter(ATTRIBUT_ARTICLE_ID));
+
+		doPost(request, response);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println(" Acheter Article doPost");
+
 		HttpSession sessionPOST = request.getSession();
 		
-		  User userConnecter = (User)sessionPOST.getAttribute(ATTRIBUT_USER);
-		  System.out.println("user connecter est : " + userConnecter);
-		  
-		  // IN DO GET
-		 // Long acheter_id = Long.valueOf(request.getParameter("acheter"));
-		 // System.out.println("achat article id=" + acheter_id); 
-		  
+		
+
+		User userConnecter = (User) sessionPOST.getAttribute(ATTRIBUT_USER);
+		System.out.println("user connecter est : " + userConnecter);
+
+
 		
 		Long acheter_id = (Long) sessionPOST.getAttribute(ATTRIBUT_ARTICLE_ID);
-		 // Long acheter_id = (Long) request.getAttribute(ATTRIBUT_ARTICLE_ID);
-		  System.out.println("achat article id=" + acheter_id); 
-			
-		  Article articleAchatID =  metierArticle.rechercherArticleIndex(acheter_id);
-			 
-		  System.out.println("article Achat = " + articleAchatID);
-		  
-		 // request.setAttribute(ATTRIBUT_ARTICLE_ID,acheter_id );
-		 // Long acheter_id = Long.valueOf(request.getParameter( ATTRIBUT_ARTICLE_ID));
-		 
-		  
+		System.out.println("achat article id=" + acheter_id);
+	
 
-		  
-		  
-		  
-		  
-		  ModelArticleUnique modelArticle= new ModelArticleUnique();
-		  
-		  modelArticle.setArticle(articleAchatID);
-		  
-		  request.setAttribute("modelArticle", modelArticle);
-		
-		  
-		  System.out.println(" Response getContextPath acheter  Article forward");
-	//	response.sendRedirect( request.getContextPath() + "/acheterArticle");
-			 
-			 
-		  
-		  System.out.println("Envoi vue acheter article Do POST include ");
+		Article articleAchatID = metierArticle.rechercherArticleIndex(acheter_id);
+
+		System.out.println("article Achat = " + articleAchatID);
+
+		ModelArticleUnique modelArticle = new ModelArticleUnique();
+
+		modelArticle.setArticle(articleAchatID);
+
+		request.setAttribute("modelArticle", modelArticle);
+
+		System.out.println(" Response getContextPath acheter  Article forward");
+		// response.sendRedirect( request.getContextPath() + "/acheterArticle");
+
+		System.out.println("Envoi vue acheter article Do POST include ");
 		request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
-		  
-		//  request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
-		  
-			if(request.getParameter("acheterArticleInput") != null ) {
-					
-					
-					System.out.println("acheter Input activé. Validation en cours");
-					
-					String cb_code =  request.getParameter("codeBanquaire");
-					System.out.println("cb = " + cb_code);
-					String chiffre = request.getParameter("chiffreSecret");
-					System.out.println("picot = " + chiffre);
-					
-					
-					  
-						if( !cb_code.isEmpty()
-								|| !chiffre.isEmpty()
-								
-								
-								)  {
-						
-						
-						System.out.println("Paramètre non null, activé la couche metier Commande");
-						
-					
-						
-						
-						HttpSession sessionAcheter = request.getSession();
-						 Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
-						 System.out.println("user id  est : " + user_idAcheter);
-						 
-						 User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
-						 
-						 System.out.println("user connecter est : " + userAcheteur);
+
+		// request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
+
+		if (request.getParameter("acheterArticleInput") != null) {
+
+			System.out.println("acheter Input activé. Validation en cours");
+
+			String cb_code = request.getParameter("codeBanquaire");
+			System.out.println("cb = " + cb_code);
+			String chiffre = request.getParameter("chiffreSecret");
+			System.out.println("picot = " + chiffre);
+
+			if (!cb_code.isEmpty() || !chiffre.isEmpty()
+
+			) {
+
+				System.out.println("Paramètre non null, activé la couche metier Commande");
+
+				HttpSession sessionAcheter = request.getSession();
+				Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
+				System.out.println("user id  est : " + user_idAcheter);
+
+				User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
+
+				System.out.println("user connecter est : " + userAcheteur);
+
 				
-						 
-						 
-							
-							System.out.println("creerCommandeAll");
-							Commande commandeCreation = (Commande) metierCommande.creerCommandeAll(articleAchatID, userConnecter);
-							
-							 System.out.println("Update commande statut a en Cours");
-							metierCommande.updateCommandeStatut(commandeCreation, StatutCommande.ENCOURS);
-						 
-							 System.out.println("Update  article statut Reservé");
-							metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
-							
-							
-							
-							
-						
-							
-							System.out.println("ajouter Article Achat for user Connecter");
-							metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
-							
-							
-							
-							System.out.println("Creation vendeur a partir de Article.getVendeur()");
-							User vendeur_id = (User) articleAchatID.getUser_vendeur();
-							
-							System.out.println("vendeur de l'article = " + vendeur_id);
-							
-							System.out.println("Ajouter Commande au vendeur de l'article ");
-							metierCommande.ajouterArticleCommande(vendeur_id, commandeCreation);
-							
-							
-							//metierCommande.insertIntoUserAchat(userAcheteur, articleAchatID);
+				/*
+				 * Commande commandeArray = metierCommande.creerCommandeArray(articleAchatID,
+				 * userConnecter); System.out.println("Commande metier Array = "+
+				 * commandeArray);
+				 * 
+				 * metierCommande.persisterCommande(commandeArray);
+				 */
+				
+				
+				//metierCommande.persisterCommande(metierCommande.creerCommandeArray(articleAchatID, userConnecter));
+				
+				//metierCommande.remetierCommande.persisterCommande(metierCommande.creerCommandeArray(articleAchatID, userConnecter));
+				
+				//Commande commande = (Commande)metierCommande.createAndInsertCommandeMetierIn(articleAchatID, userConnecter);
+				
+		/*		System.out.println("insert commande metier");
+				metierCommande.insertCommandeMetier(articleAchatID, userConnecter);*/
+				
+				/*
+				 * System.out.println("insert commande metier");
+				 * metierCommande.creerCommandeAll(articleAchatID, userConnecter);
+				 */
+				
+				/*
+				 * Commande commande =
+				 * metierCommande.persisterCommandeAndReturn(metierCommande.creerCommandeArray(
+				 * articleAchatID, userConnecter));
+				 * System.out.println("Recupérer last Commande = " +commande.getCommande_id() );
+				 * 
+				 * System.out.println("creer commande simply");
+				 * metierCommande.creerCommandeSimply(articleAchatID, userConnecter);
+				 */
+				/*
+				 * Commande commandeLast = (Commande)
+				 * metierCommande.selectCommandeByLastIndex();
+				 * 
+				 * System.out.println("Recupérer last Commande = "
+				 * +commandeLast.getCommande_id() );
+				 */ 
+				  System.out.println("creer commande simply");
+				  metierCommande.creerCommandeSimply(userConnecter.getLogin(), articleAchatID.getId());
+				  
+				  System.out.println("Update  article statut Reservé");
+				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
+				  
+				  
+				/*
+				 * System.out.println("Update commande statut a en Cours");
+				 * metierCommande.updateCommandeStatut(commandeCreation,
+				 * StatutCommande.ENCOURS);
+				 * 
+				 * 
+				 * 
+				 * System.out.println("ajouter Article Achat for user Connecter");
+				 * metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
+				 * 
+				 * 
+				 * 
+				 * System.out.println("Creation vendeur a partir de Article.getVendeur()"); User
+				 * vendeur_id = (User) articleAchatID.getUser_vendeur();
+				 * 
+				 * System.out.println("vendeur de l'article = " + vendeur_id);
+				 * 
+				 * System.out.println("Ajouter Commande au vendeur de l'article ");
+				 * metierCommande.ajouterArticleCommande(vendeur_id, commandeCreation);
+				 */
+					 
+
+					/*
+					 * System.out.println("Insertion Commande void with Article and user connecter"
+					 * ); metierCommande.voidInsertCommandeMetier(articleAchatID, userAcheteur);
+					 */
+					
+				/*
+				 * System.out.println("Creer commande Article + User and ");
+				 * metierCommande.creerCommande(articleAchatID, userConnecter);
+				 */
+				  
+				 
+				 
+				/*
+				 * System.out.println("Commande index are" + commande.getCommande_id());
+				 * 
+				 * System.out.println("Commande = " + commande);
+				 * System.out.println("creer commande All Index");
+				 * 
+				 * metierCommande.creerCommandeAllIndex(articleAchatID, userConnecter,
+				 * commande);
+				 */
+				  
+				  
+				/*
+				 * metierCommande.persisterCommande(commande);
+				 * System.out.println("Persistance commande effectué");
+				 */
+				 
+				
+
+				// metierCommande.creerCommandeAll(articleAchatID, userConnecter);
+
+				// metierCommande.insertCommandeMetier(articleAchatID, userConnecter);
+
+				/*
+				 * Commande commande = metierCommande.voidInsertCommandeArray(articleAchatID,
+				 * userConnecter);
+				 * 
+				 * // nsertCommandeMetierIn(articleAchatID, userConnecter);
+				 * 
+				 * System.out.
+				 * println("Creation Metier : Insertion Commande return , with Article and user connecter"
+				 * ); metierCommande.insertArrayCommandeMetierIn(commande, articleAchatID,
+				 * userConnecter);
+				 */
+				// metierCommande.persisterCommande(commande);
+
+				/*
+				 * Commande commandeID = metierCommande.selectCommandeByLastIndex();
+				 * System.out.println("Commande ID insert = " + commandeID);
+				 */
+
+				/*
+				 * System.out.
+				 * println("Creation Metier : Insertion Commande return , with Article and user connecter"
+				 * ); metierCommande.createAndInsertCommandeMetierIn(articleAchatID,
+				 * userConnecter);
+				 * 
+				 * System.out.
+				 * println("Insertion Commande return , with Article and user connecter");
+				 * Commande commande = metierCommande.voidInsertCommandeArray(articleAchatID,
+				 * userConnecter);
+				 * 
+				 * metierCommande.persisterCommande(commande);
+				 * 
+				 * Commande commandeID = metierCommande.selectCommandeByLastIndex();
+				 * System.out.println("Commande ID insert = " + commandeID);
+				 */
+
+				// Update Article and Commande
+
+				
+
+// 					metierCommande.creerCommandeAll(articleAchatID, userAcheteur);
+
+				/*
+				 * System.out.println("Select last insert ID"); Commande commandeID = (Commande)
+				 * metierCommande.selectCommandeByLastIndex();
+				 */
+
+				// metierCommande.persisterCommande(commandeID);
+
+				// System.out.println(" La commande créer a pour ID = " +
+				// commandeID.getCommande_id());
+				/*
+				 * Commande commandeCreation = (Commande)
+				 * metierCommande.selectCommandeByLastIndex();
+				 * System.out.println(" La commande créer a pour ID = " +
+				 * commandeID.getCommande_prix());
+				 */
+
+				// metierCommande.updateCommandeReservationAll(commandeID,
+				// StatutCommande.ENCOURS, articleAchatID, userAcheteur);
+
+				/*
+				 * System.out.println("creerCommandeAll"); Commande commandeCreation =
+				 * (Commande) metierCommande.creerCommandeAll(articleAchatID, userConnecter);
+				 */
+				/*
+				 * System.out.println("Update commande statut a en Cours");
+				 * metierCommande.updateCommandeStatut(commandeCreation,
+				 * StatutCommande.ENCOURS);
+				 * 
+				 * System.out.println("Update  article statut Reservé");
+				 * metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
+				 * 
+				 * 
+				 * System.out.println("ajouter Article Achat for user Connecter");
+				 * metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
+				 * 
+				 * 
+				 * 
+				 * System.out.println("Creation vendeur a partir de Article.getVendeur()"); User
+				 * vendeur_id = (User) articleAchatID.getUser_vendeur();
+				 * 
+				 * System.out.println("vendeur de l'article = " + vendeur_id);
+				 * 
+				 * System.out.println("Ajouter Commande au vendeur de l'article ");
+				 * metierCommande.ajouterArticleCommande(vendeur_id, commandeCreation);
+				 */
+
+				/*
+				 * System.out.println("creerCommandeAll"); Commande commandeCreation =
+				 * (Commande) metierCommande.creerCommandeAllIndex(articleAchatID,
+				 * userConnecter, commandeID);
+				 */
+
+				// metierCommande.insertIntoUserAchat(userAcheteur, articleAchatID);
 				/*
 				 * System.out.println("Insertion Achat article user connecter");
 				 * metierCommande.insertIntoUserAchat(userAcheteur, articleAchatID);
 				 */
-							 
-							 
-						 System.out.println("metier try validation banquaire : ");
-								try {
-									metierCommande.validationBanquaire(cb_code);
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-								//	e.printStackTrace();
-									System.out.println("Catch exception banquaire.");
-									metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
-									metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
-									metierCommande.setErreur( ATTRIBUT_ERREUR_CB, e.getMessage() );
-									
-									System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
-									erreursMap.put(ATTRIBUT_ERREUR_CB, e.getMessage() );
-									
-									erreurMsg = e.getMessage();
-									
-									System.out.println("attribut erreurs Map" + erreursMap.get(ATTRIBUT_ERREUR_CB ) );
-									
-								}
-								
-						System.out.println("metier try validation chiffre secret : ");
-								try {
-									metierCommande.validationPictogramme(cb_code);
-								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									//e.printStackTrace();
-									metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
-									metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
-									metierCommande.setErreur( ATTRIBUT_ERREUR_PICTO, e.getMessage() );
-									
-									erreurPicto = e.getMessage();
-									
-									System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
-									
-									erreursMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
-									
-									
-									System.out.println("attribut erreurs Map" + erreursMap.get(ATTRIBUT_ERREUR_PICTO) );
-									
-									
-								}
-		
-								
-								if ( !erreurPicto.isEmpty() || !erreursMap.isEmpty() || !erreurMsg.isEmpty() 
-										|| erreursMap.containsKey(ATTRIBUT_ERREUR_CB) || erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) ) {
-	 
-									request.setAttribute(ATTRIBUT_ERREUR_MAP_CB, erreursMap.values());									
-									request.setAttribute(ATTRIBUT_ERREUR_CB, erreursMap.get(ATTRIBUT_ERREUR_CB));
-									
-									request.setAttribute(ATTRIBUT_ERREUR_PICTO, erreursMap.get(ATTRIBUT_ERREUR_PICTO));									
-									request.setAttribute(ATTRIBUT_ERREUR_MSG, erreurMsg);
-									
-									System.out.println("erreurs envoyé et détecte. Renvoi forward acheter article");
-									request.getRequestDispatcher("/acheterArticle").forward(request, response);
-									
-								}
-								else if( !erreursMap.containsKey(ATTRIBUT_ERREUR_CB) || !erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO)
-										|| erreursMap.isEmpty() 
-										|| erreurMsg.isEmpty()
-										|| erreurPicto.isEmpty() )				
-								{
-										
-									
-									
-									System.out.println("creerCommandeAll");
-									metierCommande.creerCommandeAll(articleAchatID, userConnecter);
-									
-									System.out.println("method COMMANDE insert Article Achat");
-									metierCommande.insertIntoUserAchat(userConnecter, articleAchatID);
-																	
-							
-									
-									System.out.println("Récupération Vendeur de l'article");
-									User vendeur = (User ) articleAchatID.getUser_vendeur();
-									System.out.println("vendeur = " + vendeur);
-									
-									
-									System.out.println("Insertion Commande pour vendeur");
-									metierCommande.insertIntoUserCommande(vendeur, articleAchatID);
-									
-								
-						
-												/*
-												 * System.out.println("method Article ajouter Article Achat");
-												 * metierArticle.ajouterArticleAchat(userConnecter, articleAchatID);
-												 * 
-												 * 
-												 * System.out.println("method ajouter Article en Commande du vendeur");
-												 * metierArticle.ajouterArticleCommande(userConnecter, articleAchatID);
-												 * //HttpSession session = request.getSession();
-												 * 
-												 * System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-												 * 
-												 * System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-												 */
-									
-										  
-										  
-								}
-								
-			
-								 
-								/*
-								 * Long acheter_idIf = Long.valueOf( request.getParameter("acheter"));
-								 * System.out.println("achat article id=" + acheter_idIf);
-								 */
-								/*
-								 * Long acheter_idIf = (Long) request.getAttribute(ATTRIBUT_ARTICLE_ACHAT) ;
-								 * System.out.println("achat article id=" + acheter_idIf);
-								 */
-								  
-						/*
-						 * Article articleAchat = metierArticle.rechercherArticleIndex(acheter_id);
-						 * System.out.println("article Achat = " + articleAchat);
-						 * 
-						 * Article articleAchatValidation =
-						 * metierArticle.rechercherArticleIndex(acheter_id);
-						 * 
-						 *  System.out.println("article Achat = " + articleAchatID);
-										 request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatID);
-										 sessionAcheter.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatID);
-						 */
-								 
-								 
-		
-			
+
+				/*
+				 * System.out.println("metier try validation banquaire : "); try {
+				 * metierCommande.validationBanquaire(cb_code); } catch (Exception e) { // TODO
+				 * Auto-generated catch block // e.printStackTrace();
+				 * System.out.println("Catch exception banquaire."); metierCommande.setErreur(
+				 * ATTRIBUT_ERREUR_MAP_CB, e.getMessage() ); metierCommande.setErreur(
+				 * ATTRIBUT_ERREUR_MSG, e.getMessage() ); metierCommande.setErreur(
+				 * ATTRIBUT_ERREUR_CB, e.getMessage() );
+				 * 
+				 * System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
+				 * erreursMap.put(ATTRIBUT_ERREUR_CB, e.getMessage() );
+				 * 
+				 * erreurMsg = e.getMessage();
+				 * 
+				 * System.out.println("attribut erreurs Map" + erreursMap.get(ATTRIBUT_ERREUR_CB
+				 * ) );
+				 * 
+				 * }
+				 * 
+				 * System.out.println("metier try validation chiffre secret : "); try {
+				 * metierCommande.validationPictogramme(cb_code); } catch (Exception e) { //
+				 * TODO Auto-generated catch block //e.printStackTrace();
+				 * metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
+				 * metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
+				 * metierCommande.setErreur( ATTRIBUT_ERREUR_PICTO, e.getMessage() );
+				 * 
+				 * erreurPicto = e.getMessage();
+				 * 
+				 * System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
+				 * 
+				 * erreursMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
+				 * 
+				 * 
+				 * System.out.println("attribut erreurs Map" +
+				 * erreursMap.get(ATTRIBUT_ERREUR_PICTO) );
+				 * 
+				 * 
+				 * }
+				 */
+
+				/*
+				 * if ( !erreurPicto.isEmpty() || !erreursMap.isEmpty() || !erreurMsg.isEmpty()
+				 * || erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
+				 * erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) ) {
+				 * 
+				 * request.setAttribute(ATTRIBUT_ERREUR_MAP_CB, erreursMap.values());
+				 * request.setAttribute(ATTRIBUT_ERREUR_CB, erreursMap.get(ATTRIBUT_ERREUR_CB));
+				 * 
+				 * request.setAttribute(ATTRIBUT_ERREUR_PICTO,
+				 * erreursMap.get(ATTRIBUT_ERREUR_PICTO));
+				 * request.setAttribute(ATTRIBUT_ERREUR_MSG, erreurMsg);
+				 * 
+				 * System.out.
+				 * println("erreurs envoyé et détecte. Renvoi forward acheter article");
+				 * request.getRequestDispatcher("/acheterArticle").forward(request, response);
+				 * 
+				 * } else if( !erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
+				 * !erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) || erreursMap.isEmpty() ||
+				 * erreurMsg.isEmpty() || erreurPicto.isEmpty() ) {
+				 * 
+				 * 
+				 * 
+				 * System.out.println("creerCommandeAll");
+				 * metierCommande.creerCommandeAll(articleAchatID, userConnecter);
+				 * 
+				 * System.out.println("method COMMANDE insert Article Achat");
+				 * metierCommande.insertIntoUserAchat(userConnecter, articleAchatID);
+				 * 
+				 * 
+				 * 
+				 * System.out.println("Récupération Vendeur de l'article"); User vendeur = (User
+				 * ) articleAchatID.getUser_vendeur(); System.out.println("vendeur = " +
+				 * vendeur);
+				 * 
+				 * 
+				 * System.out.println("Insertion Commande pour vendeur");
+				 * metierCommande.insertIntoUserCommande(vendeur, articleAchatID);
+				 */
+
+				/*
+				 * System.out.println("method Article ajouter Article Achat");
+				 * metierArticle.ajouterArticleAchat(userConnecter, articleAchatID);
+				 * 
+				 * 
+				 * System.out.println("method ajouter Article en Commande du vendeur");
+				 * metierArticle.ajouterArticleCommande(userConnecter, articleAchatID);
+				 * //HttpSession session = request.getSession();
+				 * 
+				 * System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
+				 * 
+				 * System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
+				 */
+
+				// }
+
+				/*
+				 * Long acheter_idIf = Long.valueOf( request.getParameter("acheter"));
+				 * System.out.println("achat article id=" + acheter_idIf);
+				 */
+				/*
+				 * Long acheter_idIf = (Long) request.getAttribute(ATTRIBUT_ARTICLE_ACHAT) ;
+				 * System.out.println("achat article id=" + acheter_idIf);
+				 */
+
+				/*
+				 * Article articleAchat = metierArticle.rechercherArticleIndex(acheter_id);
+				 * System.out.println("article Achat = " + articleAchat);
+				 * 
+				 * Article articleAchatValidation =
+				 * metierArticle.rechercherArticleIndex(acheter_id);
+				 * 
+				 * System.out.println("article Achat = " + articleAchatID);
+				 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatID);
+				 * sessionAcheter.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatID);
+				 */
+
 			} // FIN IF INPUT SUBMIT
-						
-		
-			if(request.getParameter("supprimer") != null ) {
-				
-				
-				
+
+			if (request.getParameter("supprimer") != null) {
+
 			}
-			
-			
-		
-			
-								} // FIN CONDITION
-	
-			} // FIN DO POST
-			
-		
-	
+
+		} // FIN CONDITION
+
+	} // FIN DO POST
 
 } // FIN CLASSE
 
-
-/* if(request.getParameter("acheterArticleButton") != null ) {
-
-System.out.println("acheter Button activé. Validation en cours");
-
-String cb_codeBUTTON = (String) request.getParameter("codeBanquaire");
-System.out.println(cb_codeBUTTON);
-String chiffreBUTTON =request.getParameter("chiffreSecret");
-System.out.println(chiffreBUTTON);
-
-if( request.getParameter("codeBanquaire") != null
-		&& request.getParameter("chiffreSecret") != null)  {
-	
-	System.out.println("Paramètre non null, activé la couche metier Commande");
-	
-	
-	HttpSession sessionAcheter = request.getSession();
-	 Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
-	 System.out.println("user id connecter est : " + user_idAcheter);
-	 
-	 User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
-	 
-	 System.out.println("user connecter est : " + userAcheteur);
-	 
-	 Long acheter_idIf = Long.valueOf( request.getParameter("acheter"));
-	System.out.println("achat article id=" + acheter_idIf);
-	  
-	  Article articleAchat = metierArticle.rechercherArticleIndex(acheter_id);
-	  System.out.println("article Achat = " + articleAchat);
-	
-	/*
-	 * System.out.println("acheter un article capté capté"); Long id_banque =
-	 * Long.valueOf(request.getParameter("acheterA"));
-	 * System.out.println(id_banque);
-	 
-
-		/*
-		 * String codeBanquaire = String.valueOf(request.getParameter("codeBanquaire"))
-		 * ; String pictogramme= String.valueOf(request.getParameter("chiffreSecret")) ;
-		 
-	
-				
-			try {
-				metierCommande.validationBanquaire(cb_codeBUTTON);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-			//	e.printStackTrace();
-				metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
-				metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
-			}
-			
-			try {
-				metierCommande.validationPictogramme(chiffreBUTTON);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
-				metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
-			
-			}
-
-			 Article articleAchatValidation = metierArticle.rechercherArticleIndex(acheter_id);
-			 
-				
-				metierArticle.ajouterArticleAchat(userConnecter, articleAchatValidation);
-			 
-				//HttpSession session = request.getSession();
-			 System.out.println("article Achat = " + articleAchatValidation);
-			 request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatValidation);
-			 sessionAcheter.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatValidation);
-			
-			System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-				
-			metierArticle.ajouterArticleAchat(userConnecter, articleAchatValidation);
-	
-					//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-				
-				System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-				
-				}*/
-
+/*
+ * if(request.getParameter("acheterArticleButton") != null ) {
+ * 
+ * System.out.println("acheter Button activé. Validation en cours");
+ * 
+ * String cb_codeBUTTON = (String) request.getParameter("codeBanquaire");
+ * System.out.println(cb_codeBUTTON); String chiffreBUTTON
+ * =request.getParameter("chiffreSecret"); System.out.println(chiffreBUTTON);
+ * 
+ * if( request.getParameter("codeBanquaire") != null &&
+ * request.getParameter("chiffreSecret") != null) {
+ * 
+ * System.out.println("Paramètre non null, activé la couche metier Commande");
+ * 
+ * 
+ * HttpSession sessionAcheter = request.getSession(); Long user_idAcheter =
+ * (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
+ * System.out.println("user id connecter est : " + user_idAcheter);
+ * 
+ * User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
+ * 
+ * System.out.println("user connecter est : " + userAcheteur);
+ * 
+ * Long acheter_idIf = Long.valueOf( request.getParameter("acheter"));
+ * System.out.println("achat article id=" + acheter_idIf);
+ * 
+ * Article articleAchat = metierArticle.rechercherArticleIndex(acheter_id);
+ * System.out.println("article Achat = " + articleAchat);
+ * 
+ * /* System.out.println("acheter un article capté capté"); Long id_banque =
+ * Long.valueOf(request.getParameter("acheterA"));
+ * System.out.println(id_banque);
+ * 
+ * 
+ * /* String codeBanquaire =
+ * String.valueOf(request.getParameter("codeBanquaire")) ; String pictogramme=
+ * String.valueOf(request.getParameter("chiffreSecret")) ;
+ * 
+ * 
+ * 
+ * try { metierCommande.validationBanquaire(cb_codeBUTTON); } catch (Exception
+ * e) { // TODO Auto-generated catch block // e.printStackTrace();
+ * metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
+ * metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() ); }
+ * 
+ * try { metierCommande.validationPictogramme(chiffreBUTTON); } catch (Exception
+ * e) { // TODO Auto-generated catch block //e.printStackTrace();
+ * metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
+ * metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
+ * 
+ * }
+ * 
+ * Article articleAchatValidation =
+ * metierArticle.rechercherArticleIndex(acheter_id);
+ * 
+ * 
+ * metierArticle.ajouterArticleAchat(userConnecter, articleAchatValidation);
+ * 
+ * //HttpSession session = request.getSession();
+ * System.out.println("article Achat = " + articleAchatValidation);
+ * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatValidation);
+ * sessionAcheter.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchatValidation);
+ * 
+ * System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
+ * 
+ * metierArticle.ajouterArticleAchat(userConnecter, articleAchatValidation);
+ * 
+ * //metierArticle.ajouterArticleAchat(userSession, articleAchat);
+ * 
+ * //metierArticle.ajouterArticleAchat(userSession, articleAchat);
+ * 
+ * 
+ * System.out.println(sessionAcheter.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
+ * 
+ * }
+ */

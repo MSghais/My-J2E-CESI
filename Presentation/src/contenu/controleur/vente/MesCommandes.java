@@ -15,9 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.net.httpserver.Filter;
+
 import contenu.entite.Article;
 import contenu.metier.article.MetierInterfaceArticle;
+import contenu.model.ModelCommande;
 import contenu.model.ModelContenu;
+import interaction.entite.Commande;
+import interaction.metier.MetierInterfaceCommande;
 import utilisateurs.model.ModelUser;
 
 
@@ -29,8 +34,21 @@ public class MesCommandes extends HttpServlet {
 	@EJB
 	MetierInterfaceArticle metierArticle;
 	
+	@EJB
+	MetierInterfaceCommande metierCommande;
+	
 	public static final String ATTRIBUT_USER         = "utilisateur";
     public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
+    
+
+	public static final String ATTRIBUT_USER_SESSION         = "utilisateurSession";
+	public static final String ATTRIBUT_USER_LOGIN         = "userLogin";
+	public static final String ATTRIBUT_USER_ID      = "userId";
+	public static final String ATTRIBUT_USER_ROLE      = "userRole";
+	
+	public static final String ATTRIBUT_ARTICLE_ID      = "acheter";
+	public static final String ATTRIBUT_ARTICLE_ACHAT      = "acheterArticle";
+    
 	private String erreurMsg;
 
 	public static final String VUE   = "WEB-INF/contenu/vente/mesCommandes.jsp";
@@ -52,24 +70,44 @@ public class MesCommandes extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int nb = 0;
-		System.out.println("MyServlet Accueil est la"+ nb);
+		System.out.println("Mes Commandes ");
 		nb++;
 	
 		
+		ModelCommande modelCommande = new ModelCommande();
 		
+		HttpSession session = request.getSession();
 		
+		Long acheteur_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+		System.out.println("acheteur_id = " + acheteur_id);
 		
-		ModelUser modelUser = new ModelUser(); 
+		//List<Commande> listeCommandeUser =  metierCommande.lireTousVenteEnCours(acheteur_id);
 		
-		ModelContenu modelContenu = new ModelContenu(); 
+		List<Commande> listeCommandeUser =  metierCommande.rechercherCommandeByAcheteur(acheteur_id);
 		
-		List<Article> articles = metierArticle.lireTousArticle();
-		 
-		 modelContenu.setArticles(articles);
-			request.setAttribute("modelContenu", modelContenu);
+		modelCommande.setCommandesListe(listeCommandeUser);
+		
+
+		request.setAttribute("modelCommande", modelCommande);
+		
+		request.getRequestDispatcher(VUE).forward(request, response); 
+		
+		/*for(int i=0; listeCommandeUser.size() ; i++) {
 			
-			request.getRequestDispatcher(VUE).forward(request, response); 
-	
+			
+			
+		}*/
+		
+		/*
+		 * for(Commande commande : listeCommandeUser) {
+		 * 
+		 * List<Article> article_id_commande = (List<Article>) commande.getArticle();
+		 * 
+		 * System.out.println("article in commande are " + article_id_commande); }
+		 */
+		
+		
+
 		
 		
 	}

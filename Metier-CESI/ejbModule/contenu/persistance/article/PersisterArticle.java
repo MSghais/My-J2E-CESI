@@ -332,23 +332,8 @@ public class PersisterArticle implements PersistanceArticleItf{
 		
 		user.addArticlesVentes(article);
 		
-		user.getVentesArticles().put(user.getUser_id(), article);
+	//	user.getVentesArticles().put(user.getUser_id(), article);
 		
-		
-		// entityManager.getTransaction().commit();
-		
-		/*
-		 * Article articleModif = entityManager.find(Article.class, article.getId());
-		 * 
-		 * articleModif.setUser_vendeur(user);
-		 * 
-		 * entityManager.getTransaction().begin(); //
-		 * entityManager.persist(articleModif);
-		 * 
-		 * entityManager.getTransaction().commit();
-		 */
-		  
-		  
 		
 	}
 
@@ -378,7 +363,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 		// TODO Auto-generated method stub
 			user.addAchatArticles(article);
 		
-		user.getAchatArticles().put(user.getUser_id(), article);
+	//	user.getAchatArticles().put(user.getUser_id(), article);
 	}
 	
 

@@ -59,26 +59,55 @@ public class User {
 
 	protected Role role;
 	
+
+	@OneToMany		
+	private List<Article >ventesArticles;
+	
+
+	
+	
 	@OneToMany
+	private List<Article> achatsArticles;
+	
+	/*  @OneToMany(mappedBy="user")
 	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
-	private Map<Long, Article> ventesArticles;
+	private List<Article >ventesArticles;
+	
+
 	
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_article_id")
-			)
-	private List<Commande> commandesArticles;
-	
-	
-	@OneToMany
+	@OneToMany(mappedBy="user")
 	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="user_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
-	private Map<Long, Article> achatsArticles;
+	private List<Article> achatsArticles; */
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
+	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
+	 * Article> ventesArticles;
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @OneToMany
+	 * 
+	 * @JoinTable(name="achat_article", joinColumns=@JoinColumn(name="user_id"),
+	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
+	 * Article> achatsArticles;
+	 */
 
+	
+	/*  	
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
+	inverseJoinColumns=@JoinColumn(name="fk_commande_id")
+			)
+	private List<Commande> commandesArticles;
+	 */
 	
 	/* @OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
@@ -96,14 +125,23 @@ public class User {
 	@OneToMany(mappedBy= "id")
 	private Map<Long, Article> achatsArticles; */
 	
-	public void addArticlesVentes(Article article) {
+	/*
+	 * public void addArticlesVentes(Article article) {
+	 * 
+	 * ventesArticles.put(this.user_id, article); }
+	 * 
+	 * public void addAchatArticles(Article article) { // TODO Auto-generated method
+	 * stub achatsArticles.put(this.user_id, article); }
+	 */
+	
+public void addArticlesVentes(Article article) {
 		
-		ventesArticles.put(this.user_id, article);
+		ventesArticles.add(article);
 	}
 	
 	public void addAchatArticles(Article article) {
 		// TODO Auto-generated method stub
-		achatsArticles.put(this.user_id, article);
+		achatsArticles.add(article);
 	}
 	
 	/*
@@ -112,13 +150,13 @@ public class User {
 	 */
 	public void addCommandeArticle(Commande commande) {
 		// TODO Auto-generated method stub
-		this.commandesArticles.add(commande);
+	//	this.commandesArticles.add(commande);
 	}
 	
 	
 	public void addArticleAchat(Article article) {
 		// TODO Auto-generated method stub
-		this.achatsArticles.put(this.user_id, article);
+		this.achatsArticles.add(article);
 	}
 	
 	/*  WITH COLLECTIONS
@@ -297,27 +335,21 @@ public class User {
 		this.role = role;
 	}
 
-	public Map<Long, Article> getVentesArticles() {
+	public List<Article> getVentesArticles() {
 		return ventesArticles;
 	}
 
-	public void setVentesArticles(Map<Long, Article> ventesArticles) {
+	public void setVentesArticles(List<Article> ventesArticles) {
 		this.ventesArticles = ventesArticles;
 	}
 
-	public List<Commande> getCommandesArticles() {
-		return commandesArticles;
-	}
 
-	public void setCommandesArticles(List<Commande> commandesArticles) {
-		this.commandesArticles = commandesArticles;
-	}
 
-	public Map<Long, Article> getAchatArticles() {
+	public List<Article> getAchatArticles() {
 		return achatsArticles;
 	}
 
-	public void setAchatArticles(Map<Long, Article> achatsArticles) {
+	public void setAchatArticles(List<Article> achatsArticles) {
 		this.achatsArticles = achatsArticles;
 	}
 
@@ -331,14 +363,17 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.ventesArticles =  new HashMap<Long, Article>();
-		this.commandesArticles = new ArrayList<Commande>();
-		this.achatsArticles = new HashMap<Long, Article>();
+		this.ventesArticles =  new ArrayList<Article>();
+		//this.commandesArticles = new ArrayList<Commande>();
+		this.achatsArticles = new ArrayList<Article>();
 	}
 
-	
-
-	
+	/*
+	 * public List<Commande> getCommandesArticles() { return commandesArticles; }
+	 * 
+	 * public void setCommandesArticles(List<Commande> commandesArticles) {
+	 * this.commandesArticles = commandesArticles; }
+	 */
 
 /* 	public User(Long user_id, String username, String login, String email, String password, Role role,
 			Collection<Article> ventesArticles, Collection<Article> commandesArticles,

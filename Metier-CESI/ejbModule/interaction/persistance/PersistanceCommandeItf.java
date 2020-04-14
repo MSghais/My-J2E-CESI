@@ -38,12 +38,43 @@ public interface PersistanceCommandeItf {
 	
 	void updateArticleStatut(Article article, StatutArticle status);
 	void updateCommandeStatut(Commande commande,  StatutCommande status);
-	Commande creerCommandeAll(Article article, User acheteur);
+	
 	void insertIntoCommandeAcheteurVendeur(User user, Article article);
 	void ajouterArticleCommande(User user, Commande commande);
 	Commande selectCommandeByIndex(Long id);
 	void ajouterArticleAchat(User user, Article article);
 	Commande selectCommandeByAcheteur(Long user_id);
 	
+	Commande creerCommandeAll(Article article, User acheteur);
+	
+	Commande creerCommandeAllIndex(Article article, User acheteur, Commande commande);
+	//void updateCommandeReservation(Commande commande, StatutCommande status);
+	
+	
+	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
+	
+	
+	Commande selectCommandeByLastIndex();
+	void voidInsertCommandeMetier(Article article, User userAcheteur);
+	Commande insertCommandeMetier(Article article, User userAcheteur);
+	
+	Commande createAndInsertCommandeMetier(Article article, User userAcheteur );
+	Commande voidInsertCommandeArray(Article article, User userAcheteur);
+	Commande persisterCommandeAndReturn(Commande commande);
+	
+	
+	
+	List<Commande> rechercherCommandeByAcheteur(Long acheteur_id);
+	List<Article> rechercherArticleByCommande(Long id);
+	List<Article> rechercherArticleByStatut(Long id, StatutArticle statut);
+	Commande selectListCommandeAcheteur();
+	
+	
+	
+	List<Commande> lireTousAchats(Long id);
+	List<Commande> lireTousVenteEnCours(Long login);
+	List<Article> lireTousArticleVendeur(Long login);
+	
+	List<Commande> lireTousCommandeByAcheteur(Long user_id);
 	
 }

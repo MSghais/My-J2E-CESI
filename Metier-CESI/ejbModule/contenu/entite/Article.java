@@ -58,7 +58,7 @@ public class Article {
 	@JoinColumn(name="theme_id")
 	private Theme theme;
 
-	@OneToOne(optional = true, cascade = CascadeType.ALL)
+	@OneToOne(optional = true)
 	@JoinColumn(name="vendeur_id")
 	private User user_vendeur;
 	/*

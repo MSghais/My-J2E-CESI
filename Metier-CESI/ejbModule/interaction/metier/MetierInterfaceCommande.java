@@ -35,11 +35,6 @@ public interface MetierInterfaceCommande {
 	void validationTheme(String theme) throws Exception;
 	void validationSkills(String skills) throws Exception;
 	
-	
-	
-	//void validationMotDePasse(String motdepasse) throws Exception;;
-	
-
 
 	String getValeurChamp(HttpServletRequest request, String nomChamp);
 	
@@ -69,14 +64,50 @@ public interface MetierInterfaceCommande {
 	
 	
 	Commande selectCommandeByAcheteur(Long user_id);
-	Commande creerCommandeAll(Article article, User acheteur);
+	
+	Commande creerCommandeAllIndex(Article article, User acheteur, Commande commande);
+	
+	
+
+	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
+	
+
 	/*
 	User connecterUser(HttpServletRequest request);
 	*/
+	Commande selectCommandeByLastIndex();
+	Commande insertCommandeMetier(Article article, User userAcheteur);
 	
+	void voidInsertCommandeMetier(Article article, User userAcheteur);
+	Commande createAndInsertCommandeMetier(Article article, User userAcheteur);
+	
+	Commande voidInsertCommandeArray(Article article, User userAcheteur);
+	Commande createAndInsertCommandeMetierIn(Article article, User userAcheteur);
+	Commande selectCommandeByIndex(Long id);
+	Commande insertArrayCommandeMetierIn(Commande commande, Article article, User userAcheteur);
+	void creerCommande(Article article, User acheteur);
+	Commande creerCommandeReturn(Article article, User acheteur);
+	
+	
+	Commande creerCommandeArray(Article article, User acheteur);
+	Commande creerCommandeAll(Article article, User acheteur) ;
+	
+	void creerCommandeSimply(String login, Long article_id);
+	
+	void voidCreateAndInsertCommandeMetierIn(Article article, User userAcheteur);
+	
+	List<Article> rechercherArticleByStatut(Long id, StatutArticle statut);
+	
+	List<Commande> rechercherCommandeByAcheteur(Long acheteur_id);
 	//void ajouterAbsence(Long etudiantId);
 	//void ajouterRetard(Long etudiantId);
 	//void ajouterAbsence(Etudiant etudiant);
+	List<Commande> lireTousAchat(Long acheteur_id);
+	
+	List<Commande> lireTousVenteEnCours(Long acheteur_id);
+	List<Article> lireTousArticleVendeur(Long login);
+	
+	List<Commande> lireTousCommandeByAcheteur(Long user_id);
 
 
 }

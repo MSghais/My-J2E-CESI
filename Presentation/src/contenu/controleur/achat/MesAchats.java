@@ -17,7 +17,10 @@ import javax.servlet.http.HttpSession;
 
 import contenu.entite.Article;
 import contenu.metier.article.MetierInterfaceArticle;
+import contenu.model.ModelCommande;
 import contenu.model.ModelContenu;
+import interaction.entite.Commande;
+import interaction.metier.MetierInterfaceCommande;
 import utilisateurs.model.ModelUser;
 
 
@@ -29,11 +32,22 @@ public class MesAchats extends HttpServlet {
 	@EJB
 	MetierInterfaceArticle metierArticle;
 	
+	@EJB
+	MetierInterfaceCommande metierCommande;
+	
 	public static final String ATTRIBUT_USER         = "utilisateur";
     public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
-	private String erreurMsg;
+    
 
-	public static final String VUE   = "WEB-INF/contenu/vente/mesAchats.jsp";
+	public static final String ATTRIBUT_USER_SESSION         = "utilisateurSession";
+	public static final String ATTRIBUT_USER_LOGIN         = "userLogin";
+	public static final String ATTRIBUT_USER_ID      = "userId";
+	public static final String ATTRIBUT_USER_ROLE      = "userRole";
+	
+	public static final String ATTRIBUT_ARTICLE_ID      = "acheter";
+	public static final String ATTRIBUT_ARTICLE_ACHAT      = "acheterArticle";
+
+	public static final String VUE   = "WEB-INF/contenu/achat/mesAchats.jsp";
 	
 	@PostConstruct
 	public void init() {
@@ -56,22 +70,30 @@ public class MesAchats extends HttpServlet {
 		nb++;
 	
 		
+ModelCommande modelCommande = new ModelCommande();
+		
+		HttpSession session = request.getSession();
+		
+		Long acheteur_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+		System.out.println("acheteur_id = " + acheteur_id);
+		
+		//List<Commande> listeAchatUser = (List<Commande>) metierCommande.rechercherCommandeByAcheteur(acheteur_id);
+		
+		//List<Commande> listeAchatUser = metierCommande.lireTousAchat(acheteur_id);
 		
 		
+		List<Commande> listeAchatUser = metierCommande.lireTousCommandeByAcheteur(acheteur_id);
 		
-		ModelUser modelUser = new ModelUser(); 
+		modelCommande.setCommandesListe(listeAchatUser);
 		
-		ModelContenu modelContenu = new ModelContenu(); 
 		
-		List<Article> articles = metierArticle.lireTousArticle();
-		 
-		 modelContenu.setArticles(articles);
-			request.setAttribute("modelContenu", modelContenu);
-			
-			request.getRequestDispatcher(VUE).forward(request, response); 
-	
+		request.setAttribute("modelCommande", modelCommande);
+		
+		request.getRequestDispatcher(VUE).forward(request, response); 
 		
 		
 	}
+	
+	
 }
 

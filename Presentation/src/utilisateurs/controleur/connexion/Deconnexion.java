@@ -14,6 +14,6 @@ public class Deconnexion extends HttpServlet {
         /* Récupération et destruction de la session en cours */
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect( request.getContextPath() + "/Shopping");
+        response.sendRedirect( request.getContextPath() + "/Connexion");
     }
 }

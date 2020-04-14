@@ -156,7 +156,7 @@ public class ToutArticles extends HttpServlet {
 			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
 			 */
 				System.out.println(" response toutArticle sendRedirect acheter Article");
-				response.sendRedirect( request.getContextPath() + "acheterArticle");
+				response.sendRedirect( request.getContextPath() + "/acheterArticle");
 				
 				
 				System.out.println(" Acheter Article forward");

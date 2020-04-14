@@ -19,13 +19,19 @@ import utilisateurs.entite.User;
 public class Commande {
 
 	// @GenericGenerator
-	//@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	
 	
 	//@Id @GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@Id @GeneratedValue(strategy=GenerationType.TABLE, generator = "native")
-	@Column(name="id",updatable=false,nullable=false)
+	/*
+	 * @Id @GeneratedValue(strategy=GenerationType.AUTO, generator = "native")
+	 * 
+	 * @Column(name="id",updatable=false,nullable=false)
+	 */
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
+	/* 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id; */
 	
 
 	private String prix;
@@ -44,14 +50,47 @@ public class Commande {
 	@JoinColumn(name="acheteur_id")
 	private User acheteurUser;
 	
-	@OneToOne(optional = false)
-	@JoinColumn(name="vendeur_id")
-	private User vendeurUser;
+	
+	/*
+	 * @OneToOne(optional = true)
+	 * 
+	 * @JoinColumn(name="vendeur_id") private User vendeurUser;
+	 */
 	
 	public Commande() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Commande(String prix,Article article, User acheteurUser) {
+		super();
+		this.prix = prix;
+		this.article = article;
+		this.acheteurUser = acheteurUser;
+	}
+	
+	public Commande(String prix, StatutCommande statutCommande, Article article, User acheteurUser) {
+		super();
+		this.prix = prix;
+		this.statutCommande = statutCommande;
+		this.article = article;
+		this.acheteurUser = acheteurUser;
+	}
 
+
+	public Commande(Long id) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+	}
+
+
+	public Commande(Article article, User acheteur) {
+		// TODO Auto-generated constructor stub
+		this.article = article;
+		this.acheteurUser = acheteur;
+	}
+
+	
+	
 	public Commande(Long commande_id, String commande_prix, 
 			Article article, User user_acheteur, User user_vendeur, StatutCommande status) {
 		super();
@@ -64,6 +103,33 @@ public class Commande {
 		this.statutCommande = status;
 	}
 	
+
+	public Commande( String commande_prix, 
+			Article article, User user_acheteur, User user_vendeur, StatutCommande status) {
+		super();
+
+		this.prix = commande_prix;
+
+		
+		this.article = article;
+
+		this.statutCommande = status;
+	}
+	
+
+	public Commande( String commande_prix, 
+			Article article, User user_acheteur, User user_vendeur) {
+		super();
+
+		this.prix = commande_prix;
+
+		
+		this.article = article;
+		this.acheteurUser = user_acheteur;
+		
+		// this.vendeurUser= user_vendeur;
+
+	}
 	
 	
 	public Commande(String commande_prix, Date dateCreation, Date dateEnvoi, StatutCommande status, 
@@ -76,7 +142,7 @@ public class Commande {
 	
 		this.article = article;
 		this.acheteurUser = acheteurUser;
-		this.vendeurUser = vendeurUser;
+		// this.vendeurUser = vendeurUser;
 	}
 
 
@@ -106,14 +172,12 @@ public class Commande {
 		this.acheteurUser = acheteurUser;
 	}
 
-	public User getVendeurUser() {
-		return vendeurUser;
-	}
-
-	public void setVendeurUser(User vendeurUser) {
-		this.vendeurUser = vendeurUser;
-	}
-
+	/*
+	 * public User getVendeurUser() { // return vendeurUser; }
+	 * 
+	 * public void setVendeurUser(User vendeurUser) { //this.vendeurUser =
+	 * vendeurUser; }
+	 */
 	
 
 	public Long getCommande_id() {
