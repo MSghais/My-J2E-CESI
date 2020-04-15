@@ -40,7 +40,7 @@
 			<thead>
 			 <th> Titre </th> <th> Theme </th><th> Description </th>
 			<th> Contenu </th> <th> Frais </th>   <th> Prix </th>  <th> Statut </th> 
-			 <th> Modifier </th>   <th> Supprimer </th>  <th> Validez Commande</th>   <th> Envoyer </th>   <th> Supprimer Commande</th>  
+			 <th> Gérer Article </th>   <th>  Gérer sa Commande</th>  
 			 </thead>
 			 
 			 <tbody>
@@ -58,30 +58,31 @@
 					<td><c:out value="${article.frais}"/></td>
 					
 					<td><c:out value="${article.prix}"/></td>
-					
-					
-						
+				
 					<td><c:out value="${article.status}"/></td>
 					
-					<td> <a  id="modifier" href="?modifier=${article.id}" > Modifier </a> </td> 
 					
-					<td> <a  id="supprimer" href="?supprimer=${article.id}" > Supprimer </a> </td> 
+					<td> <a  id="modifier" href="?modifier=${article.id}" > 1.  Modifier </a>  <br>
 					
+					 <a  id="supprimer" href="?supprimer=${article.id}" > 2.  Supprimer </a>  <br>
 					
+					</td> 
 					
+		
+				
+					<td> <a  id="valider" href="?validerCommande=${article.id}" > 1.  Validez Commande </a> <br>
 					
-					<c:forEach var="commande" items="${modelCommande.commandesListe}"> 
+					<a  id="envoyer" href="?envoyerCommande=${article.id}" > 2.  Envoyez </a>  <br>
 					
-							<td> <a  id="valider" href="?validerCommande=${commande.id}" > Validez Commande </a> </td> 
+					<a  id="supprimer" href="?supprimerCommande=${article.id}" > 3.  Supprimer Commande </a>  <br>
 					
-					<td> <a  id="envoyer" href="?envoyerCommande=${commande.id}" > Envoyez </a> </td> 
+					 </td> 
 					
-					<td> <a  id="supprimer" href="?supprimerCommande=${commande.id}" > Supprimer Commande </a> </td> 
+					<td>  </td> 
+					
+					<td>  </td> 
 							
-					
-					</c:forEach>
-			
-					
+	
 					</tr> 
 		      </c:forEach>
 			 
@@ -105,3 +106,4 @@
    <%@ include file="/WEB-INF/footerPhantom.jsp" %>
 	</body>
 </html>
+

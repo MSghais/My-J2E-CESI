@@ -133,7 +133,9 @@ public class AjouterArticleAchat extends HttpServlet {
 			String chiffre = request.getParameter("chiffreSecret");
 			System.out.println("picot = " + chiffre);
 
-			if (!cb_code.isEmpty() || !chiffre.isEmpty()
+			if ( (!cb_code.isEmpty() && !chiffre.isEmpty() ) 
+					
+					&& ( cb_code.length() == 10 || chiffre.length() == 3)
 
 			) {
 
@@ -143,45 +145,27 @@ public class AjouterArticleAchat extends HttpServlet {
 				Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
 				System.out.println("user id  est : " + user_idAcheter);
 				User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
-
 				System.out.println("user connecter est : " + userAcheteur);
 
 				  System.out.println("creer commande simply");
 				  metierCommande.creerCommandeSimply(userAcheteur.getLogin(), articleAchatID.getId());
 				
-				/*
-				 * System.out.println("creer commande simply");
-				 * metierCommande.creerCommandeSimply(userAcheteur.getLogin(),
-				 * articleAchatID.getId());
-				 */
-				  
+
 				  System.out.println("Update  article statut Reservé");
 				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
-
-				  
-				// 
-				
-				 
+ 
 				 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
 				 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
 				 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
 				 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
 				 
-				// 
+				 System.out.println("Update commande Date Creation");
+				 metierCommande.updateCommandeDateCreation(commandeLastID);
 				 
-				 //metierCommande.insertArticleAchat(userConnecter, articleAchatID);
-				 
-				 
-				metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);
-				
+	
+				metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
 				metierCommande.insertArticleCommande(userVendeur, articleAchatID);
-				
-
-				//metierCommande.ajouterArticleVenteEnCours(userVendeur, articleAchatID)  ;
-				 
-				//
-				 
-				
+			
 		  System.out.println("metier try validation banquaire : ");
 		  try {
 			  	metierCommande.validationBanquaire(cb_code); 
@@ -215,14 +199,9 @@ public class AjouterArticleAchat extends HttpServlet {
 		  
 			 
 			  erreurPicto = e.getMessage();
-			  
 			  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
-			  
 			  erreursMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
-			  
-			
-		  
-		  
+	  
 		  }
 		 
 
@@ -248,17 +227,22 @@ public class AjouterArticleAchat extends HttpServlet {
 				  else if( !erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
 				  !erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) || erreursMap.isEmpty() ||
 				  erreurMsg.isEmpty() || erreurPicto.isEmpty() ) {
+					  System.out.println("Paramètre non null, activé la couche metier Commande");
+
 					/*
+					 * HttpSession sessionAcheter = request.getSession(); Long user_idAcheter =
+					 * (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
+					 * System.out.println("user id  est : " + user_idAcheter); User userAcheteur =
+					 * metierArticle.rechercherUserIndex(user_idAcheter);
+					 * System.out.println("user connecter est : " + userAcheteur);
 					 * 
 					 * System.out.println("creer commande simply");
-					 * metierCommande.creerCommandeSimply(userConnecter.getLogin(),
+					 * metierCommande.creerCommandeSimply(userAcheteur.getLogin(),
 					 * articleAchatID.getId());
+					 * 
 					 * 
 					 * System.out.println("Update  article statut Reservé");
 					 * metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
-					 * 
-					 * metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
-					 * 
 					 * 
 					 * User userVendeur =
 					 * metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id
@@ -266,7 +250,13 @@ public class AjouterArticleAchat extends HttpServlet {
 					 * Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
 					 * System.out.println("Commande last id + " + commandeLastID.getCommande_id());
 					 * 
-					 * metierCommande.ajouterArticleCommande(userVendeur, commandeLastID) ;
+					 * System.out.println("Update commande Date Creation");
+					 * metierCommande.updateCommandeDateCreation(commandeLastID);
+					 * 
+					 * 
+					 * metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);
+					 * 
+					 * metierCommande.insertArticleCommande(userVendeur, articleAchatID);
 					 */
 					  
 				  }

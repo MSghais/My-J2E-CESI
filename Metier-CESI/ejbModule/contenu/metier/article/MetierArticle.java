@@ -76,8 +76,9 @@ public class MetierArticle implements MetierInterfaceArticle {
 		articles.put(article.getId(), article);
 	}
 
+	@Override
 	public void supprimerArticle(Article article) {
-		articles.remove(article.getId());
+		persistanceArticle.supprimerArticle(article);
 	}
 
 	public List<Article> lireTousArticle() {
@@ -85,7 +86,13 @@ public class MetierArticle implements MetierInterfaceArticle {
 
 		return persistanceArticle.lireTousArticle();
 	}
-
+	
+	
+	@Override
+	public List<Article> selectArticleByTheme(String theme) {
+		// TODO Auto-generated method stub
+		return persistanceArticle.selectArticleByTheme(theme);
+	}
 	private void init() {
 		System.out.println("Metier - init");
 
@@ -117,6 +124,134 @@ public class MetierArticle implements MetierInterfaceArticle {
 	
 	Long user_id = (Long) session.getAttribute("userId");
 	System.err.println("Session USER_ID : "+ user_id);
+	
+	Cookie[] cookies = request.getCookies();
+
+		System.out.println("Request user are : " + request.getAttribute("utilisateur"));	
+		System.out.println("Session user are : " + session.getAttribute("utilisateur"));
+	
+		String art_titre = request.getParameter("art_titre");
+		String art_url = request.getParameter("art_url");
+
+		String art_description = request.getParameter("art_description");
+		String art_contenu = request.getParameter("art_contenu");
+		String art_frais = request.getParameter("art_frais");
+		String art_prix = request.getParameter("art_prix");
+		String acronymeTheme = request.getParameter("acronymeTheme");
+		System.out.println(acronymeTheme);
+
+		Article article = new Article();
+
+		Theme theme = persistanceTheme.lireThemeName(acronymeTheme);
+		System.out.println(theme);
+		
+		System.out.println("Test des exceptions du formulaire a partir du MEtier");
+		System.out.println("Test  metier : titre ");
+		/* Validation du champ username */
+		try {
+			validationTitre(art_titre);
+		} catch (Exception e) {
+			this.setErreur(CHAMP_TITRE, e.getMessage());
+		}
+		article.setTitre(art_titre);
+
+		/*
+		 * System.out.println("Test  metier : url "); Validation du champ username 
+		 * try {
+		 * validationUrl(art_url);
+		 * 
+		 * } catch ( Exception e ) { this.setErreur( CHAMP_URL, e.getMessage() ); }
+		 */
+		article.setUrl(art_url);
+
+		System.out.println("Test  metier : description ");
+		/* Validation du champ username */
+		try {
+			validationDescription(art_description);
+
+		} catch (Exception e) {
+			setErreur(CHAMP_DESCL, e.getMessage());
+		}
+		article.setDescription(art_description);
+
+		System.out.println("Test  metier : Contenu");
+		/* Validation du champ mot de passe. */
+		try {
+			validationContenu(art_contenu);
+		} catch (Exception e) {
+			setErreur(CHAMP_CONTENT, e.getMessage());
+		}
+		article.setContenu(art_contenu);
+
+		if (art_frais != null) {
+			article.setFrais(art_frais);
+		}
+
+		if (art_prix != null) {
+			article.setPrix(art_prix);
+		}
+
+		article.setStatus(StatutArticle.DISPONIBLE);
+		
+		article.setTheme(theme);
+		
+		/* Initialisation du résultat global de la validation. */
+		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
+				&& !article.getContenu().isEmpty())) {
+			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
+			// !article.getArt_description().isEmpty() &&
+			// !article.getArt_contenu().isEmpty() )
+			this.setResultat("Succès dépot Article");
+			this.resultat = "Succès du dépot Article";
+
+			resultat = "Succès de la connexion.";
+			System.out.println("Succes du dépot Article ");
+			System.out.println("Erreurs : " + erreurs);
+			
+			System.out.println("Persister Article in Metier User Index Method");
+
+			persistanceArticle.persisterArticle(article);
+
+			User userLectureBDD = (User)persistanceUser.lireUser(user_id); System.out.println("Lire User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
+			
+			
+			System.out.println("updateArticle");
+			
+			persistanceArticle.updateArticleWithUser(article, userLectureBDD);
+
+			
+			System.out.println("Persister Article OK ");
+			return article;
+			
+		} else {
+			resultat = "Échec de la connexion.";
+
+			this.setResultat(resultat);
+
+			System.out.println("Echec de la connexion ");
+			System.out.println("Erreur : " + erreurs);
+		}
+
+		// return user;
+		return article;
+	}
+	
+	@Override
+	public Article updateArticleUserRequestSession(HttpServletRequest request, User userParams, HttpSession session) {
+		// TODO Auto-generated method stub
+
+		System.out.println("Creer article User Request Session");
+		
+		//System.out.println("User paramse : " + userParams.toString() );
+		
+	Enumeration<String> sessionAttributs = session.getAttributeNames(); System.out.println(sessionAttributs);
+	
+	
+	String loginUser = (String) session.getAttribute("userLogin");
+	System.err.println("Session Login User : "+ loginUser);
+	
+	Long user_id = (Long) session.getAttribute("userId");
+	System.err.println("Session USER_ID : "+ user_id);
 
 	Cookie[] cookies = request.getCookies();
 
@@ -127,9 +262,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 		
 		System.out.println("Session user are : " + session.getAttribute("utilisateur"));
 
-	//	User userTest = (User) session.getAttributeNames(ATTRIBUT_USER);
-	//	System.out.println("Session ARGS ALL VALUES : " + ((Object) session).getValues());
-		
+	
 		String art_titre = request.getParameter("art_titre");
 		String art_url = request.getParameter("art_url");
 
@@ -187,23 +320,11 @@ public class MetierArticle implements MetierInterfaceArticle {
 		}
 
 		article.setStatus(StatutArticle.DISPONIBLE);
-		/*
-		 * User userSession = (User)session.getAttribute(ATTRIBUT_USER);
-		 * System.out.println("userSession are  + " + userSession.toString() + "login" +
-		 * userSession.getLogin() + "id"+ userSession.getUser_id());
-		 * article.setUser_vendeur(userParams);
-		 * System.out.println(article.getUser_vendeur()); article.addUser(userParams);
-		 * System.out.println(article.getUser_vendeur());
-		 * 
-		 * article.setUser_Id(userParams.getUser_id());
-		 */
-
+	
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
 				&& !article.getContenu().isEmpty())) {
-			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
-			// !article.getArt_description().isEmpty() &&
-			// !article.getArt_contenu().isEmpty() )
+		
 			this.setResultat("Succès dépot Article");
 			this.resultat = "Succès du dépot Article";
 
@@ -239,433 +360,8 @@ public class MetierArticle implements MetierInterfaceArticle {
 		return article;
 	}
 
-	@Override
-	public Article creerArticleUser(HttpServletRequest request, User userParams) {
-		// TODO Auto-generated method stub
-
-		System.out.println("Creer article User");
-		System.out.println("Request user are : " + request.getAttribute("utilisateur"));
-
-		String art_titre = request.getParameter("art_titre");
-		String art_url = request.getParameter("art_url");
-
-		String art_description = request.getParameter("art_description");
-		String art_contenu = request.getParameter("art_contenu");
-		String art_frais = request.getParameter("art_frais");
-		String art_prix = request.getParameter("art_prix");
-
-		Article article = new Article();
-
-		System.out.println("Test des exceptions du formulaire a partir du MEtier");
-
-		System.out.println("Test  metier : titre ");
-		/* Validation du champ username */
-		try {
-			validationTitre(art_titre);
-		} catch (Exception e) {
-			this.setErreur(CHAMP_TITRE, e.getMessage());
-		}
-		article.setTitre(art_titre);
-
-		/*
-		 * System.out.println("Test  metier : url "); Validation du champ username try {
-		 * validationUrl(art_url);
-		 * 
-		 * } catch ( Exception e ) { this.setErreur( CHAMP_URL, e.getMessage() ); }
-		 */
-		article.setUrl(art_url);
-
-		System.out.println("Test  metier : description ");
-		/* Validation du champ username */
-		try {
-			validationDescription(art_description);
-
-		} catch (Exception e) {
-			setErreur(CHAMP_DESCL, e.getMessage());
-		}
-		article.setDescription(art_description);
-
-		System.out.println("Test  metier : Contenu");
-		/* Validation du champ mot de passe. */
-		try {
-			validationContenu(art_contenu);
-		} catch (Exception e) {
-			setErreur(CHAMP_CONTENT, e.getMessage());
-		}
-		article.setContenu(art_contenu);
-
-		if (art_frais != null) {
-			article.setFrais(art_frais);
-		}
-
-		if (art_prix != null) {
-			article.setPrix(art_prix);
-		}
-
-		article.setUser_vendeur(userParams);
-		System.out.println(article.getUser_vendeur());
-		article.addUser(userParams);
-		System.out.println(article.getUser_vendeur());
-
-		//article.setUser_vendeur(userParams);
-
-		/* Initialisation du résultat global de la validation. */
-		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
-				&& !article.getContenu().isEmpty())) {
-			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
-			// !article.getArt_description().isEmpty() &&
-			// !article.getArt_contenu().isEmpty() )
-			this.setResultat("Succès dépot Article");
-			this.resultat = "Succès du dépot Article";
-
-			resultat = "Succès de la connexion.";
-			System.out.println("Succes du dépot Article ");
-			System.out.println("Erreurs : " + erreurs);
-			
-			System.out.println("Persister Article in Metier User Index Method");
-
-			persistanceArticle.persisterArticle(article);
-			
-			
-			System.out.println("insertion Join Table ID and Key");
-
-			persistanceArticle.insertionJoinTableIdAndKey(userParams.getUser_id() ,	article.getId());
-					
-			persistanceArticle.updateArticleWithUser(article, userParams);
-			
-
-			/*
-			 * System.out.println("Persister Article in User Method");
-			 * 
-			 * persistanceArticle.persisterArticleInUser(userParams, article);
-			 * 
-			 * System.out.println("Persister Article in User Method");
-			 * 
-			 * persistanceArticle.persisterArticle(article);
-			 */
-
-			// updateArticleWithUser(article, userParams);
-			// persistanceArticle.persisterUserArticle(userParams, article);
-			// persistanceArticle.persisterArticleInUser(userParams, article);
-			/*
-			 * System.out.println("Updadte Article column");
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userParams);
-			 * 
-			 * 
-			 * System.out.println("Inssert into Vender with List");
-			 * 
-			 * persistanceArticle.insertIntoVenteUser(userParams, article);
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Object");
-			 * 
-			 * persistanceArticle.insertionJoinTableObject(userParams, article);
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Index");
-			 * 
-			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
-			 * article.getId());
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Persister UserAndArticle Method");
-			 */
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-			//
-
-			// insertJoinArticleUserWithQuery(userParams, article);
-
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-
-			System.out.println("Persister Article OK ");
-			return article;
-		} else {
-			resultat = "Échec de la connexion.";
-
-			this.setResultat(resultat);
-
-			System.out.println("Echec de la connexion ");
-			System.out.println("Erreur : " + erreurs);
-		}
-
-		// return user;
-		return article;
-	}
-
-	@Override
-	public Article creerArticleUserIndex(HttpServletRequest request, Long user_id) {
-		// TODO Auto-generated method stub
-
-		String art_titre = request.getParameter("art_titre");
-		String art_url = request.getParameter("art_url");
-
-		String art_description = request.getParameter("art_description");
-		String art_contenu = request.getParameter("art_contenu");
-		String art_frais = request.getParameter("art_frais");
-		String art_prix = request.getParameter("art_prix");
-
-		Article article = new Article();
-
-		System.out.println("Test des exceptions du formulaire a partir du MEtier");
-
-		System.out.println("Test  metier : titre ");
-		/* Validation du champ username */
-		try {
-			validationTitre(art_titre);
-		} catch (Exception e) {
-			this.setErreur(CHAMP_TITRE, e.getMessage());
-		}
-		article.setTitre(art_titre);
-
-		/*
-		 * System.out.println("Test  metier : url "); Validation du champ username try {
-		 * validationUrl(art_url);
-		 * 
-		 * } catch (Exception e) { this.setErreur(CHAMP_URL, e.getMessage()); }
-		 */
-		article.setUrl(art_url);
-
-		System.out.println("Test  metier : description ");
-		/* Validation du champ username */
-		try {
-			validationDescription(art_description);
-
-		} catch (Exception e) {
-			setErreur(CHAMP_DESCL, e.getMessage());
-		}
-		article.setDescription(art_description);
-
-		System.out.println("Test  metier : Contenu");
-		/* Validation du champ mot de passe. */
-		try {
-			validationContenu(art_contenu);
-		} catch (Exception e) {
-			setErreur(CHAMP_CONTENT, e.getMessage());
-		}
-		article.setContenu(art_contenu);
-
-		if (art_frais != null) {
-			article.setFrais(art_frais);
-		}
-
-		if (art_prix != null) {
-			article.setPrix(art_prix);
-		}
-
-		
-		 // article.setUser_vendeur(user_id);
-		  System.out.println(article.getUser_vendeur());
-
-		/*
-		 * article.addUser(user_id); // System.out.println(article.getUser_id());
-		 * article.setUser_vendeur(user_id);
-		 */
-		  System.out.println(article.getUser_vendeur());
-
-		/* Initialisation du résultat global de la validation. */
-		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
-				&& !article.getContenu().isEmpty())) {
-			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
-			// !article.getArt_description().isEmpty() &&
-			// !article.getArt_contenu().isEmpty() )
-			this.setResultat("Succès dépot Article");
-			this.resultat = "Succès du dépot Article";
-
-			resultat = "Succès de la connexion.";
-			System.out.println("Succes du dépot Article ");
-			System.out.println("Erreurs : " + erreurs);
-
-			
-			// persistanceArticle.persisterArticleInUser(userParams, article);
-
-			System.out.println("Persister Article in Metier User Index Method");
-
-			persistanceArticle.persisterArticle(article);
-			
-			
-			System.out.println("insertion Join Table ID and Key");
-
-			persistanceArticle.insertionJoinTableIdAndKey(user_id,
-					article.getId());
-			
-		
-			
-			 
-
-			// updateArticleWithUser(article, userParams);
-			// persistanceArticle.persisterUserArticle(userParams, article);
-			// persistanceArticle.persisterArticleInUser(userParams, article);
-			/*
-			 * System.out.println("Updadte Article column");
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userParams);
-			 * 
-			 * 
-			 * System.out.println("Inssert into Vender with List");
-			 * 
-			 * persistanceArticle.insertIntoVenteUser(userParams, article);
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Object");
-			 * 
-			 * persistanceArticle.insertionJoinTableObject(userParams, article);
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Index");
-			 * 
-			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
-			 * article.getId());
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Persister UserAndArticle Method");
-			 */
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-			//
-
-			// insertJoinArticleUserWithQuery(userParams, article);
-
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-
-			System.out.println("Persister Article OK ");
-			return article;
-		} else {
-			resultat = "Échec de la connexion.";
-
-			this.setResultat(resultat);
-
-			System.out.println("Echec de la connexion ");
-			System.out.println("Erreur : " + erreurs);
-		}
-
-		// return user;
-		return article;
-	}
-
-	/* EXEMPLE */
-
-	public Article creerArticleUserExemple(HttpServletRequest request, User userParams) {
-		// TODO Auto-generated method stub
-
-		String art_titre = request.getParameter("art_titre");
-		String art_url = request.getParameter("art_url");
-
-		String art_description = request.getParameter("art_description");
-		String art_contenu = request.getParameter("art_contenu");
-		String art_frais = request.getParameter("art_frais");
-		String art_prix = request.getParameter("art_prix");
-
-		Article article = new Article();
-
-		System.out.println("Test des exceptions du formulaire a partir du MEtier");
-
-		System.out.println("Test  metier : titre ");
-		/* Validation du champ username */
-		try {
-			validationTitre(art_titre);
-		} catch (Exception e) {
-			this.setErreur(CHAMP_TITRE, e.getMessage());
-		}
-		article.setTitre(art_titre);
-
-		System.out.println("Test  metier : url ");
-		/* Validation du champ username */
-		try {
-			validationUrl(art_url);
-
-		} catch (Exception e) {
-			this.setErreur(CHAMP_URL, e.getMessage());
-		}
-		article.setUrl(art_url);
-
-		System.out.println("Test  metier : description ");
-		/* Validation du champ username */
-		try {
-			validationDescription(art_description);
-
-		} catch (Exception e) {
-			setErreur(CHAMP_DESCL, e.getMessage());
-		}
-		article.setDescription(art_description);
-
-		System.out.println("Test  metier : Contenu");
-		/* Validation du champ mot de passe. */
-		try {
-			validationContenu(art_contenu);
-		} catch (Exception e) {
-			setErreur(CHAMP_CONTENT, e.getMessage());
-		}
-		article.setContenu(art_contenu);
-
-		if (art_frais != null) {
-			article.setFrais(art_frais);
-		}
-
-		if (art_prix != null) {
-			article.setPrix(art_prix);
-		}
-
-		article.setUser_vendeur(userParams);
-
-		/* Initialisation du résultat global de la validation. */
-		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
-				&& !article.getContenu().isEmpty())) {
-			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
-			// !article.getArt_description().isEmpty() &&
-			// !article.getArt_contenu().isEmpty() )
-			this.setResultat("Succès dépot Article");
-			this.resultat = "Succès du dépot Article";
-
-			resultat = "Succès de la connexion.";
-			System.out.println("Succes du dépot Article ");
-			System.out.println("Erreurs : " + erreurs);
-
-			System.out.println("Persister Article in User Method");
-
-			persistanceArticle.persisterArticle(article);
-
-			// updateArticleWithUser(article, userParams);
-			// persistanceArticle.persisterUserArticle(userParams, article);
-			// persistanceArticle.persisterArticleInUser(userParams, article);
-
-			/*
-			 * System.out.println("Insertion Join table Object");
-			 * 
-			 * persistanceArticle.insertionJoinTableObject(userParams, article);
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Index");
-			 * 
-			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
-			 * article.getId());
-			 */
-
-			System.out.println("Persister UserAndArticle Method");
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-			//
-
-			// insertJoinArticleUserWithQuery(userParams, article);
-
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-
-			System.out.println("Persister Article OK ");
-			return article;
-		} else {
-			resultat = "Échec de la connexion.";
-
-			this.setResultat(resultat);
-
-			System.out.println("Echec de la connexion ");
-			System.out.println("Erreur : " + erreurs);
-		}
-
-		// return user;
-		return article;
-	}
+	
+	
 
 	@Override
 	public Article creerArticleRequestSession(HttpServletRequest request, HttpSession session) {
@@ -745,6 +441,8 @@ public class MetierArticle implements MetierInterfaceArticle {
 			System.out.println("Succes du dépot Article ");
 			System.out.println("Erreurs : " + erreurs);
 			persistanceArticle.persisterArticle(article);
+			
+			persistanceArticle.updateArticleDate(article);
 
 			System.out.println("Persister utilisateur OK ");
 		} else {
@@ -841,7 +539,94 @@ public class MetierArticle implements MetierInterfaceArticle {
 		// return user;
 		return article;
 	}
+	
+	@Override
+	public Article updateArticle(HttpServletRequest request) {
+		// TODO Auto-generated method stub
 
+		String art_titre = request.getParameter("art_titre");
+		String art_url = request.getParameter("art_url");
+
+		String art_description = request.getParameter("art_description");
+		String art_contenu = request.getParameter("art_contenu");
+		Article article = new Article();
+
+		System.out.println("Test des exceptions du formulaire a partir du MEtier");
+
+		System.out.println("Test  metier : titre ");
+		/* Validation du champ username */
+		try {
+			validationTitre(art_titre);
+		} catch (Exception e) {
+			this.setErreur(CHAMP_TITRE, e.getMessage());
+		}
+		article.setTitre(art_titre);
+
+		System.out.println("Test  metier : url ");
+		/* Validation du champ username */
+		try {
+			validationUrl(art_url);
+
+		} catch (Exception e) {
+			this.setErreur(CHAMP_URL, e.getMessage());
+		}
+		article.setUrl(art_url);
+
+		System.out.println("Test  metier : description ");
+		/* Validation du champ username */
+		try {
+			validationDescription(art_description);
+
+		} catch (Exception e) {
+			setErreur(CHAMP_DESCL, e.getMessage());
+		}
+		article.setDescription(art_description);
+
+		System.out.println("Test  metier : Contenu");
+		/* Validation du champ mot de passe. */
+		try {
+			validationContenu(art_contenu);
+		} catch (Exception e) {
+			setErreur(CHAMP_CONTENT, e.getMessage());
+		}
+		article.setContenu(art_contenu);
+
+		// || ( !utilisateur.getLogin().isEmpty() &&
+		// !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
+
+		/* Initialisation du résultat global de la validation. */
+		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
+				&& !article.getContenu().isEmpty())) {
+			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
+			// !article.getArt_description().isEmpty() &&
+			// !article.getArt_contenu().isEmpty() )
+			this.setResultat("Succès dépot Article");
+			this.resultat = "Succès du dépot Article";
+
+			resultat = "Succès de la connexion.";
+			System.out.println("Succes du dépot Article ");
+			System.out.println("Erreurs : " + erreurs);
+			persistanceArticle.persisterArticle(article);
+
+			System.out.println("Persister utilisateur OK ");
+		} else {
+			resultat = "Échec de la connexion.";
+
+			this.setResultat(resultat);
+
+			System.out.println("Echec de la connexion ");
+			System.out.println("Erreur : " + erreurs);
+		}
+
+		// return user;
+		return article;
+	}
+
+	@Override
+	public void updateArticleDate(Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.updateArticleDate(article);
+	}
 	@Override
 	public void validationTitre(String titre) throws Exception {
 		// TODO Auto-generated method stub
@@ -867,13 +652,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 			if (url.length() < 3) {
 				throw new Exception("Le titre doit contenir au moins 3 caractères.");
 			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
+		
 		} else {
 			throw new Exception("Merci de saisir un titre plus précis.");
 		}
@@ -934,12 +713,6 @@ public class MetierArticle implements MetierInterfaceArticle {
 		} else {
 			throw new Exception("Merci de saisir un titre plus précis.");
 		}
-	}
-
-	@Override
-	public void validationSkills(String skills) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1062,149 +835,6 @@ public class MetierArticle implements MetierInterfaceArticle {
 		return persistanceUser.rechercherUserLogin(login);
 	}
 
-	@Override
-	public Article creerArticleRequest(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		System.out.println("Creer article User");
-		System.out.println("Request user are : " + request.getAttribute("utilisateur"));
-
-		String art_titre = request.getParameter("art_titre");
-		String art_url = request.getParameter("art_url");
-
-		String art_description = request.getParameter("art_description");
-		String art_contenu = request.getParameter("art_contenu");
-		String art_frais = request.getParameter("art_frais");
-		String art_prix = request.getParameter("art_prix");
-
-		Article article = new Article();
-
-		System.out.println("Test des exceptions du formulaire a partir du MEtier");
-
-		System.out.println("Test  metier : titre ");
-		/* Validation du champ username */
-		try {
-			validationTitre(art_titre);
-		} catch (Exception e) {
-			this.setErreur(CHAMP_TITRE, e.getMessage());
-		}
-		article.setTitre(art_titre);
-
-		System.out.println("Test  metier : url ");
-		/* Validation du champ username */
-		try {
-			validationUrl(art_url);
-
-		} catch (Exception e) {
-			this.setErreur(CHAMP_URL, e.getMessage());
-		}
-		article.setUrl(art_url);
-
-		System.out.println("Test  metier : description ");
-		/* Validation du champ username */
-		try {
-			validationDescription(art_description);
-
-		} catch (Exception e) {
-			setErreur(CHAMP_DESCL, e.getMessage());
-		}
-		article.setDescription(art_description);
-
-		System.out.println("Test  metier : Contenu");
-		/* Validation du champ mot de passe. */
-		try {
-			validationContenu(art_contenu);
-		} catch (Exception e) {
-			setErreur(CHAMP_CONTENT, e.getMessage());
-		}
-		article.setContenu(art_contenu);
-
-		if (art_frais != null) {
-			article.setFrais(art_frais);
-		}
-
-		if (art_prix != null) {
-			article.setPrix(art_prix);
-		}
-
-		User userParams = (User) request.getAttribute(ATTRIBUT_USER);
-		article.setUser_vendeur(userParams);
-		System.out.println(article.getUser_vendeur());
-		article.addUser(userParams);
-		System.out.println(article.getUser_vendeur());
-
-	//	article.setUser_vendeur(userParams.getUser_id());
-
-		/* Initialisation du résultat global de la validation. */
-		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
-				&& !article.getContenu().isEmpty())) {
-			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
-			// !article.getArt_description().isEmpty() &&
-			// !article.getArt_contenu().isEmpty() )
-			this.setResultat("Succès dépot Article");
-			this.resultat = "Succès du dépot Article";
-
-			resultat = "Succès de la connexion.";
-			System.out.println("Succes du dépot Article ");
-			System.out.println("Erreurs : " + erreurs);
-
-			System.out.println("Persister Article in User Method");
-
-			persistanceArticle.persisterArticleInUser(userParams, article);
-
-			System.out.println("Persister Article in User Method");
-
-			persistanceArticle.persisterArticle(article);
-
-			// updateArticleWithUser(article, userParams);
-			// persistanceArticle.persisterUserArticle(userParams, article);
-			// persistanceArticle.persisterArticleInUser(userParams, article);
-			/*
-			 * System.out.println("Updadte Article column");
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userParams);
-			 * 
-			 * 
-			 * System.out.println("Inssert into Vender with List");
-			 * 
-			 * persistanceArticle.insertIntoVenteUser(userParams, article);
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Object");
-			 * 
-			 * persistanceArticle.insertionJoinTableObject(userParams, article);
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Index");
-			 * 
-			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
-			 * article.getId());
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Persister UserAndArticle Method");
-			 */
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-			//
-
-			// insertJoinArticleUserWithQuery(userParams, article);
-
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-
-			System.out.println("Persister Article OK ");
-			return article;
-		} else {
-			resultat = "Échec de la connexion.";
-
-			this.setResultat(resultat);
-
-			System.out.println("Echec de la connexion ");
-			System.out.println("Erreur : " + erreurs);
-		}
-
-		// return user;
-		return article;
-	}
 
 	@Override
 	public User rechercherUserIndex(Long index) {
@@ -1233,4 +863,6 @@ public class MetierArticle implements MetierInterfaceArticle {
 		// TODO Auto-generated method stub
 		return persistanceArticle.rechercherArticleIndex(id);
 	}
+	
+	/*   */
 }

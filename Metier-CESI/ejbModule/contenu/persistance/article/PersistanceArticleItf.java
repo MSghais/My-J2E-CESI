@@ -3,6 +3,7 @@ package contenu.persistance.article;
 import java.util.List;
 
 import contenu.entite.Article;
+import contenu.entite.Theme;
 import contenu.enume.StatutArticle;
 import utilisateurs.entite.User;
 
@@ -54,5 +55,9 @@ public interface PersistanceArticleItf {
 	Article rechercherArticleIndex(Long id);
 	
 	void updateArticleStatut(Article article, StatutArticle status);
+	void updateArticleDate(Article article);
+	//List<Article> selectArticleByTheme(String theme);
+	//List<Article> selectArticleByTheme(Theme theme);
+	List<Article> selectArticleByTheme(String theme);
 	
 }

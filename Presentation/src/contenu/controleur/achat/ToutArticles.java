@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import contenu.entite.Article;
+import contenu.entite.Theme;
 import contenu.metier.article.MetierInterfaceArticle;
+import contenu.metier.theme.MetierInterfaceTheme;
+import contenu.model.ModelAllContent;
 import contenu.model.ModelContenu;
 import utilisateurs.entite.User;
 import utilisateurs.model.ModelUser;
@@ -29,6 +32,9 @@ public class ToutArticles extends HttpServlet {
 	
 	@EJB
 	MetierInterfaceArticle metierArticle;
+	
+	@EJB
+	MetierInterfaceTheme metierTheme;
 	
     public static final String ATT_USER = "utilisateur";
     public static final String ATT_FORM = "form";
@@ -69,6 +75,14 @@ public class ToutArticles extends HttpServlet {
 	
 		
 		
+		ModelAllContent modelTheme = new ModelAllContent();
+		
+		List<Theme> themes = metierTheme.lireTousTheme();
+		modelTheme.setThemes(themes);
+		
+		request.setAttribute("modelTheme", modelTheme);
+		
+		
 		HttpSession session = request.getSession();
 		
 		Long user_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
@@ -101,19 +115,7 @@ public class ToutArticles extends HttpServlet {
 				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
 				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
 				System.out.println("article session id in tout article is =" + session.getAttribute(ATTRIBUT_ARTICLE_ID));
-				
-			/*
-			 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
-			 * System.out.println("article Achat = " + articleAchat);
-			 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * 
-			 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-			 */
-				
-				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-				
+		
 				response.sendRedirect( request.getContextPath() + "/acheterArticle");
 				
 				request.getRequestDispatcher("/acheterArticle").forward(request, response);
@@ -122,6 +124,76 @@ public class ToutArticles extends HttpServlet {
 				
 			//	metierArticle.
 				//metier.ajouterRetard(id);
+				
+			}
+			
+			if(request.getParameter("acheter") != null ) {
+				System.out.println("acheter--- article ID capté");
+				Long id = Long.valueOf(request.getParameter("acheter"));
+				System.out.println("achat article id=" + id);
+				
+				
+				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
+				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
+				
+			
+			/*
+			 * System.out.println(" Response getContextPath acheter  Article forward");
+			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
+			 */
+				System.out.println(" response toutArticle sendRedirect acheter Article");
+				response.sendRedirect( request.getContextPath() + "/acheterArticle");
+				
+				
+				System.out.println(" Acheter Article forward");
+				request.getRequestDispatcher("acheterArticle").forward(request, response);
+			
+			}
+			if(request.getParameter("choixTheme") != null ) {
+				System.out.println("condition select theme");
+				String theme_id = String.valueOf(request.getParameter("acronymeTheme"));
+				
+				
+				System.out.println("theme =" + theme_id);
+				
+				
+			/*
+			 * Theme theme = metierTheme.selectThemeTitre(theme_id);
+			 * System.out.println(theme);
+			 * 
+			 */
+				ModelContenu modelContenuSelect = new ModelContenu(); 
+				
+				System.out.println("select Article By Theme");
+				
+				List<Article> articlesThemes = metierArticle.selectArticleByTheme(theme_id);
+				modelContenuSelect.setArticles(articlesThemes);
+					request.setAttribute("modelContenuSelect", modelContenuSelect);
+		
+			/*
+			 * System.out.println("return include shopping with Article Theme");
+			 * request.getRequestDispatcher("/Shopping").include(request, response);
+			 * 
+			 * System.out.println("response send redirect shopping with Article Theme");
+			 * response.sendRedirect( request.getContextPath() + "/Shopping");
+			 */
+					
+				/*
+			 * 
+			 * System.out.println(" response toutArticle sendRedirect acheter Article");
+			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
+			 * 
+			 * 
+			 * System.out.println(" Acheter Article forward");
+			 * request.getRequestDispatcher("acheterArticle").forward(request, response);
+			 */
+			//	System.out.println(" Acheter Article include"); 
+				//request.getRequestDispatcher("/acheterArticle").include(request, response);
+				//request.getRequestDispatcher("/acheterArticle").include(request, response);
+				
+				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
+				
+			
 				
 			}
 			if(request.getParameter("lienAcheterIn") != null ) {
@@ -141,56 +213,8 @@ public class ToutArticles extends HttpServlet {
 
 					
 			}
-			if(request.getParameter("acheter") != null ) {
-				System.out.println("acheter article ID capté");
-				Long id = Long.valueOf(request.getParameter("acheter"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
 			
-			/*
-			 * System.out.println(" Response getContextPath acheter  Article forward");
-			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
-			 */
-				System.out.println(" response toutArticle sendRedirect acheter Article");
-				response.sendRedirect( request.getContextPath() + "/acheterArticle");
-				
-				
-				System.out.println(" Acheter Article forward");
-				request.getRequestDispatcher("acheterArticle").forward(request, response);
-			//	System.out.println(" Acheter Article include"); 
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				
-				
-			//request.getRequestDispatcher(VUE_COMMANDE).include(request, response);
 			
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				/*
-				 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
-				 * System.out.println("article Achat = " + articleAchat);
-				 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-				 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-				 * 
-				 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-				 */
-					
-					//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-			}
 			if(request.getParameter("lienAcheter") != null ) {
 				System.out.println("lienacheter article");
 				Long id = Long.valueOf(request.getParameter("acheter"));

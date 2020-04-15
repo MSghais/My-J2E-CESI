@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import contenu.entite.Article;
 import contenu.metier.article.MetierInterfaceArticle;
 import contenu.model.ModelContenu;
+import interaction.entite.Commande;
+import interaction.metier.MetierInterfaceCommande;
 import utilisateurs.entite.User;
 import utilisateurs.model.ModelUser;
 
@@ -29,6 +31,10 @@ public class MesVentes extends HttpServlet {
 	
 	@EJB
 	MetierInterfaceArticle metierArticle;
+	 
+	@EJB
+	MetierInterfaceCommande metierCommande;
+		
 	
 	public static final String ATTRIBUT_USER         = "utilisateur";
 	public static final String ATTRIBUT_USER_SESSION         = "utilisateurSession";
@@ -38,7 +44,7 @@ public class MesVentes extends HttpServlet {
 	
     public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
     public static final String ATTRIBUT_ERREUR_MAP  = "erreursMaps";
-    
+	public static final String ATTRIBUT_ARTICLE_MODIF      = "articleModification";
 	
 	
 	private String erreurMsg;
@@ -51,13 +57,9 @@ public class MesVentes extends HttpServlet {
 	}
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-		
-		
+	{	
 		doPost(request,response);
-		
-
-	 
+ 
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,32 +68,49 @@ public class MesVentes extends HttpServlet {
 		nb++;
 	
 		HttpSession session = request.getSession();		
-		
-		
-		ModelUser modelUser = new ModelUser(); 
-		
 		ModelContenu modelContenu = new ModelContenu(); 
-		
-		//List<Article> articles = metierArticle.lireTousArticle();
-		
+	
 		User user = (User) session.getAttribute(ATTRIBUT_USER);
-		
 		Long user_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
 		
 		System.out.println("USER ID session are = "+ user_id);
-
-		List<Article> articlesEnVentes = metierArticle.lireTousArticleByUserVente(user_id);
-		 
+		List<Article> articlesEnVentes = metierArticle.lireTousArticleByUserVente(user_id); 
 		 modelContenu.setArticles(articlesEnVentes);
-		 
-
-			// List<Article> articlesVentes = metierArticle.lireTousArticleByUserVente(user_id);
-			 
-			 //modelContenu.setArticles(articlesVentes);
-			request.setAttribute("modelContenu", modelContenu);
-			
-			request.getRequestDispatcher(VUE).forward(request, response); 
 	
+		 request.setAttribute("modelContenu", modelContenu);		
+   		 request.getRequestDispatcher(VUE).forward(request, response); 
+			
+			
+			if( request.getParameter("modifier") != null)
+			{
+				System.out.println("Boutton modifier un Article");
+				Long article_id = Long.valueOf(request.getParameter("modifier"));
+				System.out.println("article id is = " + article_id);
+				
+				Article articleModif = metierArticle.rechercherArticleIndex(article_id);
+				System.out.println("Article modif is " + articleModif);
+				request.setAttribute(ATTRIBUT_ARTICLE_MODIF, articleModif);
+				
+				System.out.println(" response toutArticle sendRedirect acheter Article");
+				response.sendRedirect( request.getContextPath() + "/modificationArticle");
+				System.out.println("Renvoi modification Article with include");
+				request.getRequestDispatcher("/modificationArticle").include(request, response);
+				
+			}
+			
+			if( request.getParameter("supprimer") != null)
+			{
+				
+				System.out.println("Boutton supprimer un Article avec la Commande ");
+				Long article_id = Long.valueOf(request.getParameter("supprimer"));
+							
+				Commande commande = metierCommande.selectCommandeByArticle(article_id);
+				metierCommande.supprimerCommande(commande);
+				
+				Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
+				metierArticle.supprimerArticle(articleDelete);
+				
+			}
 		
 		
 	}

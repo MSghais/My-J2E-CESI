@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import contenu.entite.Article;
+import contenu.entite.Theme;
 import contenu.enume.StatutArticle;
 import utilisateurs.entite.User;
 
@@ -55,6 +56,14 @@ public class PersisterArticle implements PersistanceArticleItf{
 	}
 
 
+	@Override
+	public List<Article> selectArticleByTheme(String theme) {
+		// TODO Auto-generated method stub
+		Query req = entityManager.createQuery("select a from Article a  where a.theme.intitule =: theme ");
+		req.setParameter("theme", theme);
+		return req.getResultList();
+		
+	}
 
 	
 	@Override
@@ -337,11 +346,22 @@ public class PersisterArticle implements PersistanceArticleItf{
 		
 	}
 
-
+@Override
+public void updateArticleDate(Article article) {
+	// TODO Auto-generated method stub
+	
+	Query req = entityManager.createQuery("UPDATE article a SET a.date = now() WHERE a.id = :p");
+	req.setParameter("p", article.getId());
+	req.executeUpdate();
+	
+	
+}
 	@Override
 	public List<Article> lireTousArticleByUserVente(Long user_id) {
 		// TODO Auto-generated method stub
 		Query req = entityManager.createQuery("select a from Article a  where vendeur_id =: user_id ");
+		
+		
 		req.setParameter("user_id", user_id);
 		return (List<Article>)  req.getResultList();
 	}

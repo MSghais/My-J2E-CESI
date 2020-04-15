@@ -86,5 +86,8 @@ public interface MetierInterfaceCommande {
 	void ajouterArticleCommande(User user, Commande commande);
 	void ajouterArticleAchat(User user, Article article);
 	void ajouterArticleVenteEnCours(User user, Article article);
+	
+	void updateCommandeDateCreation(Commande commande);
+	void updateCommandeDateEnvoi(Commande commande);
 
 }

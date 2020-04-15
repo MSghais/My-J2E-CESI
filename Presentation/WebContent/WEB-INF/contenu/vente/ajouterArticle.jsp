@@ -36,20 +36,16 @@
                 <span class="erreur">${form.erreurs['art_titre']}</span>
                 <br />
                 
-		                	<label for="theme_d"> Choissisez un theme <span class="requis">* </span> </label>
-							
-							 <select name="acronymeTheme"> 
-							
-							<c:forEach var="theme" items="${modelAll.themes }">
-							<option> <c:out value="${theme.theme_intitule}"/> </option>
-							
-							<option> <c:out value="${theme.theme_description}"/> </option>
+		         <select name="acronymeTheme"> 
 					
-									
-									
-							</c:forEach>
+					<c:forEach var="theme" items="${modelTheme.themes }">
+					<option> <c:out value="${theme.theme_intitule}"/> </option>
+					
+					
 							
-							</select>
+					</c:forEach>
+					
+					</select>
 					
                 
 	     	  <label for="art_url"> Image ou lien ? <span class="requis">*</span></label>
@@ -104,7 +100,6 @@
             <a href="vueConnection.jsp"> Se connecter </a>
             
 	
-
 			
 		
 		<h4>Tableau des Articles </h4>
@@ -128,6 +123,33 @@
 		</table>
 		
 		
+					
+        
+      <a href="/WEB-INF/JSP/vueConnection.jsp"> Se connecter </a>
+		
+		
+		
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+					
+
+		</section>
+		
+	</body>
+			<%@ include file="/WEB-INF/footerPhantom.jsp" %>
+	
+	
+</html>
+
+
+
+<!-- 
+
+
+
 		
 		<td> Choissisez un Theme :</td>
 					<td>
@@ -174,30 +196,11 @@
 		      </c:forEach>
 		      
 		</table>
-					
-        
-      <a href="/WEB-INF/JSP/vueConnection.jsp"> Se connecter </a>
-		
-		
-		
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-					
-
-		</section>
-		
-	</body>
-			<%@ include file="/WEB-INF/footerPhantom.jsp" %>
-	
-	
-</html>
 
 
 
-<!-- 
+
+
 		                	<label for="theme_d"> Choissisez un theme <span class="requis">* </span> </label>
 							
 							 <select name="acronymeTheme"> 

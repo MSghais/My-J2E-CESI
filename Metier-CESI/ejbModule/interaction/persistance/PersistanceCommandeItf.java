@@ -87,4 +87,6 @@ public interface PersistanceCommandeItf {
 	List<Article> lireTousArticleReserveByVendeurException(Long user_id);
 	Commande lireTousCommandeByArticleException(Long article_id);
 	
+	void updateCommandeDateCreation(Commande commande);
+	void updateCommandeDateEnvoi(Commande commande);
 }

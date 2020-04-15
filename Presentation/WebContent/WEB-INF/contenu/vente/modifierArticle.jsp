@@ -86,7 +86,7 @@
 
 
 
-                <input type="submit" value="Déposer"  name="creationArticle"  />
+                <input type="submit" value="Déposer"  name="modifierArticle"  />
                 <br />
                 
                  <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>

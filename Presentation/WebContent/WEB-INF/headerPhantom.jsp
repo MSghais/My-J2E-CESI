@@ -35,7 +35,7 @@
 
 <!--  Menu BAR UP  -->
 	
-                <nav id="navBarUp">
+                <nav >
                     <ul>
                    	 <li><a href="Accueil"> Accueil</a></li>
                       	
@@ -48,10 +48,10 @@
 									
 													<li> 
 													<a href="vueArticle.jsp"> Explorer </a>
-													<select name="acronymeTheme" value="exploration" name="truc de ouf"> 
+													<select name="acronymeThemeHeader" value="exploration" > 
 														
-														<c:forEach var="theme" items="${model.themes }">
-														<option> <c:out value="${theme.nameRubrique}"/> </option>
+														<c:forEach var="theme" items="${modelTheme.themes }">
+														<option> <c:out value="${theme.theme_intitule}"/> </option>
 														
 														</c:forEach>
 					

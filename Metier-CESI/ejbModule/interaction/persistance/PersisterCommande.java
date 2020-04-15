@@ -582,6 +582,25 @@ public void updateCommandeStatutindex(Long index, StatutCommande status) {
 	commandeModif.setStatus(status);
 }
 
+@Override
+public void updateCommandeDateEnvoi(Commande commande) {
+	// TODO Auto-generated method stub
+	Query req = entityManager.createQuery("UPDATE commande c SET c.date_envoi = now() WHERE c.id = :p");
+	req.setParameter("p", commande.getCommande_id());
+	req.executeUpdate();
+	
+	
+}
+
+@Override
+public void updateCommandeDateCreation(Commande commande) {
+	// TODO Auto-generated method stub
+	Query req = entityManager.createQuery("UPDATE commande c SET c.date_creation = now() WHERE c.id = :p");
+	req.setParameter("p", commande.getCommande_id());
+	req.executeUpdate();
+	
+	
+}
 /*  @Override
 	public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
 		// TODO Auto-generated method stub

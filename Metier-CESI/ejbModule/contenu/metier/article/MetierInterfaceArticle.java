@@ -32,9 +32,9 @@ public interface MetierInterfaceArticle {
 	void validationUrl(String url) throws Exception;
 	void validationDescription(String description) throws Exception;
 	void validationTheme(String theme) throws Exception;
-	void validationSkills(String skills) throws Exception;
+
 	
-	
+	List<Article> selectArticleByTheme(String theme);
 	
 	//void validationMotDePasse(String motdepasse) throws Exception;;
 	
@@ -48,11 +48,9 @@ public interface MetierInterfaceArticle {
 	Map<String, String> getErreurs();
 	String getResultat();
 	
-	Article creerArticleRequest(HttpServletRequest request);
-	Article creerArticleRequestSession(HttpServletRequest request, HttpSession session);
-	Article creerArticleUser(HttpServletRequest request, User user);
-	Article creerArticleUserIndex(HttpServletRequest request, Long user_id);
 	
+	Article creerArticleRequestSession(HttpServletRequest request, HttpSession session);
+
 	void insertJoinArticleUserWithQuery(User user, Article article);
 	
 
@@ -83,7 +81,9 @@ public interface MetierInterfaceArticle {
 	
 		
 		Article rechercherArticleIndex(Long id);
-	
+		Article updateArticleUserRequestSession(HttpServletRequest request, User userParams, HttpSession session);
+		Article updateArticle(HttpServletRequest request);
+		void updateArticleDate(Article article);
 	/*
 	User connecterUser(HttpServletRequest request);
 	*/

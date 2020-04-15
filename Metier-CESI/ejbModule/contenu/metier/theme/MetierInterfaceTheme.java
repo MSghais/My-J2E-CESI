@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import contenu.entite.Article;
 
 import contenu.entite.Theme;
+import utilisateurs.entite.User;
 
 
 
@@ -20,9 +21,7 @@ public interface MetierInterfaceTheme {
 	Article lireArticle(Long id);
 	void mettreAJourArticle(Article article);
 	void supprimerArticle(Article article);
-	List<Article> lireTousArticle();
-	void persisterArticle(Article article);
-	
+
 
 	void validationTitre(String titre) throws Exception;
 	Theme creerTheme(HttpServletRequest request);
@@ -34,10 +33,21 @@ public interface MetierInterfaceTheme {
 	void setErreur(String champ, String message);
 	Map<String, String> getErreurs();
 	String getValeurChamp(HttpServletRequest request, String nomChamp);
-	Theme selectThemeTitre(String titre);
-	void persisterTheme(Theme theme);
+
 	String getResultat();
 
+	
+	void persisterTheme(Theme theme);
+	Theme lireTheme(Long id);
+	Theme lireThemeName(String name);
+	List<Theme> lireTousTheme();
+
+	void persisterUserTheme(User user,Theme theme);
+
+	Theme selectThemeTitre(String titre);
+	
+	Theme selectThemeByUser(Long user_id);
+	Theme selectUserByTheme(Long theme_id);
 	
 	//void ajouterAbsence(Long etudiantId);
 	//void ajouterRetard(Long etudiantId);

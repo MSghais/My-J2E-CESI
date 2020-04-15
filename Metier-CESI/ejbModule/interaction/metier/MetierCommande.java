@@ -437,6 +437,22 @@ public void insertArticleCommande(User user, Article article) {
 public void ajouterArticleVenteEnCours(User user, Article article) {
 	// TODO Auto-generated method stub
 	persistanceCommande.ajouterArticleVente(user, article);
+	
+	
+	
+}
+
+
+@Override
+public void updateCommandeDateCreation(Commande commande) {
+	// TODO Auto-generated method stub
+	persistanceCommande.updateCommandeDateCreation(commande);
+}
+
+@Override
+public void updateCommandeDateEnvoi(Commande commande) {
+	// TODO Auto-generated method stub
+	persistanceCommande.updateCommandeDateEnvoi(commande);
 }
 	/*
 	 * 
