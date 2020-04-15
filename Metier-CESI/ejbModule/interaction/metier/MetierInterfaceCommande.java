@@ -48,49 +48,20 @@ public interface MetierInterfaceCommande {
 	void validationBanquaire(String cb_code) throws Exception;
 	
 	
-	void insertIntoUserAchat(User user, Article article);
-	void insertIntoUserCommande(User user, Article article);
-	
 	void updateArticleStatut(Article article, StatutArticle status);
 
 	void updateCommandeStatut(Commande commande, StatutCommande status);
-	
-	
-	
-	void insertIntoCommandeAcheteurVendeur(User user, Article article);
 	
 	void ajouterArticleCommande(User user, Commande commande);
 	void ajouterArticleAchat(User user, Article article);
 	
 	
 	Commande selectCommandeByAcheteur(Long user_id);
-	
-	Commande creerCommandeAllIndex(Article article, User acheteur, Commande commande);
-	
-	
+	Commande selectCommandeByLastIndex();
 
 	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
 	
 
-	/*
-	User connecterUser(HttpServletRequest request);
-	*/
-	Commande selectCommandeByLastIndex();
-	Commande insertCommandeMetier(Article article, User userAcheteur);
-	
-	void voidInsertCommandeMetier(Article article, User userAcheteur);
-	Commande createAndInsertCommandeMetier(Article article, User userAcheteur);
-	
-	Commande voidInsertCommandeArray(Article article, User userAcheteur);
-	Commande createAndInsertCommandeMetierIn(Article article, User userAcheteur);
-	Commande selectCommandeByIndex(Long id);
-	Commande insertArrayCommandeMetierIn(Commande commande, Article article, User userAcheteur);
-	void creerCommande(Article article, User acheteur);
-	Commande creerCommandeReturn(Article article, User acheteur);
-	
-	
-	Commande creerCommandeArray(Article article, User acheteur);
-	Commande creerCommandeAll(Article article, User acheteur) ;
 	
 	void creerCommandeSimply(String login, Long article_id);
 	
@@ -99,15 +70,14 @@ public interface MetierInterfaceCommande {
 	List<Article> rechercherArticleByStatut(Long id, StatutArticle statut);
 	
 	List<Commande> rechercherCommandeByAcheteur(Long acheteur_id);
-	//void ajouterAbsence(Long etudiantId);
-	//void ajouterRetard(Long etudiantId);
-	//void ajouterAbsence(Etudiant etudiant);
+
 	List<Commande> lireTousAchat(Long acheteur_id);
 	
 	List<Commande> lireTousVenteEnCours(Long acheteur_id);
 	List<Article> lireTousArticleVendeur(Long login);
 	
 	List<Commande> lireTousCommandeByAcheteur(Long user_id);
+	Commande selectCommandeByIndex(Long id);
 
 
 }

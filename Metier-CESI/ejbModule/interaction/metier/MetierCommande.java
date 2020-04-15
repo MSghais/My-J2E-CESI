@@ -290,7 +290,11 @@ public class MetierCommande implements MetierInterfaceCommande {
 		// TODO Auto-generated method stub
 
 	}
-
+@Override
+public Commande selectCommandeByLastIndex() {
+	// TODO Auto-generated method stub
+	return persistanceCommande.selectCommandeByLastIndex();
+}
 	@Override
 	public void setErreur(String champ, String message) {
 		// TODO Auto-generated method stub
@@ -375,57 +379,8 @@ public class MetierCommande implements MetierInterfaceCommande {
 
 	}
 
-	@Override
-	public void insertIntoUserAchat(User user, Article article) {
 
-		System.out.println("Add Article in User Achat list");
 
-		// entityManager.getTransaction().begin();
-
-		user.addAchatArticles(article);
-
-		///user.getAchatArticles().put(user.getUser_id(), article);
-
-		// entityManager.getTransaction().commit();
-
-		/*
-		 * Article articleModif = entityManager.find(Article.class, article.getId());
-		 * 
-		 * articleModif.setUser_vendeur(user);
-		 * 
-		 * entityManager.getTransaction().begin(); //
-		 * entityManager.persist(articleModif);
-		 * 
-		 * entityManager.getTransaction().commit();
-		 */
-
-	}
-
-	@Override
-	public void insertIntoUserCommande(User user, Article article) {
-
-		System.out.println("Add Article in User Commande list");
-
-		// entityManager.getTransaction().begin();
-
-		// user.addCommandeArticles(article);
-
-		// user.getCommandesArticles().put(user.getUser_id(), article);
-
-		// entityManager.getTransaction().commit();
-
-		/*
-		 * Article articleModif = entityManager.find(Article.class, article.getId());
-		 * 
-		 * articleModif.setUser_vendeur(user);
-		 * 
-		 * entityManager.getTransaction().begin(); //
-		 * entityManager.persist(articleModif);
-		 * 
-		 * entityManager.getTransaction().commit();
-		 */
-
-	}
 
 	@Override
 	public void updateArticleStatut(Article article, StatutArticle status) {
@@ -441,18 +396,6 @@ public class MetierCommande implements MetierInterfaceCommande {
 	}
 
 	@Override
-	public Commande creerCommandeAll(Article article, User acheteur) {
-
-		return persistanceCommande.creerCommandeAll(article, acheteur);
-	}
-
-	@Override
-	public Commande creerCommandeAllIndex(Article article, User acheteur, Commande commande) {
-
-		return persistanceCommande.creerCommandeAllIndex(article, acheteur, commande);
-	}
-
-	@Override
 	public void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur) {
 		// TODO Auto-generated method stub
 
@@ -460,121 +403,6 @@ public class MetierCommande implements MetierInterfaceCommande {
 	}
 
 	
-
-	@Override
-	public Commande insertCommandeMetier(Article article, User userAcheteur) {
-		// TODO Auto-generated method stub
-
-		return persistanceCommande.insertCommandeMetier(article, userAcheteur);
-		/*
-		 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-		 * new Commande(article.getPrix(), article, userAcheteur,
-		 * article.getUser_vendeur());
-		 * 
-		 * System.out.println("Persister cette commande");
-		 * persistanceCommande.persisterCommande(commandeID);
-		 * 
-		 * return persistanceCommande.selectCommandeByLastIndex();
-		 */
-		// return persistanceCommande.selectCommandeByLastIndex();
-	}
-
-	@Override
-	public Commande createAndInsertCommandeMetier(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		return persistanceCommande.createAndInsertCommandeMetier(article, userAcheteur);
-		/*
-		 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-		 * new Commande(article.getPrix(), article, userAcheteur,
-		 * article.getUser_vendeur());
-		 * 
-		 * System.out.println("Persister cette commande");
-		 * persistanceCommande.persisterCommande(commandeID);
-		 * 
-		 * return persistanceCommande.selectCommandeByLastIndex();
-		 */
-		//return persistanceCommande.selectCommandeByLastIndex();
-	}
-	
-	@Override
-	public Commande voidInsertCommandeArray(Article article, User userAcheteur) {
-		// TODO Auto-generated method stub
-		return persistanceCommande.voidInsertCommandeArray(article, userAcheteur);
-	}
-	
-	@Override
-	public Commande selectCommandeByLastIndex() {
-		
-		return persistanceCommande.selectCommandeByLastIndex();
-	}
-	/*
-	 * @Override public Commande createAndInsertCommandeMetier(Article article, User
-	 * userAcheteur ) { // TODO Auto-generated method stub
-	 * 
-	 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-	 * new Commande(article.getPrix(), article, userAcheteur,
-	 * article.getUser_vendeur());
-	 * 
-	 * persistanceCommande.persisterCommande(commandeID);
-	 * 
-	 * Commande commande =
-	 * persistanceCommande.selectCommandeByIndex(commandeID.getCommande_id()) ;
-	 * return commande;
-	 * 
-	 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-	 * new Commande(article.getPrix(), article, userAcheteur,
-	 * article.getUser_vendeur());
-	 * 
-	 * System.out.println("Persister cette commande");
-	 * persistanceCommande.persisterCommande(commandeID);
-	 * 
-	 * return persistanceCommande.selectCommandeByLastIndex();
-	 * 
-	 * //return persistanceCommande.selectCommandeByLastIndex(); }
-	 */
-
-	@Override
-	public void voidInsertCommandeMetier(Article article, User userAcheteur) {
-		// TODO Auto-generated method stub
-
-		persistanceCommande.voidInsertCommandeMetier(article, userAcheteur);
-		/*
-		 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-		 * new Commande(article.getPrix(), article, userAcheteur,
-		 * article.getUser_vendeur());
-		 * 
-		 * System.out.println("Persister cette commande");
-		 * persistanceCommande.persisterCommande(commandeID);
-		 * 
-		 * //return persistanceCommande.selectCommandeByLastIndex();
-		 */ }
-
-	/*
-	 * @Override public Commande insertCommandeMetier(Article article, User
-	 * userAcheteur ) { // TODO Auto-generated method stub
-	 * 
-	 * 
-	 * Commande commandeID = new Commande(article.getPrix(), article, userAcheteur,
-	 * article.getUser_vendeur());
-	 * 
-	 * persistanceCommande.persisterCommande(commandeID);
-	 * 
-	 * 
-	 * return persistanceCommande.selectCommandeByLastIndex(); }
-	 */
-	/*
-	 * 
-	 * @Override public User connecterUser(HttpServletRequest request) { // TODO
-	 * Auto-generated method stub return null; }
-	 * 
-	 */
-
-	@Override
-	public void insertIntoCommandeAcheteurVendeur(User user, Article article) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void ajouterArticleCommande(User user, Commande commande) {
 		// TODO Auto-generated method stub
@@ -593,39 +421,8 @@ public class MetierCommande implements MetierInterfaceCommande {
 		return persistanceCommande.selectCommandeByAcheteur(user_id);
 	}
 	
-	@Override
-	public Commande createAndInsertCommandeMetierIn(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 System.out.println("Creation and Insert  commande In Metier");
-			Commande commandeID = new Commande(article.getPrix(), article, userAcheteur);
-			
-			
-			commandeID.setStatus(StatutCommande.ENCOURS);
-			
-			persistanceCommande.persisterCommande(commandeID);
-			
-			article.setStatus(StatutArticle.RESERVE);
-			
-			System.out.println("array command ID = " +  commandeID.getCommande_id());
-			//Commande commande = selectCommandeByIndex(commandeID.getCommande_id());
-			
-			Commande commande = selectCommandeByLastIndex();
-			return commande;
-			//return selectCommandeByIndex(commandeID.getCommande_id());
-		/**/
-		/*
-		 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-		 * new Commande(article.getPrix(), article, userAcheteur,
-		 * article.getUser_vendeur());
-		 * 
-		 * System.out.println("Persister cette commande");
-		 * persistanceCommande.persisterCommande(commandeID);
-		 * 
-		 * return persistanceCommande.selectCommandeByLastIndex();
-		 */
-		//return persistanceCommande.selectCommandeByLastIndex();
-	}
+
+	
 	
 	@Override
 	public void voidCreateAndInsertCommandeMetierIn(Article article, User userAcheteur ) {
@@ -648,99 +445,6 @@ public class MetierCommande implements MetierInterfaceCommande {
 	
 	}
 
-	@Override
-	public Commande insertArrayCommandeMetierIn(Commande commande, Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 
-			commande.setStatus(StatutCommande.ENCOURS);
-			
-			persisterCommande(commande);
-			
-			article.setStatus(StatutArticle.RESERVE);
-			
-			Commande commandeCreer = selectCommandeByIndex(commande.getCommande_id());
-			return commandeCreer;
-			//return selectCommandeByIndex(commandeID.getCommande_id());
-		/**/
-		/*
-		 * System.out.println("Creation commande with Paramater"); Commande commandeID =
-		 * new Commande(article.getPrix(), article, userAcheteur,
-		 * article.getUser_vendeur());
-		 * 
-		 * System.out.println("Persister cette commande");
-		 * persistanceCommande.persisterCommande(commandeID);
-		 * 
-		 * return persistanceCommande.selectCommandeByLastIndex();
-		 */
-		//return persistanceCommande.selectCommandeByLastIndex();
-	}
-	
-	@Override
-	public Commande creerCommandeReturn(Article article, User acheteur) {	
-		/*
-		 * User uconnecte = (User) persistanceUser.lireUtilisateur(acheteurLogin);
-		 * Article article = persistanceArticle.lireArticle(articleId);
-		 */
-		//UConnecte vendeur = (UConnecte) persistanceUtilisateur.lireUtilisateur(article.getVendeur().getLogin());
-		
-		System.out.println("Create commande in Metier");
-		Commande commande = new Commande(article,acheteur);
-		
-	//	Commande commande = new Commande(article.getPrix(), article, acheteur, article.getUser_vendeur(), StatutCommande.ENCOURS);
-	
-		
-		System.out.println("go persister");
-		persistanceCommande.persisterCommande(commande);
-		
-		System.out.println("Return commande");
-		return commande;
-		//persistanceCommande.persisterCommande(commande);
-		
-	}
-	
-	@Override
-	public Commande creerCommandeArray(Article article, User acheteur) {	
-		
-		System.out.println("Create commande in Metier");
-		//Commande commande = new Commande(article,acheteur);
-		
-		//Commande commande = new Commande(article.getPrix(), article, acheteur, article.getUser_vendeur(), StatutCommande.ENCOURS);
-	
-		Commande commande = new Commande(article.getPrix(), article, acheteur, article.getUser_vendeur());
-		
-		
-
-		return commande;
-		//persistanceCommande.persisterCommande(commande);
-		
-	}
-	
-	
-	@Override
-	public void creerCommande(Article article, User acheteur) {	
-		/*
-		 * User uconnecte = (User) persistanceUser.lireUtilisateur(acheteurLogin);
-		 * Article article = persistanceArticle.lireArticle(articleId);
-		 */
-		//UConnecte vendeur = (UConnecte) persistanceUtilisateur.lireUtilisateur(article.getVendeur().getLogin());
-		System.out.println("Create commande in Metier");
-		Commande commande = new Commande(article,acheteur);
-		
-		//Commande commande = new Commande(article.getPrix(), article, acheteur, article.getUser_vendeur());
-		commande.setStatus(StatutCommande.ENCOURS);
-		
-		
-		System.out.println("Set Article Reserver ");
-		article.setStatus(StatutArticle.RESERVE);
-		
-		
-		
-		persistanceCommande.persisterCommande(commande);
-		
-	}
-	
-	
 	
 	@Override
 	public void creerCommandeSimply(String login, Long article_id) {	
