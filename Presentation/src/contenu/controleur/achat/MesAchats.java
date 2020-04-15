@@ -21,6 +21,7 @@ import contenu.model.ModelCommande;
 import contenu.model.ModelContenu;
 import interaction.entite.Commande;
 import interaction.metier.MetierInterfaceCommande;
+import utilisateurs.entite.User;
 import utilisateurs.model.ModelUser;
 
 
@@ -74,17 +75,31 @@ ModelCommande modelCommande = new ModelCommande();
 		
 		HttpSession session = request.getSession();
 		
-		Long acheteur_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
-		System.out.println("acheteur_id = " + acheteur_id);
+		Long session_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+		System.out.println("acheteur_id = " + session_id);
 		
 		//List<Commande> listeAchatUser = (List<Commande>) metierCommande.rechercherCommandeByAcheteur(acheteur_id);
 		
 		//List<Commande> listeAchatUser = metierCommande.lireTousAchat(acheteur_id);
+		User userSession = metierArticle.rechercherUserIndex(session_id);
+		
+		//List<Article> achatArticles = userSession.getAchatArticles();
 		
 		
-		List<Commande> listeAchatUser = metierCommande.lireTousCommandeByAcheteur(acheteur_id);
+		List<Commande> achatArticles = metierCommande.lireTousCommandeByAcheteurException(session_id);
 		
-		modelCommande.setCommandesListe(listeAchatUser);
+		
+		System.out.println(achatArticles);
+		
+		modelCommande.setCommandesListe(achatArticles);
+		
+		/*
+		 * 
+		 * List<Commande> listeAchatUser =
+		 * metierCommande.lireTousCommandeByAcheteur(session_id);
+		 * 
+		 * modelCommande.setCommandesListe(listeAchatUser);
+		 */
 		
 		
 		request.setAttribute("modelCommande", modelCommande);

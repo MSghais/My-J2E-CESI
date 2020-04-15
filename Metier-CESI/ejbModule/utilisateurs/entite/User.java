@@ -61,145 +61,36 @@ public class User {
 	
 
 	@OneToMany		
+	@JoinTable(name="vente_article", joinColumns=@JoinColumn(name="vendeur_id"),
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
+			)
 	private List<Article >ventesArticles;
 	
 
 	
 	
 	@OneToMany
+	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="acheteur_id"),
+	inverseJoinColumns=@JoinColumn(name="fk_article_id")
+			)
 	private List<Article> achatsArticles;
 	
-	/*  @OneToMany(mappedBy="user")
-	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_article_id")
-			)
-	private List<Article >ventesArticles;
-	
-
-	
-	
-	@OneToMany(mappedBy="user")
-	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_article_id")
-			)
-	private List<Article> achatsArticles; */
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
-	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
-	 * Article> ventesArticles;
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @OneToMany
-	 * 
-	 * @JoinTable(name="achat_article", joinColumns=@JoinColumn(name="user_id"),
-	 * inverseJoinColumns=@JoinColumn(name="fk_article_id") ) private Map<Long,
-	 * Article> achatsArticles;
-	 */
-
-	
-	/*  	
-	@OneToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_commande_id")
-			)
-	private List<Commande> commandesArticles;
-	 */
-	
-	/* @OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="commandes_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_article_id")
-			)
-	private Map<Long, Commande> commandesArticles;  */
-	
-	/* 	@OneToMany(mappedBy= "id")
-	private Map<Long, Article> ventesArticles;
-	
-	@OneToMany(mappedBy= "id")
-	private Map<Long, Article> commandesArticles;
-	
-	
-	@OneToMany(mappedBy= "id")
-	private Map<Long, Article> achatsArticles; */
-	
-	/*
-	 * public void addArticlesVentes(Article article) {
-	 * 
-	 * ventesArticles.put(this.user_id, article); }
-	 * 
-	 * public void addAchatArticles(Article article) { // TODO Auto-generated method
-	 * stub achatsArticles.put(this.user_id, article); }
-	 */
 	
 public void addArticlesVentes(Article article) {
 		
-		ventesArticles.add(article);
+		this.ventesArticles.add(article);
 	}
 	
 	public void addAchatArticles(Article article) {
 		// TODO Auto-generated method stub
-		achatsArticles.add(article);
+		this.achatsArticles.add(article);
 	}
-	
-	/*
-	 * public void addCommandeArticles(Commande commande) { // TODO Auto-generated
-	 * method stub commandesArticles.put(this.user_id, commande); }
-	 */
-	public void addCommandeArticle(Commande commande) {
-		// TODO Auto-generated method stub
-	//	this.commandesArticles.add(commande);
-	}
-	
-	
+
 	public void addArticleAchat(Article article) {
 		// TODO Auto-generated method stub
 		this.achatsArticles.add(article);
 	}
 	
-	/*  WITH COLLECTIONS
-	@OneToMany
-	@JoinTable(name="vendeur_article", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_article_id")
-			)
-	private Collection<Article> ventesArticles = new ArrayList<Article>(); */
-	
-	/*
-	@OneToOne(optional = true)
-	@JoinColumn(name="teacher_id")
-	private Teacher teacher;
-	
-	
-	*/
-	
-	/*@JoinTable(name="user_teacher", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_pseudo_teacher")
-			)*/
-
-/*
-	@OneToMany
-	@JoinTable(name="user_theme", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_theme_niveau_user")
-			)
-	private Collection<Theme> user_theme = new ArrayList<Theme> ();
-	
-	
-	
-	@OneToMany
-	@JoinTable(name="user_skills", joinColumns=@JoinColumn(name="user_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_skills_id")
-			)
-	private Collection<Skills> user_skills = new ArrayList<Skills>();
-*/
-	
-	
-	
-	
-	
-
-
 	
 	
  	public User(Long user_id, String username, String login, String email, String password) {

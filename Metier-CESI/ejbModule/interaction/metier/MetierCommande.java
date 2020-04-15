@@ -95,16 +95,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	private void init() {
 		System.out.println("Metier - init");
 
-		/*
-		 * Article article = new
-		 * Article("Math","Le mond est indéfini, les inconnus sont multiples",
-		 * "puissant le philosophe du dimanche qui fait le mec qui parle des Math zerma"
-		 * ); persistanceArticle.persisterArticle(article);
-		 * 
-		 * Article article1 = new Article("Info","2020 c'est pas des lol",
-		 * "ça taquine en bombe"); persistanceArticle.persisterArticle(article1);
-		 */
-
+	
 	}
 
 	@Override
@@ -125,7 +116,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 		System.out.println("Test  metier : titre ");
 		/* Validation du champ username */
 		try {
-			validationTitre(art_titre);
+			//validationTitre(art_titre);
 		} catch (Exception e) {
 			this.setErreur(CHAMP_TITRE, e.getMessage());
 		}
@@ -134,7 +125,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 		System.out.println("Test  metier : url ");
 		/* Validation du champ username */
 		try {
-			validationUrl(art_url);
+			//validationUrl(art_url);
 
 		} catch (Exception e) {
 			this.setErreur(CHAMP_URL, e.getMessage());
@@ -144,7 +135,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 		System.out.println("Test  metier : description ");
 		/* Validation du champ username */
 		try {
-			validationDescription(art_description);
+		//	validationDescription(art_description);
 
 		} catch (Exception e) {
 			setErreur(CHAMP_DESCL, e.getMessage());
@@ -154,7 +145,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 		System.out.println("Test  metier : Contenu");
 		/* Validation du champ mot de passe. */
 		try {
-			validationContenu(art_contenu);
+			//validationContenu(art_contenu);
 		} catch (Exception e) {
 			setErreur(CHAMP_CONTENT, e.getMessage());
 		}
@@ -191,105 +182,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 		return commande;
 	}
 
-	@Override
-	public void validationTitre(String titre) throws Exception {
-		// TODO Auto-generated method stub
-		if (titre != null) {
-			if (titre.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationUrl(String url) throws Exception {
-		if (url != null) {
-			if (url.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationDescription(String description) throws Exception {
-		// TODO Auto-generated method stub
-		if (description != null) {
-			if (description.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationContenu(String contenu) throws Exception {
-		// TODO Auto-generated method stub
-		if (contenu != null) {
-			if (contenu.length() < 3) {
-				throw new Exception("Le contenu doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir votre mot de passe.");
-		}
-	}
-
-	@Override
-	public void validationTheme(String theme) throws Exception {
-		// TODO Auto-generated method stub
-		if (theme != null) {
-			if (theme.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationSkills(String skills) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
+	
 @Override
 public Commande selectCommandeByLastIndex() {
 	// TODO Auto-generated method stub
@@ -492,6 +385,18 @@ public Commande selectCommandeByLastIndex() {
 public List<Commande> lireTousCommandeByAcheteur(Long user_id) {
 	// TODO Auto-generated method stub
 	return persistanceCommande.lireTousCommandeByAcheteur(user_id);
+}
+
+@Override
+public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
+	// TODO Auto-generated method stub
+	return persistanceCommande.lireTousCommandeByAcheteurException(user_id);
+}
+
+@Override
+public List<Commande> lireTousCommandeByVendeurException(Long user_id) {
+	// TODO Auto-generated method stub
+	return persistanceCommande.lireTousCommandeByVendeurException(user_id);
 }
 	/*
 	 * 

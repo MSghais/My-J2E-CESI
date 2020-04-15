@@ -47,9 +47,6 @@ public interface PersistanceCommandeItf {
 	
 	Commande creerCommandeAll(Article article, User acheteur);
 	
-	Commande creerCommandeAllIndex(Article article, User acheteur, Commande commande);
-	//void updateCommandeReservation(Commande commande, StatutCommande status);
-	
 	
 	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
 	
@@ -76,5 +73,8 @@ public interface PersistanceCommandeItf {
 	List<Article> lireTousArticleVendeur(Long login);
 	
 	List<Commande> lireTousCommandeByAcheteur(Long user_id);
+	
+	List<Commande> lireTousCommandeByAcheteurException(Long user_id) ;
+	List<Commande> lireTousCommandeByVendeurException(Long user_id);
 	
 }

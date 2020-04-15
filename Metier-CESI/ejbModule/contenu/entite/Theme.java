@@ -21,9 +21,8 @@ public class Theme {
 
 	//private List<String> sousRubriques;
 	//private List<String> secteurVisee;
+
 	@Id @GeneratedValue
-	private int theme_id;
-	
 	@Column(name="theme_intitule")
 	private String intitule;
 	
@@ -46,18 +45,12 @@ public class Theme {
 
 	
 
-	public Theme(int theme_id, String theme_intitule) {
-		super();
-		this.theme_id = theme_id;
-		this.intitule = theme_intitule;
-	}
-
-
-
 	public Theme(String theme_intitule) {
 		super();
+		
 		this.intitule = theme_intitule;
 	}
+
 
 
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import contenu.entite.Article;
 import interaction.entite.Commande;
 
 
@@ -17,6 +18,8 @@ public class ModelCommande {
 	
 
 	private Map<Long, Commande> commandesListeMap;
+	
+	private List<Article> achatArticles;
 	
     private Commande commande;
 
@@ -32,11 +35,22 @@ public class ModelCommande {
 
 		this.commandesListeMap = new HashMap<Long, Commande>();
 		this.commande = commande;
+		this.achatArticles = new ArrayList<Article>();
 	
 	}
 
 
 	
+	public List<Article> getAchatArticles() {
+		return achatArticles;
+	}
+
+
+	public void setAchatArticles(List<Article> achatArticles) {
+		this.achatArticles = achatArticles;
+	}
+
+
 	public Map<Long, Commande> getCommandesListeMap() {
 		return commandesListeMap;
 	}

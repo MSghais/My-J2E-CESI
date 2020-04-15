@@ -15,6 +15,47 @@
 	<body>
 	
 	
+	<h4> Mes Articles acheter </h4>
+	
+		<table border="1">
+			<thead> <th>Prix </th><th> Statut </th>  <th> Prix </th> <th>PRENOM</th></thead>
+			  <c:forEach var="article" items="${modelCommande.achatArticles}"> 
+				
+				
+					  	<tbody>
+					  	
+					  	<tr>
+					  	
+					  		<td><c:out value="${ article.titre}"/></td>
+					
+						<td><c:out value="${ article.contenu}"/></td>
+					  	
+			  			<td><c:out value="${ article.description}"/></td>
+			  			
+			  			
+					  	<td><c:out value="${ article.prix}"/></td>
+					
+				
+				
+					 	<td><c:out value="${ article.frais}"/></td>
+					 	
+					 	
+					<td><c:out value="${ article.statutArticle}"/></td>
+					
+					
+				
+				
+						
+						</tr> 
+						
+						   </tbody>
+		      </c:forEach>
+		      
+		  
+		      
+		</table>
+		
+	
 	<h4> Mes Articles en Vente </h4>
 	
 		<table border="1">

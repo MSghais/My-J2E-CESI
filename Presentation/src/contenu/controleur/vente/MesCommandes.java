@@ -23,6 +23,7 @@ import contenu.model.ModelCommande;
 import contenu.model.ModelContenu;
 import interaction.entite.Commande;
 import interaction.metier.MetierInterfaceCommande;
+import utilisateurs.entite.User;
 import utilisateurs.model.ModelUser;
 
 
@@ -78,12 +79,19 @@ public class MesCommandes extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		Long acheteur_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
-		System.out.println("acheteur_id = " + acheteur_id);
+		Long session_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
+		System.out.println("acheteur_id = " + session_id);
 		
+	
 		//List<Commande> listeCommandeUser =  metierCommande.lireTousVenteEnCours(acheteur_id);
 		
-		List<Commande> listeCommandeUser =  metierCommande.rechercherCommandeByAcheteur(acheteur_id);
+		List<Commande> listeCommandeUser =  metierCommande.rechercherCommandeByAcheteur(session_id);
+		
+		
+		// List<Commande> listeCommandeUser =  
+		
+		
+		System.out.println(listeCommandeUser);
 		
 		modelCommande.setCommandesListe(listeCommandeUser);
 		
@@ -91,22 +99,6 @@ public class MesCommandes extends HttpServlet {
 		request.setAttribute("modelCommande", modelCommande);
 		
 		request.getRequestDispatcher(VUE).forward(request, response); 
-		
-		/*for(int i=0; listeCommandeUser.size() ; i++) {
-			
-			
-			
-		}*/
-		
-		/*
-		 * for(Commande commande : listeCommandeUser) {
-		 * 
-		 * List<Article> article_id_commande = (List<Article>) commande.getArticle();
-		 * 
-		 * System.out.println("article in commande are " + article_id_commande); }
-		 */
-		
-		
 
 		
 		

@@ -60,7 +60,7 @@ public class Article {
 
 	@OneToOne(optional = true)
 	@JoinColumn(name="vendeur_id")
-	private User user_vendeur;
+	private User vendeur;
 	/*
 	 * @OneToOne(optional = false, cascade = CascadeType.ALL)
 	 * 
@@ -194,7 +194,7 @@ public Article(String nom, Theme theme, String description) {
 		this.frais = frais;
 		this.prix = prix;
 		this.theme = theme;
-		this.user_vendeur = user_vendeur;
+		this.vendeur = user_vendeur;
 		this.status = status;
 	}
 
@@ -211,7 +211,7 @@ public Article(String nom, Theme theme, String description) {
 		this.description = description;
 		this.contenu = contenu;
 		this.theme = theme;
-		this.user_vendeur = user_vendeur;
+		this.vendeur = user_vendeur;
 		this.status = status;
 	}
 
@@ -339,13 +339,13 @@ public Article(String nom, Theme theme, String description) {
 
 
 	public User getUser_vendeur() {
-		return user_vendeur;
+		return vendeur;
 	}
 
 
 
 	public void setUser_vendeur(User user_vendeur) {
-		this.user_vendeur = user_vendeur;
+		this.vendeur = user_vendeur;
 	}
 
 

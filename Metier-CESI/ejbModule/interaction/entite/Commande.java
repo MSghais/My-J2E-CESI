@@ -48,7 +48,7 @@ public class Commande {
 	
 	@OneToOne(optional = false)
 	@JoinColumn(name="acheteur_id")
-	private User acheteurUser;
+	private User acheteur;
 	
 	
 	/*
@@ -65,7 +65,7 @@ public class Commande {
 		super();
 		this.prix = prix;
 		this.article = article;
-		this.acheteurUser = acheteurUser;
+		this.acheteur = acheteurUser;
 	}
 	
 	public Commande(String prix, StatutCommande statutCommande, Article article, User acheteurUser) {
@@ -73,7 +73,7 @@ public class Commande {
 		this.prix = prix;
 		this.statutCommande = statutCommande;
 		this.article = article;
-		this.acheteurUser = acheteurUser;
+		this.acheteur = acheteurUser;
 	}
 
 
@@ -86,7 +86,7 @@ public class Commande {
 	public Commande(Article article, User acheteur) {
 		// TODO Auto-generated constructor stub
 		this.article = article;
-		this.acheteurUser = acheteur;
+		this.acheteur = acheteur;
 	}
 
 	
@@ -125,7 +125,7 @@ public class Commande {
 
 		
 		this.article = article;
-		this.acheteurUser = user_acheteur;
+		this.acheteur = user_acheteur;
 		
 		// this.vendeurUser= user_vendeur;
 
@@ -141,7 +141,7 @@ public class Commande {
 		this.statutCommande = status;
 	
 		this.article = article;
-		this.acheteurUser = acheteurUser;
+		this.acheteur = acheteurUser;
 		// this.vendeurUser = vendeurUser;
 	}
 
@@ -164,12 +164,12 @@ public class Commande {
 	}
 
 	public User getAcheteurUser() {
-		return acheteurUser;
+		return acheteur;
 	}
 
 
 	public void setAcheteurUser(User acheteurUser) {
-		this.acheteurUser = acheteurUser;
+		this.acheteur = acheteurUser;
 	}
 
 	/*

@@ -26,14 +26,7 @@ public interface MetierInterfaceCommande {
 	void supprimerCommande(Commande commande);
 	List<Commande> lireTousCommande();
 	void persisterCommande(Commande commande);
-	
 
-	void validationTitre(String titre) throws Exception; ;
-	void validationContenu(String contenu) throws Exception; ;
-	void validationUrl(String url) throws Exception;
-	void validationDescription(String description) throws Exception;
-	void validationTheme(String theme) throws Exception;
-	void validationSkills(String skills) throws Exception;
 	
 
 	String getValeurChamp(HttpServletRequest request, String nomChamp);
@@ -78,6 +71,9 @@ public interface MetierInterfaceCommande {
 	
 	List<Commande> lireTousCommandeByAcheteur(Long user_id);
 	Commande selectCommandeByIndex(Long id);
+	
+	List<Commande> lireTousCommandeByAcheteurException(Long user_id) ;
+	List<Commande> lireTousCommandeByVendeurException(Long user_id);
 
 
 }
