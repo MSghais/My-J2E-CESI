@@ -445,6 +445,27 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		
 	}
 
+
+@Override
+public Commande lireTousCommandeByArticleException(Long article_id) {
+	// TODO Auto-generated method stub
+ Commande commande;
+	try {
+		
+		Query req = entityManager.createQuery("select c from Commande c  where c.article_id=: article_id AND where article.status =: status");
+		req.setParameter("article_id", article_id);
+		req.setParameter("status", StatutArticle.RESERVE);
+		commande = (Commande) req.getSingleResult();
+	}catch(Exception e) {
+		
+		commande=null;
+	}
+	
+		return commande;
+	
+}
+
+
 @Override
 public List<Article> lireTousArticleReserveByVendeurException(Long user_id) {
 	// TODO Auto-generated method stub

@@ -85,5 +85,6 @@ public interface PersistanceCommandeItf {
 	void ajouterArticleVente(User user, Article article);
 	
 	List<Article> lireTousArticleReserveByVendeurException(Long user_id);
+	Commande lireTousCommandeByArticleException(Long article_id);
 	
 }

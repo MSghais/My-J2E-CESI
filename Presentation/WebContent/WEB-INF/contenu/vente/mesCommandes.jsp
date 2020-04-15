@@ -40,10 +40,10 @@
 			<thead>
 			 <th> Titre </th> <th> Theme </th><th> Description </th>
 			<th> Contenu </th> <th> Frais </th>   <th> Prix </th>  <th> Statut </th> 
-			 <th> Modifier </th>   <th> Supprimer </th>   <th> Envoyer </th> 
-			 
-			 
+			 <th> Modifier </th>   <th> Supprimer </th>  <th> Validez Commande</th>   <th> Envoyer </th>   <th> Supprimer Commande</th>  
 			 </thead>
+			 
+			 <tbody>
 			  <c:forEach var="article" items="${modelCommande.ventesArticles}"> 
 				<tr>
 				
@@ -65,19 +65,38 @@
 					
 					<td> <a  id="modifier" href="?modifier=${article.id}" > Modifier </a> </td> 
 					
-					<td> <a  id="supprimer" href="?supprimer=${article.id}" > Modifier </a> </td> 
-					
-					
-					<td> <a  id="envoyer" href="?envoyer=${article.id}" > Envoyez </a> </td> 
+					<td> <a  id="supprimer" href="?supprimer=${article.id}" > Supprimer </a> </td> 
 					
 					
 					
 					
-				</tr> 
+					<c:forEach var="commande" items="${modelCommande.commandesListe}"> 
+					
+							<td> <a  id="valider" href="?validerCommande=${commande.id}" > Validez Commande </a> </td> 
+					
+					<td> <a  id="envoyer" href="?envoyerCommande=${commande.id}" > Envoyez </a> </td> 
+					
+					<td> <a  id="supprimer" href="?supprimerCommande=${commande.id}" > Supprimer Commande </a> </td> 
+							
+					
+					</c:forEach>
+			
+					
+					</tr> 
 		      </c:forEach>
+			 
+			 </tbody>
+			 
+					
+					
+					
+				
 		      
 		</table>
 	</form>
+		
+		</div>
+		</section>
 		
 		</div>
 							

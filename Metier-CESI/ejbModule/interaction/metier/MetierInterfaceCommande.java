@@ -75,6 +75,8 @@ public interface MetierInterfaceCommande {
 	List<Commande> lireTousCommandeByVendeurException(Long user_id);
 	
 	List<Article> lireTousArticleReserveByVendeurException(Long user_id);
+	
+	Commande lireTousCommandeByArticleException(Long id);
 
 	void updateArticleStatut(Article article, StatutArticle status);
 

@@ -254,6 +254,8 @@ public Commande selectCommandeByLastIndex() {
 		}
 
 	}
+	
+	
 
 	@Override
 	public void validationPictogramme(String picto) throws Exception {
@@ -295,7 +297,7 @@ public Commande selectCommandeByArticle(Long article_id) {
 	@Override
 	public void updateCommandeStatutindex(Long index, StatutCommande status) {
 		// TODO Auto-generated method stub
-		persistanceCommande.updateCommandeStatutIndex(index, status);
+		persistanceCommande.updateCommandeStatutindex(index, status);
 	}
 
 
@@ -326,7 +328,11 @@ public Commande selectCommandeByArticle(Long article_id) {
 	}
 	
 
-	
+	@Override
+	public Commande lireTousCommandeByArticleException(Long article_id) {
+		// TODO Auto-generated method stub
+		return persistanceCommande.lireTousCommandeByArticleException(article_id);
+	}
 	
 	@Override
 	public void voidCreateAndInsertCommandeMetierIn(Article article, User userAcheteur ) {

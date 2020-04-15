@@ -159,7 +159,7 @@ public class AjouterArticleAchat extends HttpServlet {
 				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
 
 				  
-				// metierCommande.insertArticleAchat(userConnecter, articleAchatID);
+				// 
 				
 				 
 				 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
@@ -167,10 +167,14 @@ public class AjouterArticleAchat extends HttpServlet {
 				 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
 				 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
 				 
-				// metierCommande.insertArticleCommande(userVendeur, articleAchatID);
+				// 
 				 
-				metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
+				 //metierCommande.insertArticleAchat(userConnecter, articleAchatID);
+				 
+				 
+				metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);
 				
+				metierCommande.insertArticleCommande(userVendeur, articleAchatID);
 				
 
 				//metierCommande.ajouterArticleVenteEnCours(userVendeur, articleAchatID)  ;
