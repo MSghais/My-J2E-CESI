@@ -18,10 +18,12 @@ import javax.servlet.http.HttpSession;
 import com.sun.net.httpserver.Filter;
 
 import contenu.entite.Article;
+import contenu.enume.StatutArticle;
 import contenu.metier.article.MetierInterfaceArticle;
 import contenu.model.ModelCommande;
 import contenu.model.ModelContenu;
 import interaction.entite.Commande;
+import interaction.enume.StatutCommande;
 import interaction.metier.MetierInterfaceCommande;
 import utilisateurs.entite.User;
 import utilisateurs.model.ModelUser;
@@ -83,23 +85,67 @@ public class MesCommandes extends HttpServlet {
 		System.out.println("acheteur_id = " + session_id);
 		
 	
-		//List<Commande> listeCommandeUser =  metierCommande.lireTousVenteEnCours(acheteur_id);
 		
-		List<Commande> listeCommandeUser =  metierCommande.rechercherCommandeByAcheteur(session_id);
 		
+		User userSession = metierArticle.rechercherUserIndex(session_id);
+		
+		//List<Article> articlesVentes = userSession.getVentesArticles();
+		
+		System.out.println("recherche vente article statut reserve and user session");
+		List<Article> ventesArticles = metierCommande.lireTousArticleReserveByVendeurException(session_id);
+		
+		System.out.println("articles Liste vente" + ventesArticles);
+		
+		modelCommande.setVentesArticles(ventesArticles);
 		
 		// List<Commande> listeCommandeUser =  
-		
-		
-		System.out.println(listeCommandeUser);
-		
-		modelCommande.setCommandesListe(listeCommandeUser);
-		
+
 
 		request.setAttribute("modelCommande", modelCommande);
 		
 		request.getRequestDispatcher(VUE).forward(request, response); 
-
+		
+		
+		
+		
+		if( request.getParameter("modifier") != null)
+		{
+			
+			
+		}
+		
+		if( request.getParameter("supprimer") != null)
+		{
+			
+			Long article_id = Long.valueOf(request.getParameter("article_id"));
+			
+			Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
+			metierArticle.supprimerArticle(articleDelete);
+			
+		}
+		
+		if( request.getParameter("envoyer") != null)
+		{
+			
+			Long article_id = Long.valueOf(request.getParameter("article_id"));
+			
+			Article articleEnvoyer = metierArticle.rechercherArticleIndex(article_id);
+			
+			metierCommande.updateArticleStatut(articleEnvoyer, StatutArticle.VENDU);
+			
+			
+			Commande commande = metierCommande.selectCommandeByArticle(article_id);
+			
+			
+			metierCommande.updateCommandeStatut( commande, StatutCommande.VALIDEE);
+			
+		}
+		
+		//List<Commande> listeCommandeUser =  metierCommande.lireTousVenteEnCours(acheteur_id);	
+				//List<Commande> listeCommandeUser =  metierCommande.rechercherCommandeByAcheteur(session_id);	
+				/* 	System.out.println(listeCommandeUser);
+				
+				modelCommande.setCommandesListe(listeCommandeUser); */
 		
 		
 	}

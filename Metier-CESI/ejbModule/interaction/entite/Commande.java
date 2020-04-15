@@ -42,11 +42,11 @@ public class Commande {
 	
 
 	
-	@OneToOne(optional = false)
+	@OneToOne
 	@JoinColumn(name="article_id")
 	private Article article;
 	
-	@OneToOne(optional = false)
+	@OneToOne
 	@JoinColumn(name="acheteur_id")
 	private User acheteur;
 	

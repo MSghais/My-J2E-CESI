@@ -61,26 +61,7 @@ public class Article {
 	@OneToOne(optional = true)
 	@JoinColumn(name="vendeur_id")
 	private User vendeur;
-	/*
-	 * @OneToOne(optional = false, cascade = CascadeType.ALL)
-	 * 
-	 * @JoinColumn(name="vendeur_id") private User user_vendeur;
-	 */
-
 	
-	//@MapsId
-	// 	@OneToOne(optional = true, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	/*
-	 * @OneToOne(optional = false, cascade = CascadeType.PERSIST)
-	 * 
-	 * @JoinColumn(name="vendeur_id")
-	 * 
-	 * @MapsId
-	 * 
-	 * @PrimaryKeyJoinColumn private User user_vendeur;
-	 */
-	
-	private Long fk_user_id;
 	
 	protected StatutArticle status;
 	//private Long user_vendeur;
@@ -89,32 +70,7 @@ public class Article {
 		
 		this.setUser_vendeur(user);
 	}
-	/*
-	@OneToMany
-	@JoinTable(name="article_skills", joinColumns=@JoinColumn(name="article_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_art_skills_requis")
 
-			)
-	private Collection<Skills> article_skill = new ArrayList<Skills>();*/
-	
-	
-	/*
-	@OneToMany
-	@JoinTable(name="article_commentaire", joinColumns=@JoinColumn(name="article_id"),
-	inverseJoinColumns=@JoinColumn(name="fk_commentaire_id")
-)
-	private Collection<Commentaire> commentaire = new ArrayList<Commentaire>();*
-	
-	/
-	/*
-	@ManyToOne
-	private Teacher teacher;
-	
-	@ManyToMany
-	private User user;
-	*/
-	
-	//private String teacherName;
 	public Article() {}
 	
 	
@@ -129,17 +85,6 @@ public class Article {
 	
 		
 	}
-
-
-
-
-	/*public Article(String nom, String art_description, String art_contenu) {
-		super(nom);
-		this.art_description = art_description;
-		this.art_contenu = art_contenu;
-		
-	}*/
-	
 
 
 	public Article( String art_description, String art_contenu, String art_url) {
@@ -361,31 +306,7 @@ public Article(String nom, Theme theme, String description) {
 	}
 
 
-	public void setUser_Id(Long user_id) {
 
-		this.setFk_user_id(user_id);
-		
-	}
-
-
-	public void addUser(Long user_id) {
-		// TODO Auto-generated method stub
-		
-		this.setUser_Id(user_id);
-	}
-
-
-	public Long getFk_user_id() {
-		return fk_user_id;
-	}
-
-
-	public void setFk_user_id(Long fk_user_id) {
-		this.fk_user_id = fk_user_id;
-	}
-
-
-	
 	
 
 

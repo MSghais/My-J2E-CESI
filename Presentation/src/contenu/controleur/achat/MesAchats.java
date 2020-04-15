@@ -86,12 +86,23 @@ ModelCommande modelCommande = new ModelCommande();
 		//List<Article> achatArticles = userSession.getAchatArticles();
 		
 		
-		List<Commande> achatArticles = metierCommande.lireTousCommandeByAcheteurException(session_id);
+		/*
+		 * List<Commande> achatArticles =
+		 * metierCommande.lireTousCommandeByAcheteurException(session_id);
+		 * 
+		 * 
+		 * System.out.println(achatArticles);
+		 * 
+		 * modelCommande.setCommandesListe(achatArticles);
+		 * 
+		 * 
+		 */
+		List<Article> achatArticles = userSession.getAchatArticles();
 		
 		
 		System.out.println(achatArticles);
 		
-		modelCommande.setCommandesListe(achatArticles);
+		modelCommande.setAchatArticles(achatArticles);
 		
 		/*
 		 * 

@@ -21,6 +21,8 @@ public class ModelCommande {
 	
 	private List<Article> achatArticles;
 	
+	private List<Article> ventesArticles;
+	
     private Commande commande;
 
 
@@ -36,11 +38,23 @@ public class ModelCommande {
 		this.commandesListeMap = new HashMap<Long, Commande>();
 		this.commande = commande;
 		this.achatArticles = new ArrayList<Article>();
+		
+		this.ventesArticles = new ArrayList<Article>();
 	
 	}
 
 
 	
+	public List<Article> getVentesArticles() {
+		return ventesArticles;
+	}
+
+
+	public void setVentesArticles(List<Article> ventesArticles) {
+		this.ventesArticles = ventesArticles;
+	}
+
+
 	public List<Article> getAchatArticles() {
 		return achatArticles;
 	}

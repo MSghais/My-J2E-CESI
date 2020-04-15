@@ -18,7 +18,8 @@ public interface PersistanceCommandeItf {
 	Commande lireCommande(Long id);
 	Commande lireCommandeName(String name);
 	
-
+	void insertArticleAchat(User user, Article article);
+	void insertArticleCommande(User user, Article article);
 
 	
 	void persisterUserCommande(User user, Commande article);
@@ -38,6 +39,7 @@ public interface PersistanceCommandeItf {
 	
 	void updateArticleStatut(Article article, StatutArticle status);
 	void updateCommandeStatut(Commande commande,  StatutCommande status);
+	void updateCommandeStatutindex(Long index, StatutCommande status) ;
 	
 	void insertIntoCommandeAcheteurVendeur(User user, Article article);
 	void ajouterArticleCommande(User user, Commande commande);
@@ -52,6 +54,10 @@ public interface PersistanceCommandeItf {
 	
 	
 	Commande selectCommandeByLastIndex();
+
+	Commande selectCommandeByArticle(Long article_id);
+	
+	
 	void voidInsertCommandeMetier(Article article, User userAcheteur);
 	Commande insertCommandeMetier(Article article, User userAcheteur);
 	
@@ -76,5 +82,8 @@ public interface PersistanceCommandeItf {
 	
 	List<Commande> lireTousCommandeByAcheteurException(Long user_id) ;
 	List<Commande> lireTousCommandeByVendeurException(Long user_id);
+	void ajouterArticleVente(User user, Article article);
+	
+	List<Article> lireTousArticleReserveByVendeurException(Long user_id);
 	
 }

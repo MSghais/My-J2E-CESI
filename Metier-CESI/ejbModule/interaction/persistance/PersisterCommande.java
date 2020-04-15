@@ -180,6 +180,23 @@ public class PersisterCommande implements PersistanceCommandeItf{
 	}
 	
 	@Override
+	public Commande selectCommandeByArticle(Long article_id) {
+		// TODO Auto-generated method stub
+		Commande commande;
+		try {
+			
+			Query req = entityManager.createQuery("select c from Commande c  where c.article_id=: article_id ");
+			req.setParameter("article_id", article_id);
+			commande = (Commande) req.getSingleResult();
+		}catch(Exception e) {
+			
+			commande=null;
+		}
+		
+			return commande;
+	}
+	
+	@Override
 	public void updateCommandeWithVendeur(Commande commande, User user, Article article) {
 		
 		//  entityManager.getTransaction().begin();
@@ -321,36 +338,21 @@ public class PersisterCommande implements PersistanceCommandeItf{
 	@Override
 	public void insertIntoCommandeAcheteurVendeur(User user, Article article ) {
 		
-		System.out.println("Add Article Achat ");
+		System.out.println("Add Article VENTE ");
 		
 		//entityManager.getTransaction().begin();
 		
 		user.addArticleAchat(article);
 		
+		
+		System.out.println("Get and Ajouter Article VENTE ");
 		user.getAchatArticles().add(article);
 	
 	}
 
 
 	
-	@Override
-	public void ajouterArticleAchat(User user, Article article) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("Ajouter Article Achat ");
-			user.addAchatArticles(article);
-		
-			user.getAchatArticles().add(article);
-		//user.getAchatArticles().put(user.getUser_id(), article);
-	}
-
-	@Override
-	public void ajouterArticleCommande(User user, Commande commande) {
-		// TODO Auto-generated method stub
-			//user.addCommandeArticle(commande);
-		
-		//user.getCommandesArticles().add(commande);
-	}
+	
 
 	@Override
 	public Commande createAndInsertCommandeMetier(Article article, User userAcheteur ) {
@@ -425,13 +427,14 @@ public class PersisterCommande implements PersistanceCommandeItf{
 	}
 	
 @Override
-	public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
+	public List<Commande> lireTousCommandeByVendeurException(Long user_id) {
 		// TODO Auto-generated method stub
 	List<Commande> commandes;
 		try {
 			
-			Query req = entityManager.createQuery("select c from Commande c  where article.user.user_id=: user_id ");
+			Query req = entityManager.createQuery("select c from Commande c  where article.user.user_id=: user_id AND where article.status =: status");
 			req.setParameter("user_id", user_id);
+			req.setParameter("status", StatutArticle.RESERVE);
 			commandes = req.getResultList();
 		}catch(Exception e) {
 			
@@ -443,7 +446,25 @@ public class PersisterCommande implements PersistanceCommandeItf{
 	}
 
 @Override
-public List<Commande> lireTousCommandeByVendeurException(Long user_id) {
+public List<Article> lireTousArticleReserveByVendeurException(Long user_id) {
+	// TODO Auto-generated method stub
+	List<Article> articlesReserve;
+	try {
+		
+		Query req = entityManager.createQuery("select a from Article a  where vendeur_id=: user_id AND  a.status =: status");
+		req.setParameter("user_id", user_id);
+		req.setParameter("status", StatutArticle.RESERVE);
+		articlesReserve = req.getResultList();
+	}catch(Exception e) {
+		
+		articlesReserve=null;
+	}
+	
+		return articlesReserve;
+}
+
+@Override
+public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
 	// TODO Auto-generated method stub
 List<Commande> commandes;
 	try {
@@ -458,6 +479,86 @@ List<Commande> commandes;
 	
 		return commandes;
 	
+}
+
+@Override
+public void insertArticleAchat(User user, Article article) {
+	
+	Query query = entityManager.createNativeQuery("INSERT INTO achat_article "
+			+ "( acheteur_id, fk_article_id)"
+			+ " VALUES"
+			+ " (  :acheteur_id, :fk_article_id );");
+	
+      query.setParameter("acheteur_id", user.getUser_id());
+  
+   
+      query.setParameter("fk_article_id", article.getId());
+      // :vendeur_id query.setParameter("vendeur_id", article.getUser_vendeur());
+      query.executeUpdate();
+	
+      
+
+      
+     // article.setStatus(StatutArticle.RESERVE);
+	
+	//entityManager.persist(article);
+	  
+	
+}
+@Override
+public void insertArticleCommande(User user, Article article) {
+	// TODO Auto-generated method stub
+	Query query = entityManager.createNativeQuery("INSERT INTO vente_article "
+			+ "( vendeur_id, fk_article_id)"
+			+ " VALUES"
+			+ " (  :vendeur_id, :fk_article_id );");
+	
+      query.setParameter("vendeur_id", user.getUser_id());
+  
+   
+      query.setParameter("fk_article_id", article.getId());
+      // :vendeur_id query.setParameter("vendeur_id", article.getUser_vendeur());
+      query.executeUpdate();
+}
+
+@Override
+public void ajouterArticleAchat(User user, Article article) {
+	// TODO Auto-generated method stub
+	
+	System.out.println("Ajouter Article Achat ");
+		user.addAchatArticles(article);
+	
+		System.out.println("Get and Ajouter Article Achat ");
+		user.getAchatArticles().add(article);
+	//user.getAchatArticles().put(user.getUser_id(), article);
+}
+
+@Override
+public void ajouterArticleVente(User user, Article article) {
+	// TODO Auto-generated method stub
+	
+	System.out.println("Ajouter Article Ventes ");
+		user.addArticlesVentes(article);
+	
+		System.out.println("Get and Ajouter Article Ventes ");
+		user.getVentesArticles().add(article);
+	//user.getAchatArticles().put(user.getUser_id(), article);
+}
+
+@Override
+public void ajouterArticleCommande(User user, Commande commande) {
+	// TODO Auto-generated method stub
+		//user.addCommandeArticle(commande);
+	
+	//user.getCommandesArticles().add(commande);
+}
+
+@Override
+public void updateCommandeStatutindex(Long index, StatutCommande status) {
+	// TODO Auto-generated method stub
+	Commande commandeModif = entityManager.find(Commande.class, index);
+	
+	commandeModif.setStatus(status);
 }
 
 /*  @Override

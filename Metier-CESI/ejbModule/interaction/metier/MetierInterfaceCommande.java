@@ -41,15 +41,14 @@ public interface MetierInterfaceCommande {
 	void validationBanquaire(String cb_code) throws Exception;
 	
 	
-	void updateArticleStatut(Article article, StatutArticle status);
 
-	void updateCommandeStatut(Commande commande, StatutCommande status);
 	
-	void ajouterArticleCommande(User user, Commande commande);
-	void ajouterArticleAchat(User user, Article article);
-	
+	void insertArticleAchat(User user, Article article);
+	void insertArticleCommande(User user, Article article);
 	
 	Commande selectCommandeByAcheteur(Long user_id);
+	
+	Commande selectCommandeByArticle(Long article_id);
 	Commande selectCommandeByLastIndex();
 
 	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
@@ -74,6 +73,16 @@ public interface MetierInterfaceCommande {
 	
 	List<Commande> lireTousCommandeByAcheteurException(Long user_id) ;
 	List<Commande> lireTousCommandeByVendeurException(Long user_id);
+	
+	List<Article> lireTousArticleReserveByVendeurException(Long user_id);
 
+	void updateArticleStatut(Article article, StatutArticle status);
+
+	void updateCommandeStatut(Commande commande, StatutCommande status);
+	void updateCommandeStatutindex(Long index, StatutCommande status) ;
+	
+	void ajouterArticleCommande(User user, Commande commande);
+	void ajouterArticleAchat(User user, Article article);
+	void ajouterArticleVenteEnCours(User user, Article article);
 
 }

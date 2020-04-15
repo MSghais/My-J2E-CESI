@@ -146,27 +146,36 @@ public class AjouterArticleAchat extends HttpServlet {
 
 				System.out.println("user connecter est : " + userAcheteur);
 
+				  System.out.println("creer commande simply");
+				  metierCommande.creerCommandeSimply(userAcheteur.getLogin(), articleAchatID.getId());
 				
 				/*
 				 * System.out.println("creer commande simply");
-				 * metierCommande.creerCommandeSimply(userConnecter.getLogin(),
+				 * metierCommande.creerCommandeSimply(userAcheteur.getLogin(),
 				 * articleAchatID.getId());
-				 * 
-				 * System.out.println("Update  article statut Reservé");
-				 * metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
-				 * 
-				 * metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
-				 * 
-				 * 
-				 * User userVendeur =
-				 * metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id
-				 * () ); System.out.println("Uservendeur ID " + userVendeur.getUser_id());
-				 * Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
-				 * System.out.println("Commande last id + " + commandeLastID.getCommande_id());
-				 * 
-				 * metierCommande.ajouterArticleCommande(userVendeur, commandeLastID) ;
 				 */
+				  
+				  System.out.println("Update  article statut Reservé");
+				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
+
+				  
+				// metierCommande.insertArticleAchat(userConnecter, articleAchatID);
+				
 				 
+				 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
+				 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
+				 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
+				 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
+				 
+				// metierCommande.insertArticleCommande(userVendeur, articleAchatID);
+				 
+				metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
+				
+				
+
+				//metierCommande.ajouterArticleVenteEnCours(userVendeur, articleAchatID)  ;
+				 
+				//
 				 
 				
 		  System.out.println("metier try validation banquaire : ");
@@ -200,21 +209,25 @@ public class AjouterArticleAchat extends HttpServlet {
 			  metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
 			  metierCommande.setErreur( ATTRIBUT_ERREUR_PICTO, e.getMessage() );
 		  
+			 
 			  erreurPicto = e.getMessage();
 			  
 			  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
 			  
 			  erreursMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
 			  
-			  
-			  System.out.println("attribut erreurs Map" +
-			  erreursMap.get(ATTRIBUT_ERREUR_PICTO) );
+			
 		  
 		  
 		  }
 		 
 
 				
+		  System.out.println(erreursMap);	
+		  System.out.println(erreurPicto + erreurMsg); 
+		  System.out.println("Vérification des validations conditionnels ");
+		  
+		  
 				  if ( !erreurPicto.isEmpty() || !erreursMap.isEmpty() || !erreurMsg.isEmpty()
 				  || erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
 				  erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) ) {
@@ -222,34 +235,35 @@ public class AjouterArticleAchat extends HttpServlet {
 				  request.setAttribute(ATTRIBUT_ERREUR_MAP_CB, erreursMap.values());
 				  request.setAttribute(ATTRIBUT_ERREUR_CB, erreursMap.get(ATTRIBUT_ERREUR_CB));
 				  
-				  request.setAttribute(ATTRIBUT_ERREUR_PICTO,
-				  erreursMap.get(ATTRIBUT_ERREUR_PICTO));
-				  request.setAttribute(ATTRIBUT_ERREUR_MSG, erreurMsg);
-				  
-				  System.out.
-				  println("erreurs envoyé et détecte. Renvoi forward acheter article");
+			
+				  System.out. println("erreurs envoyé et détecte. Renvoi forward acheter article");
+				
 				  request.getRequestDispatcher("/acheterArticle").forward(request, response);
 				  
-				  } else if( !erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
+				  } 
+				  else if( !erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
 				  !erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) || erreursMap.isEmpty() ||
 				  erreurMsg.isEmpty() || erreurPicto.isEmpty() ) {
-					  
-
-					  System.out.println("creer commande simply");
-					  metierCommande.creerCommandeSimply(userConnecter.getLogin(), articleAchatID.getId());
-					  
-					  System.out.println("Update  article statut Reservé");
-					  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
-
-					 metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
-
-					 
-					 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
-					 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
-					 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
-					 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
-					 
-					 metierCommande.ajouterArticleCommande(userVendeur, commandeLastID)  ;
+					/*
+					 * 
+					 * System.out.println("creer commande simply");
+					 * metierCommande.creerCommandeSimply(userConnecter.getLogin(),
+					 * articleAchatID.getId());
+					 * 
+					 * System.out.println("Update  article statut Reservé");
+					 * metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
+					 * 
+					 * metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
+					 * 
+					 * 
+					 * User userVendeur =
+					 * metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id
+					 * () ); System.out.println("Uservendeur ID " + userVendeur.getUser_id());
+					 * Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
+					 * System.out.println("Commande last id + " + commandeLastID.getCommande_id());
+					 * 
+					 * metierCommande.ajouterArticleCommande(userVendeur, commandeLastID) ;
+					 */
 					  
 				  }
 				  

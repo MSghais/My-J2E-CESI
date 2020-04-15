@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,7 +61,8 @@ public class User {
 	protected Role role;
 	
 
-	@OneToMany		
+	//@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany
 	@JoinTable(name="vente_article", joinColumns=@JoinColumn(name="vendeur_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)
@@ -69,7 +71,9 @@ public class User {
 
 	
 	
-	@OneToMany
+	//
+	//@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="acheteur_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)

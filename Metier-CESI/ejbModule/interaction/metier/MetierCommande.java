@@ -272,7 +272,11 @@ public Commande selectCommandeByLastIndex() {
 
 	}
 
-
+@Override
+public Commande selectCommandeByArticle(Long article_id) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 
 	@Override
@@ -287,6 +291,13 @@ public Commande selectCommandeByLastIndex() {
 		// TODO Auto-generated method stub
 		persistanceCommande.updateCommandeStatut(commande, status);
 	}
+	
+	@Override
+	public void updateCommandeStatutindex(Long index, StatutCommande status) {
+		// TODO Auto-generated method stub
+		persistanceCommande.updateCommandeStatutIndex(index, status);
+	}
+
 
 	@Override
 	public void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur) {
@@ -397,6 +408,29 @@ public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
 public List<Commande> lireTousCommandeByVendeurException(Long user_id) {
 	// TODO Auto-generated method stub
 	return persistanceCommande.lireTousCommandeByVendeurException(user_id);
+}
+
+@Override
+public List<Article> lireTousArticleReserveByVendeurException(Long user_id) {
+	// TODO Auto-generated method stub
+	return persistanceCommande.lireTousArticleReserveByVendeurException(user_id);
+}
+
+@Override
+public void insertArticleAchat(User user, Article article) {
+	// TODO Auto-generated method stub
+	persistanceCommande.insertArticleAchat(user, article);
+}
+@Override
+public void insertArticleCommande(User user, Article article) {
+	// TODO Auto-generated method stub
+	persistanceCommande.insertArticleCommande(user, article);
+}
+
+@Override
+public void ajouterArticleVenteEnCours(User user, Article article) {
+	// TODO Auto-generated method stub
+	persistanceCommande.ajouterArticleVente(user, article);
 }
 	/*
 	 * 

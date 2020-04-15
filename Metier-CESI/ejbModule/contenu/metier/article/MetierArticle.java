@@ -214,15 +214,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 			System.out.println("Persister Article in Metier User Index Method");
 
 			persistanceArticle.persisterArticle(article);
-			
-		//	User userBDD = (User)persistanceUser.selectLoginUser(loginUser); System.out.println("User BDD select are : " + userBDD); System.out.println("User BDD  ID select are : " + userBDD.getUser_id( ));
-			
-			
-			
-			
-	//		User userLectureBDD = (User)persistanceUser.lireLoginUser(loginUser); System.out.println("User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
-			
-			
+
 			User userLectureBDD = (User)persistanceUser.lireUser(user_id); System.out.println("Lire User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
 			
 			
@@ -230,110 +222,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 			
 			persistanceArticle.updateArticleWithUser(article, userLectureBDD);
 
-			/*
-			 * persistanceArticle.insertIntoVenteUser(userLectureBDD, article);
-			 */
-			//persistanceArticle.insertionJoinTableIdAndKey(userLectureBDD.getUser_id() ,	article.getId());
 			
-		
-			
-			
-			/*
-			 * User userRechercher = (User) rechercherUserLogin(loginUser);
-			 * System.out.println("User BDD select are : " + userRechercher);
-			 * System.out.println("User BDD  ID select are : " + userRechercher.getUser_id(
-			 * ));
-			 * 
-			 * System.out.println("updateArticle");
-			 * 
-			 * persistanceArticle.insertionJoinTableIdAndKey(userRechercher.getUser_id() ,
-			 * article.getId());
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userRechercher);
-			 * 
-			 * 
-			 * User userRechercherIndex = (User) rechercherUserIndex(user_id);
-			 * System.out.println("User BDD select are : " + userRechercher);
-			 * System.out.println("User BDD  ID select are : " +
-			 * userRechercherIndex.getUser_id( ));
-			 * 
-			 * 
-			 * System.out.println("updateArticle");
-			 * 
-			 * persistanceArticle.insertionJoinTableIdAndKey(userRechercherIndex.getUser_id(
-			 * ) , article.getId());
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userRechercherIndex);
-			 */
-			
-			
-			/*
-			 * System.out.println("insertion Join Table ID and Key");
-			 * 
-			 * persistanceArticle.insertionJoinTableIdAndKey(userBDD.getUser_id() ,
-			 * article.getId());
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userBDD);
-			 */
-			
-			
-			
-			/*
-			 * System.out.println("insertion Join Table ID and Key");
-			 * 
-			 * persistanceArticle.insertionJoinTableIdAndKey(userParams.getUser_id() ,
-			 * article.getId());
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userParams);
-			 */
-			
-
-			/*
-			 * System.out.println("Persister Article in User Method");
-			 * 
-			 * persistanceArticle.persisterArticleInUser(userParams, article);
-			 * 
-			 * System.out.println("Persister Article in User Method");
-			 * 
-			 * persistanceArticle.persisterArticle(article);
-			 */
-
-			// updateArticleWithUser(article, userParams);
-			// persistanceArticle.persisterUserArticle(userParams, article);
-			// persistanceArticle.persisterArticleInUser(userParams, article);
-			/*
-			 * System.out.println("Updadte Article column");
-			 * 
-			 * persistanceArticle.updateArticleWithUser(article, userParams);
-			 * 
-			 * 
-			 * System.out.println("Inssert into Vender with List");
-			 * 
-			 * persistanceArticle.insertIntoVenteUser(userParams, article);
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Object");
-			 * 
-			 * persistanceArticle.insertionJoinTableObject(userParams, article);
-			 * 
-			 * 
-			 * System.out.println("Insertion Join table Index");
-			 * 
-			 * persistanceArticle.insertionJoinTableId(userParams.getUser_id(),
-			 * article.getId());
-			 * 
-			 * 
-			 * 
-			 * System.out.println("Persister UserAndArticle Method");
-			 */
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-			//
-
-			// insertJoinArticleUserWithQuery(userParams, article);
-
-			// persistanceArticle.persisterUserAndArticle(userParams, article);
-
 			System.out.println("Persister Article OK ");
 			return article;
 			
@@ -418,7 +307,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 		article.addUser(userParams);
 		System.out.println(article.getUser_vendeur());
 
-		article.setUser_Id(userParams.getUser_id());
+		//article.setUser_vendeur(userParams);
 
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
@@ -570,9 +459,10 @@ public class MetierArticle implements MetierInterfaceArticle {
 		 // article.setUser_vendeur(user_id);
 		  System.out.println(article.getUser_vendeur());
 
-		  article.addUser(user_id);
-		  // System.out.println(article.getUser_id());
-		  article.setUser_Id(user_id);
+		/*
+		 * article.addUser(user_id); // System.out.println(article.getUser_id());
+		 * article.setUser_vendeur(user_id);
+		 */
 		  System.out.println(article.getUser_vendeur());
 
 		/* Initialisation du résultat global de la validation. */
@@ -1242,7 +1132,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 		article.addUser(userParams);
 		System.out.println(article.getUser_vendeur());
 
-		article.setUser_Id(userParams.getUser_id());
+	//	article.setUser_vendeur(userParams.getUser_id());
 
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()

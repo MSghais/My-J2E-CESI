@@ -34,24 +34,50 @@
 		
 		<h4> Mes Articles en Vente </h4>
 	
+		<form action="mesCommandes" method="post">
 		<table border="1">
-			<th>Index </th><th>Statut Commande </th> <th> Article Id </th>
-			  <c:forEach var="commandeAchat" items="${modelCommande.commandesListe}"> 
+			
+			<thead>
+			 <th> Titre </th> <th> Theme </th><th> Description </th>
+			<th> Contenu </th> <th> Frais </th>   <th> Prix </th>  <th> Statut </th> 
+			 <th> Modifier </th>   <th> Supprimer </th>   <th> Envoyer </th> 
+			 
+			 
+			 </thead>
+			  <c:forEach var="article" items="${modelCommande.ventesArticles}"> 
 				<tr>
-		
 				
 				
-					<td><c:out value="${ commandeAchat.prix}"/></td>
+					<td><c:out value="${ article.titre}"/></td>
 					
-						<td><c:out value="${ commandeAchat.article_id}"/></td>
+						<td><c:out value="${ article.theme}"/></td>
+					<td><c:out value="${article.description}"/></td>
+					
+					<td><c:out value="${article.contenu}"/></td>
+					
+					<td><c:out value="${article.frais}"/></td>
+					
+					<td><c:out value="${article.prix}"/></td>
+					
 					
 						
+					<td><c:out value="${article.status}"/></td>
+					
+					<td> <a  id="modifier" href="?modifier=${article.id}" > Modifier </a> </td> 
+					
+					<td> <a  id="supprimer" href="?supprimer=${article.id}" > Modifier </a> </td> 
+					
+					
+					<td> <a  id="envoyer" href="?envoyer=${article.id}" > Envoyez </a> </td> 
+					
+					
+					
+					
 				</tr> 
 		      </c:forEach>
 		      
 		</table>
-		      
-	
+	</form>
 		
 		</div>
 							

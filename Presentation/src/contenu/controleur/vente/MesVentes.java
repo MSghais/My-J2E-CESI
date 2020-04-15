@@ -79,10 +79,15 @@ public class MesVentes extends HttpServlet {
 		Long user_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
 		
 		System.out.println("USER ID session are = "+ user_id);
-		
-		List<Article> articlesVentes = metierArticle.lireTousArticleByUserVente(user_id);
+
+		List<Article> articlesEnVentes = metierArticle.lireTousArticleByUserVente(user_id);
 		 
-		 modelContenu.setArticles(articlesVentes);
+		 modelContenu.setArticles(articlesEnVentes);
+		 
+
+			// List<Article> articlesVentes = metierArticle.lireTousArticleByUserVente(user_id);
+			 
+			 //modelContenu.setArticles(articlesVentes);
 			request.setAttribute("modelContenu", modelContenu);
 			
 			request.getRequestDispatcher(VUE).forward(request, response); 
