@@ -22,7 +22,7 @@ import interaction.entite.Commande;
 import interaction.enume.StatutCommande;
 import interaction.persistance.PersistanceCommandeItf;
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
+
 import utilisateurs.persistance.PersistanceUserItf;
 
 @Stateless
@@ -78,6 +78,23 @@ public class MetierCommande implements MetierInterfaceCommande {
 		init();
 	}
 
+
+	
+	@Override
+	public void creerCommandeSimply(String login, Long article_id) {	
+		User uconnecte = (User) persistanceUser.rechercherUserLogin(login);
+	
+		Article article = (Article) persistanceArticle.rechercherArticleIndex(article_id);
+		
+		article.setStatus(StatutArticle.RESERVE);
+		Commande commande = new Commande(article.getPrix(), article, uconnecte);
+		commande.setStatus(StatutCommande.ENCOURS);
+		
+		commande.setDateCreation(new Date());
+		persistanceCommande.persisterCommande(commande);
+	}
+
+	
 	
 	@Override
 	public void supprimerCommandeByArticleIndexException(Long article_id) {
@@ -88,6 +105,12 @@ public class MetierCommande implements MetierInterfaceCommande {
 		
 		supprimerCommande(commande);
 		
+	}
+	
+	@Override
+	public List<Article> lireTousArticleByVendeurException(Long user_id) {
+		// TODO Auto-generated method stub
+		return persistanceCommande.lireTousArticleByVendeurException(user_id);
 	}
 	
 	@Override
@@ -121,22 +144,6 @@ public class MetierCommande implements MetierInterfaceCommande {
 	}
 	
 
-	
-	@Override
-	public void creerCommandeSimply(String login, Long article_id) {	
-		User uconnecte = (User) persistanceUser.rechercherUserLogin(login);
-	
-		Article article = (Article) persistanceArticle.rechercherArticleIndex(article_id);
-		
-		article.setStatus(StatutArticle.RESERVE);
-		Commande commande = new Commande(article.getPrix(), article, uconnecte);
-		commande.setStatus(StatutCommande.ENCOURS);
-		
-		commande.setDateCreation(new Date());
-		persistanceCommande.persisterCommande(commande);
-	}
-
-	
 
 	@Override
 	public void validationBanquaire(String CB) throws Exception {
@@ -362,14 +369,7 @@ public Commande selectCommandeByArticle(Long article_id) {
 	}
 
 
-	@Override
-	public void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur) {
-		// TODO Auto-generated method stub
 
-		persistanceCommande.updateCommandeReservationAll(commande, status, article, acheteur);
-	}
-
-	
 	@Override
 	public void ajouterArticleCommande(User user, Commande commande) {
 		// TODO Auto-generated method stub

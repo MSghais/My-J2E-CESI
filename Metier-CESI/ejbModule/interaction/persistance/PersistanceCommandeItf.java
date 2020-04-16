@@ -29,10 +29,6 @@ public interface PersistanceCommandeItf {
 Commande selectCommandeTitre(String titre);
 	
 	
-	void updateCommandeWithAcheteur(Commande commande, User user);
-	void updateCommandeWithVendeur(Commande commande, User user, Article article);
-	
-	
 	void updateArticleStatut(Article article, StatutArticle status);
 	void updateCommandeStatut(Commande commande,  StatutCommande status);
 	void updateCommandeStatutIndex(Long index, StatutCommande status) ;
@@ -42,16 +38,10 @@ Commande selectCommandeTitre(String titre);
 	
 	void ajouterArticleAchat(User user, Article article);
 
-	
-	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
-	
-	
 	Commande selectCommandeByLastIndex();
 	Commande selectCommandeByArticle(Long article_id);
 	
-	
-	
-	
+
 	List<Commande> rechercherCommandeByAcheteur(Long acheteur_id);
 	List<Article> rechercherArticleByCommande(Long id);
 	List<Article> rechercherArticleByStatut(Long id, StatutArticle statut);
@@ -59,6 +49,9 @@ Commande selectCommandeTitre(String titre);
 	List<Commande> lireTousAchats(Long id);
 	List<Commande> lireTousVenteEnCours(Long login);
 	List<Article> lireTousArticleVendeur(Long login);
+	
+	
+	List<Article> lireTousArticleByVendeurException(Long user_id);
 	
 	List<Commande> lireTousCommandeByAcheteur(Long user_id);
 	
@@ -77,5 +70,6 @@ Commande selectCommandeTitre(String titre);
 	void supprimerCommande(Commande commande);
 	
 	List<Commande> selectListCommandeAcheteur(Long id);
+
 
 }

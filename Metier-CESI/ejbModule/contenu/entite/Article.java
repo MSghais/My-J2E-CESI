@@ -30,30 +30,16 @@ import utilisateurs.entite.User;
 
 @Entity
 public class Article {
-	
-	/*
-	 * @OneToOne(optional = true)
-	 * 
-	 * @JoinColumn(name="user_id") private User user;
-	 */
 
-
-	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="article_id")
 	private Long id;
 
-	
 	private Date date;
-	
-	
 	private String titre,  image,  url, description,   contenu, frais, prix;
 	
-
-	
-
 	@OneToOne(optional = true)
 	@JoinColumn(name="theme_id")
 	private Theme theme;

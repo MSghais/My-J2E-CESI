@@ -49,7 +49,7 @@ public class AjouterArticleAchat extends HttpServlet {
 
 	public static final String ATTRIBUT_ERREUR = "erreurs";
 	public static final String ATTRIBUT_ERREUR_MSG = "msgErreur";
-	public static final String ATTRIBUT_ERREUR_MAP_CB = "erreursMapCB";
+	public static final String ATTRIBUT_ERREUR_MAP = "erreursMap";
 	public static final String ATTRIBUT_ERREUR_CB = "erreurCB";
 	public static final String ATTRIBUT_ERREUR_PICTO = "erreurPicto";
 
@@ -89,8 +89,9 @@ public class AjouterArticleAchat extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+			
 		System.out.println(" Acheter Article doPost");
 
 		HttpSession sessionPOST = request.getSession();
@@ -102,14 +103,14 @@ public class AjouterArticleAchat extends HttpServlet {
 		System.out.println("achat article id=" + acheter_id);
 		Article articleAchatID = metierArticle.rechercherArticleIndex(acheter_id);
 		System.out.println("article Achat = " + articleAchatID);
-		ModelArticleUnique modelArticle = new ModelArticleUnique();
-
-		modelArticle.setArticle(articleAchatID);
-		request.setAttribute("modelArticle", modelArticle);
-
-		System.out.println(" Response getContextPath acheter  Article forward");
-		System.out.println("Envoi vue acheter article Do POST include ");
-		request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
+		
+			ModelArticleUnique modelArticle = new ModelArticleUnique();
+			modelArticle.setArticle(articleAchatID);
+			request.setAttribute("modelArticle", modelArticle);
+	
+			System.out.println(" Response getContextPath acheter  Article forward");
+			System.out.println("Envoi vue acheter article Do POST include ");
+			request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
 
 			if (request.getParameter("acheterArticleInput") != null) {
 	
@@ -144,15 +145,18 @@ public class AjouterArticleAchat extends HttpServlet {
 								  System.out.println("Update  article statut Reservé");
 								  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
 				 
-								 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getVendeur().getUser_id() );
-								 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
-								 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
-								 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
-								 
-								 System.out.println("Update commande Date Creation");
-								 metierCommande.updateCommandeDateCreation(commandeLastID);
-								 
-					
+				/*
+				 * User userVendeur =
+				 * metierArticle.rechercherUserIndex(articleAchatID.getVendeur().getUser_id() );
+				 * System.out.println("User vendeur ID " + userVendeur.getUser_id()); Commande
+				 * commandeLastID = metierCommande.selectCommandeByLastIndex();
+				 * System.out.println("Commande last id + " + commandeLastID.getCommande_id());
+				 */
+				/*
+				 * System.out.println("Update commande Date Creation");
+				 * metierCommande.updateCommandeDateCreation(commandeLastID);
+				 * 
+				 */
 								metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
 								metierCommande.insertArticleCommande(articleAchatID.getVendeur(),  articleAchatID);
 						}
@@ -164,6 +168,11 @@ public class AjouterArticleAchat extends HttpServlet {
 							  erreurPicto = "Veuillez insérer votre pictogramme a 3 chiffres";
 							  request.setAttribute(ATTRIBUT_ERREUR_CB, erreurMsg);
 							  request.setAttribute(ATTRIBUT_ERREUR_PICTO, erreurPicto);		
+
+							  request.setAttribute(ATTRIBUT_ERREUR_MAP, metierCommande.getErreurs());		
+
+							  request.getRequestDispatcher(VUE_ACHETER_ARTICLE).forward(request, response);
+
 							}
 		
 			
@@ -186,11 +195,10 @@ private boolean boolValidationBanque(HttpServletRequest request) {
 		
 		return true;
 	}
-	// User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+	
 	if (!isBanque) {
 		
 		erreurMsg = "Veuillez insérer 10 chiffres pour votre CB";
-		erreurPicto = "Veuillez insérer votre pictogramme a 3 chiffres";
 		
 		
 		return false;
@@ -209,7 +217,7 @@ private boolean boolValidationBanque(HttpServletRequest request) {
 			// User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
 			if (!isBanque) {
 				
-				erreurMsg = "Veuillez insérer 10 chiffres pour votre CB";
+				
 				erreurPicto = "Veuillez insérer votre pictogramme a 3 chiffres";
 				
 				
@@ -224,94 +232,3 @@ private boolean boolValidationBanque(HttpServletRequest request) {
 }  //FIN CLASSE
 
 
-
-/*   System.out.println("metier try validation banquaire : ");
-		  try {
-			  	metierCommande.validationBanquaire(cb_code); 
-		  }
-		  catch (Exception e) 
-		  { // TODO
-			 // e.printStackTrace();
-			  
-				  System.out.println("Catch exception banquaire."); metierCommande.setErreur(  ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
-				 metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() ); 				 
-				 metierCommande.setErreur(ATTRIBUT_ERREUR_CB, e.getMessage() );
-		  
-				  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
-				  erreursMap.put(ATTRIBUT_ERREUR_CB, e.getMessage() );
-				  
-				  erreurMsg = e.getMessage();
-				  
-				  System.out.println("attribut erreurs Map" + erreursMap.get(ATTRIBUT_ERREUR_CB) );
-		  
-				  request.setAttribute(ATTRIBUT_ERREUR_CB, e.getMessage());
-		  
-		  }
-		  
-		  System.out.println("metier try validation chiffre secret : "); 
-		  try {
-			  metierCommande.validationPictogramme(cb_code); 
-		  } catch (Exception e) { //
-		 //e.printStackTrace();
-			  metierCommande.setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
-			  metierCommande.setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
-			  metierCommande.setErreur( ATTRIBUT_ERREUR_PICTO, e.getMessage() );
-		  
-			 
-			  erreurPicto = e.getMessage();
-			  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
-			  erreursMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
-	  
-			  request.setAttribute(ATTRIBUT_ERREUR_PICTO, erreurPicto);
-		  }
-		 
-
-				
-		  System.out.println(erreursMap);	
-		  System.out.println(erreurPicto + erreurMsg); 
-		  System.out.println("Vérification des validations conditionnels ");
-		  
-		  
-				  if ( !erreurPicto.isEmpty() || !erreursMap.isEmpty() || !erreurMsg.isEmpty()
-				  || erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
-				  erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) ) {
-				  
-				  request.setAttribute(ATTRIBUT_ERREUR_MAP_CB, erreursMap.values());
-				  request.setAttribute(ATTRIBUT_ERREUR_CB, erreursMap.get(ATTRIBUT_ERREUR_CB));
-				  
-			
-				  System.out. println("erreurs envoyé et détecte. Renvoi forward acheter article");
-				
-				  request.getRequestDispatcher("/acheterArticle").forward(request, response);
-				  
-				  } 
-				  else if( !erreursMap.containsKey(ATTRIBUT_ERREUR_CB) ||
-				  !erreursMap.containsKey(ATTRIBUT_ERREUR_PICTO) || erreursMap.isEmpty() ||
-				  erreurMsg.isEmpty() || erreurPicto.isEmpty() ) {
-					  System.out.println("Paramètre non null, activé la couche metier Commande");
-
-					/* HttpSession sessionAcheter = request.getSession();
-				Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
-				System.out.println("user id  est : " + user_idAcheter);
-				User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
-				System.out.println("user connecter est : " + userAcheteur);
-
-				  System.out.println("creer commande simply");
-				  metierCommande.creerCommandeSimply(userAcheteur.getLogin(), articleAchatID.getId());
-				
-
-				  System.out.println("Update  article statut Reservé");
-				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
- 
-				 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
-				 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
-				 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
-				 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
-				 
-				 System.out.println("Update commande Date Creation");
-				 metierCommande.updateCommandeDateCreation(commandeLastID);
-				 
-	
-				metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
-				metierCommande.insertArticleCommande(userVendeur, articleAchatID);
-			 */  

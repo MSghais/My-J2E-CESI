@@ -8,14 +8,12 @@
 -->
 <html>
 	<head>
-		<title>Phantom by HTML5 UP</title>
+		<title> Accueil</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assetsPhantom/css/main.css" />
 			<link rel="stylesheet" href="headerServlet.java" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		  
-		
+	
 	</head>
 	
 	   
@@ -30,7 +28,7 @@
 					<div id="main">
 						<div class="inner">
 							<header>
-								<h1>Good CESI training />
+								<h1>Good CESI training
 								 <a href="">CESI</a>.</h1>
 								<p>Etiam quis viverra lorem, in semper lorem. Sed nisl arcu euismod sit amet nisi euismod sed cursus arcu elementum ipsum arcu vivamus quis venenatis orci lorem ipsum et magna feugiat veroeros aliquam. Lorem ipsum dolor sit amet nullam dolore.</p>
 							</header>

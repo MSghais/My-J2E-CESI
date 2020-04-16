@@ -66,7 +66,7 @@
 					
 					
 					
-					<td> <a  id="modifier" href="?modifier=${article.id}" > 1.  Modifier </a>  <br>
+					<td> <a  id="modifier" href="modificationArticle?modifier=${article.id}" > 1.  Modifier </a>  <br>
 					
 					 <a  id="supprimer" href="?supprimer=${article.id}" > 2.  Supprimer </a>  <br>
 					

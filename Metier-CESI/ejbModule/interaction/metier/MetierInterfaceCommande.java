@@ -13,7 +13,7 @@ import contenu.enume.StatutArticle;
 import interaction.entite.Commande;
 import interaction.enume.StatutCommande;
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
+
 
 
 
@@ -42,6 +42,7 @@ public interface MetierInterfaceCommande {
 
 	List<Article> lireTousArticleReserveByVendeurException(Long user_id);
 	
+	List<Article> lireTousArticleByVendeurException(Long user_id);
 	List<Article> rechercherArticleByStatut(Long id, StatutArticle statut);
 	List<Article> lireTousArticleVendeur(Long login);
 	
@@ -57,8 +58,6 @@ public interface MetierInterfaceCommande {
 
 	Commande lireTousCommandeByArticleException(Long id);
 
-
-	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
 	List<Commande> rechercherCommandeByAcheteur(Long acheteur_id);
 	List<Commande> lireTousAchat(Long acheteur_id);
 	List<Commande> lireTousVenteEnCours(Long acheteur_id);

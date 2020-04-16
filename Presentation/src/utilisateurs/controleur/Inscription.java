@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import utilisateurs.entite.Role;
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
+
 import utilisateurs.metier.InscriptionFormInterface;
 
 /**
@@ -41,29 +41,19 @@ public class Inscription extends HttpServlet {
 	    	System.out.println("Arrivé doGET");
 	    	
 	    
-	    	doPost(request,response);/*
-	        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
-	        */
-	       // System.out.println("doGET envoi la page");
+	    	doPost(request,response);
 	    }
 		
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 	        /* Préparation de l'objet formulaire */
 	    	System.out.println("doPOST entree");
-	    	
-	    	//String urlVueMVC = "WEB-INF/utilisateurs/vueInscriptionMVC.jsp";
-	    	
-	     	HttpSession session = request.getSession();
+    	HttpSession session = request.getSession();
 	    	
 	    	Role[] roleStatus = Role.values();
 	    	request.setAttribute("roleStatus", roleStatus);
 	    	session.setAttribute("roleStatus", roleStatus);
 	    	
 	    	request.getRequestDispatcher(VUE).forward(request, response);
-	    	
-	    	// 	    	request.getRequestDispatcher(VUE).forward(request, response);
-	    	
-	      //  InscriptionForm form = new InscriptionForm();
 	    
 	    	System.out.println("doPOST envoi la vue");
 	    	
@@ -77,19 +67,12 @@ public class Inscription extends HttpServlet {
 	        
 		        
 		        if(user != null) {
-			     	//session.setAttribute(ATT_USER,user);
-			        //request.setAttribute( ATT_USER, user );
-			       
-			      //  request.setAttribute( ATT_FORM, inscriptionForm );
-				       
-			        request.setAttribute( ATT_USER, user );
+		        request.setAttribute( ATT_USER, user );
 			        
 			        System.out.println("User créer : renvoi page en include Connexion" );
 			        request.getRequestDispatcher("/Connexion" ).include( request, response );
 			        
 			        System.out.println("User créer : renvoi page en forward Connexion" );
-			       // request.getRequestDispatcher("/Connexion" ).forward( request, response );
-			        
 			     }
 			     else if( !inscriptionForm.getErreurs().isEmpty() || user==null  ) {
 			    	 
@@ -102,10 +85,7 @@ public class Inscription extends HttpServlet {
 				     	
 				    	session.setAttribute( ATT_FORM, inscriptionForm );
 				    	session.setAttribute(ATT_ERRORS, inscriptionForm.getErreurs() );
-			     	// session.setAttribute( ATT_ERRORS, inscriptionForm.getErreurs() );
-				        
-				        
-			     	session.setAttribute("utilisateur",null);
+				    	session.setAttribute("utilisateur",null);
 			     	
 			     	System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );
   
@@ -114,23 +94,7 @@ public class Inscription extends HttpServlet {
 			        request.getRequestDispatcher(VUE).forward(request, response); 
 			     }
 			   
-		        
-		        
-		      //  request.getRequestDispatcher(VUE).forward(request, response); 
-		 
-	        
-			      
-			        
-			       
-			        
-				       // request.getRequestDispatcher("/Inscription" ).forward( request, response );
-				      //  request.getRequestDispatcher("/Connexion" ).include( request, response );
-				        
-				       //request.getRequestDispatcher( VUE ).include( request, response );
-				        
-				       // this.getServletContext().getRequestDispatcher( VUE ).include( request, response );
-				        
-	   		}
+  		}
 	   
 	   
 	   //FIN DO POST

@@ -71,44 +71,24 @@ public class MesAchats extends HttpServlet {
 		nb++;
 	
 		
-ModelCommande modelCommande = new ModelCommande();
+		ModelCommande modelCommande = new ModelCommande();
 		
 		HttpSession session = request.getSession();
 		
 		Long session_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
 		System.out.println("acheteur_id = " + session_id);
-		
-		//List<Commande> listeAchatUser = (List<Commande>) metierCommande.rechercherCommandeByAcheteur(acheteur_id);
-		
-		//List<Commande> listeAchatUser = metierCommande.lireTousAchat(acheteur_id);
 		User userSession = metierArticle.rechercherUserIndex(session_id);
 		
-		//List<Article> achatArticles = userSession.getAchatArticles();
-		
-		
-		/*
-		 * List<Commande> achatArticles =
-		 * metierCommande.lireTousCommandeByAcheteurException(session_id);
-		 * 
-		 * 
-		 * System.out.println(achatArticles);
-		 * 
-		 * modelCommande.setCommandesListe(achatArticles);
-		 * 
-		 * 
-		 */
+
 		List<Article> achatArticles = userSession.getAchatArticles();
-		
-		
-		System.out.println(achatArticles);
-		
+		System.out.println(achatArticles);	
 		modelCommande.setAchatArticles(achatArticles);
 		
 
 		
 		  
-		  List<Commande> listeAchatUser =  metierCommande.lireTousCommandeByAcheteur(session_id);
-		  
+		  //List<Commande> listeAchatUser =  metierCommande.lireTousCommandeByAcheteur(session_id);
+		  List<Commande> listeAchatUser =  metierCommande.lireTousCommandeByAcheteurException(session_id);
 		  modelCommande.setCommandesListe(listeAchatUser);
 		 
 		

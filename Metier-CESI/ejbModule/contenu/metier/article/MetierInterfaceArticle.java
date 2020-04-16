@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import contenu.entite.Article;
 import contenu.enume.StatutArticle;
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
+
 
 
 
@@ -18,15 +18,11 @@ import utilisateurs.entite.Utilisateur;
 @Local
 public interface MetierInterfaceArticle {
 	// PROMOTIONS
-	void creerArticle(Article article);
-	Article lireArticle(Long id);
-	void mettreAJourArticle(Article article);
+	
+	
+	void modifierArticle(Article article);
 	void supprimerArticle(Article article);
-	List<Article> lireTousArticle();
-	
-	
 	void persisterArticle(Article article);
-	
 
 	void validationTitre(String titre) throws Exception; ;
 	void validationContenu(String contenu) throws Exception; ;
@@ -34,51 +30,32 @@ public interface MetierInterfaceArticle {
 	void validationDescription(String description) throws Exception;
 	void validationTheme(String theme) throws Exception;
 
+
+	void updateArticleDate(Article article);
+	void updateArticleStatut(Article article, StatutArticle status);
+	void validerArticeByIndexException(Long article_id);
+	void supprimerArticleByIndexException(Long article_id);
+	void ajouterArticleAchat(User user, Article article);
 	
+	List<Article> lireTousArticle();
 	List<Article> selectArticleByTheme(String theme);
-	
-	//void validationMotDePasse(String motdepasse) throws Exception;;
-	
+	List<Article> lireTousArticleByUserVente(Long user_id);
 	
 	String getValeurChamp(HttpServletRequest request, String nomChamp);
 	
-	void setErreur(String champ, String message);
-	
-	Map<String, String> getErreurs();
 	String getResultat();
-	
-	
+	void setErreur(String champ, String message);
+	Map<String, String> getErreurs();
 
-		User rechercherUserLogin(String login);
 
-	
-		User rechercherUserIndex(Long index);
-		List<Article> lireTousArticleByUserVente(Long user_id);
-		
+	User rechercherUserLogin(String login);
+	User rechercherUserIndex(Long index);
 
-		
-		
-		void ajouterArticleAchat(User user, Article article);
-	
-		
-		Article rechercherArticleIndex(Long id);
-		Article updateArticleUserRequestSession(HttpServletRequest request,  HttpSession session);
-	
-		void updateArticleDate(Article article);
-	/*
-	User connecterUser(HttpServletRequest request);
-	*/
+	Article rechercherArticleIndex(Long id);
+	Article updateArticleUserRequestSession(HttpServletRequest request,  HttpSession session);
+	Article modifierArticleReturn(Article article);
+	Article creerArticleUserRequestSession(HttpServletRequest request, HttpSession session);
 
-		void validerArticeByIndexException(Long article_id);
-		void updateArticleStatut(Article article, StatutArticle status);
-		void supprimerArticleByIndexException(Long article_id);
-		Article modifierArticleReturn(Article article);
-		
-		Article creerArticleUserRequestSession(HttpServletRequest request, HttpSession session);
-	
-	//void ajouterAbsence(Long etudiantId);
-	//void ajouterRetard(Long etudiantId);
-	//void ajouterAbsence(Etudiant etudiant);
 
 
 }

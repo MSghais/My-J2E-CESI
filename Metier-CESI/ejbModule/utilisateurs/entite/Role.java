@@ -4,7 +4,7 @@ import java.util.List;
 
 public enum Role {
 
-	Administrateur, Visiteur, Acheteur, Vendeur, Business;
+	Business,  Acheteur, Vendeur, Administrateur;
 
 
 
@@ -27,10 +27,5 @@ public enum Role {
 		return allValues;
 	}
 
-
-	Role valueOf(Role role) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

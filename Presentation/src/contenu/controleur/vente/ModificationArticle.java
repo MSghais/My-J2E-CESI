@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import contenu.AllContent.metier.MetierInterfaceAllContent;
 import contenu.entite.Article;
 import contenu.entite.Theme;
 import contenu.metier.article.MetierInterfaceArticle;
+import contenu.metier.theme.MetierInterfaceTheme;
 import contenu.model.ModelAllContent;
 
 import utilisateurs.entite.Role;
@@ -36,7 +36,7 @@ public class ModificationArticle extends HttpServlet {
 	MetierInterfaceArticle metierArticle;
 	
 	@EJB
-	MetierInterfaceAllContent formContent;
+	MetierInterfaceTheme metierTheme;
 	
 	    public static final String ATT_USER = "utilisateur";
 	    public static final String ATT_FORM = "form";
@@ -57,7 +57,10 @@ public class ModificationArticle extends HttpServlet {
 	        /* Affichage de la page d'inscription */
 	    	System.out.println("Arrivé doGET");
 	    
-	    	
+	    	Long article_id = Long.valueOf(request.getParameter("modifier"));
+	    	request.setAttribute("modifier", article_id);
+	      	Article articleModif = metierArticle.rechercherArticleIndex(article_id);
+	      	request.setAttribute("articleModif", articleModif);
 	    	doPost(request,response);
 	     
 	    }
@@ -65,23 +68,23 @@ public class ModificationArticle extends HttpServlet {
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 	        /* Préparation de l'objet formulaire */
 	    	System.out.println("doPOST entree");
-	  
+	    	
+	    	HttpSession session = request.getSession();	
 	      //  InscriptionForm form = new InscriptionForm();
-	    		ModelAllContent modelAll = new ModelAllContent();
-	        List<Theme> themes = formContent.lireTousTheme();   
+    		ModelAllContent modelAll = new ModelAllContent();
+	        List<Theme> themes = metierTheme.lireTousTheme();   
 	        modelAll.setThemes(themes);   
 	        request.setAttribute("modelAll", modelAll);
-	        
-	        
-	  
-	     	User user =  (User) request.getAttribute(ATTRIBUT_USER);
+ 
+	     	User user =  (User) session.getAttribute(ATTRIBUT_USER);
 	    	System.out.println("user in session are " + user);
 	     	System.out.println("Envoi vue Modificaiton article en forward");
-	    	request.getRequestDispatcher(VUE).include(request, response);
+	     
+	    	request.getRequestDispatcher(VUE).forward(request, response);
 	    	
 	    
 	    	System.out.println("doPOST envoi la vue");
-	    	HttpSession session = request.getSession();	
+	    
 	     	//HttpSession sessionServlet = request.getSession();
 	     	Cookie[] cookies = request.getCookies(); System.out.println(cookies);
 	    	System.err.println( "Request cookie in modification Article : " + request.getCookies());
@@ -91,13 +94,14 @@ public class ModificationArticle extends HttpServlet {
 
 		 	System.out.println("button activé par User ppur Article");
 		 	
-				        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
+	        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
 		 	
-		        System.out.println("Modification Metier Article EJB  " );
+		        System.out.println("Modification Metier Article EJB Updating " );
+		        
+		        
 		        Article articleSessionRequest =  metierArticle.updateArticleUserRequestSession(request, session);
 		        System.out.println(articleSessionRequest);
-		
-			  
+				  
 			   request.setAttribute( ATT_FORM, metierArticle );
 		       request.setAttribute( ATTRIBUT_ERREUR_MSG, metierArticle.getErreurs());
 		        
@@ -106,7 +110,6 @@ public class ModificationArticle extends HttpServlet {
 
 		      	request.getRequestDispatcher(VUE).forward(request, response);
 		
-	   
 	  
 	    }
 	    

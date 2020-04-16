@@ -142,18 +142,6 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		
 	}
 	
-	@Override
-	public void updateCommandeWithAcheteur(Commande commande, User user) {
-		
-		//  entityManager.getTransaction().begin();
-		  
-		Commande commandeModif = entityManager.find(Commande.class, commande.getCommande_id());
-		
-		commandeModif.setAcheteurUser(user);
-
-
-		
-	}
 	
 	@Override
 	public void supprimerCommande(Commande commande) {
@@ -186,24 +174,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		return entityManager.merge(commande);
 	}
 	
-	@Override
-	public void updateCommandeWithVendeur(Commande commande, User user, Article article) {
-		
-		//  entityManager.getTransaction().begin();
-		  
-		Commande commandeModif = entityManager.find(Commande.class, commande.getCommande_id());
-		
-		commandeModif.setAcheteurUser(user);
-		
-		commandeModif.setArticle(article);
-		
-		commandeModif.setStatus(StatutCommande.ENCOURS);
 
-
-		
-		
-	}
-	
 
 	
 
@@ -233,26 +204,6 @@ public class PersisterCommande implements PersistanceCommandeItf{
 			
 	}
 	
-
-
-	@Override
-	public void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur) {
-		// TODO Auto-generated method stub
-		
-		Commande commandeModif = entityManager.find(Commande.class, commande.getCommande_id());
-				
-		
-		commandeModif.setCommande_prix(article.getPrix() );
-		commandeModif.setAcheteurUser(acheteur);
-		
-		commandeModif.setArticle(article);
-	//	commandeModif.setVendeurUser(article.getUser_vendeur()) ;
-		
-		commandeModif.setStatus(status);
-		
-		entityManager.merge(commandeModif);
-		
-	}
 
 
 	@Override
@@ -312,6 +263,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		req.setParameter("user_id", user_id);
 		return (List<Commande>)  req.getResultList();
 	}
+
 	
 @Override
 	public List<Commande> lireTousCommandeByVendeurException(Long user_id) {
@@ -362,6 +314,24 @@ public List<Article> lireTousArticleReserveByVendeurException(Long user_id) {
 		Query req = entityManager.createQuery("select a from Article a  where vendeur_id=: user_id AND  a.status =: status");
 		req.setParameter("user_id", user_id);
 		req.setParameter("status", StatutArticle.RESERVE);
+		articlesReserve = req.getResultList();
+	}catch(Exception e) {
+		
+		articlesReserve=null;
+	}
+	
+		return articlesReserve;
+}
+
+@Override
+public List<Article> lireTousArticleByVendeurException(Long user_id) {
+	// TODO Auto-generated method stub
+	List<Article> articlesReserve;
+	try {
+		
+		Query req = entityManager.createQuery("select a from Article a  where vendeur_id=: user_id ");
+		req.setParameter("user_id", user_id);
+
 		articlesReserve = req.getResultList();
 	}catch(Exception e) {
 		

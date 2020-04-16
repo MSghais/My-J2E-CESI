@@ -69,10 +69,8 @@
 								
 								<td><c:out value="${article.prix}"/></td>
 								
+									<td><c:out value="${article.date}"/></td>
 								
-								<td>
-								<fmt:formatDate value="${article.date}" pattern="dd-MM-yyyy"/>
-								</td>
 					
 				
 					
@@ -214,7 +212,9 @@
 								
 					
 
+</div>
 
+</section>
 				
 
 		<!-- Scripts -->

@@ -1,6 +1,6 @@
 package utilisateurs.entite;
 
-public class Administrateur extends Utilisateur{
+public class Administrateur extends User{
 	
 	public Administrateur() {
 		super();

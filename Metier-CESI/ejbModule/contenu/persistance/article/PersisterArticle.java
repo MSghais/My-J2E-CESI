@@ -59,7 +59,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 	@Override
 	public List<Article> selectArticleByTheme(String theme) {
 		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery("select a from Article a  where a.theme.intitule =: theme ");
+		Query req = entityManager.createQuery("select a from Article a  where a.theme.theme_intitule =: theme ");
 		req.setParameter("theme", theme);
 		return req.getResultList();
 		
@@ -117,6 +117,12 @@ public class PersisterArticle implements PersistanceArticleItf{
 		return entityManager.merge(article);
 	}
 
+	@Override 
+	public void mergeArticle(Article article) {
+		
+		 entityManager.merge(article);
+	}
+
 	
 	@Override
 	public void persisterUserArticle(User user, Article article) {
@@ -147,17 +153,17 @@ public class PersisterArticle implements PersistanceArticleItf{
 	public Article modifierArticle(Article article) {
 		return entityManager.merge(article);
 	}
-
-@Override
-public void updateArticleDate(Article article) {
-	// TODO Auto-generated method stub
 	
-	Query req = entityManager.createQuery("UPDATE article a SET a.date = now() WHERE a.id = :p");
-	req.setParameter("p", article.getId());
-	req.executeUpdate();
-	
-	
-}
+	@Override
+	public void updateArticleDate(Article article) {
+		// TODO Auto-generated method stub
+		
+		Query req = entityManager.createQuery("UPDATE article a SET a.date = now() WHERE a.id = :p");
+		req.setParameter("p", article.getId());
+		req.executeUpdate();
+		
+		
+	}
 	@Override
 	public List<Article> lireTousArticleByUserVente(Long user_id) {
 		// TODO Auto-generated method stub
@@ -175,7 +181,6 @@ public void updateArticleDate(Article article) {
 			Query query = entityManager.createQuery("select u from Article u where id=:id ");
 			query.setParameter("id", id);
 		
-		
 			return (Article) query.getSingleResult();
 	
 	}
@@ -185,19 +190,8 @@ public void updateArticleDate(Article article) {
 		// TODO Auto-generated method stub
 			user.addAchatArticles(article);
 		
-	//	user.getAchatArticles().put(user.getUser_id(), article);
+			user.getAchatArticles().add(article);
 	}
-	
-
-	
-	/*
-	 * @Override public List<Article> lireTousArticleByUserVenteInAsso(Long user_id)
-	 * { // TODO Auto-generated method stub Query req = entityManager.
-	 * createQuery("select a from vendeur_article a  where vendeur_id =: user_id ");
-	 * req.setParameter("user_id", user_id); return (List<Article>)
-	 * req.getResultList(); }
-	 */
-	
 	
 
 }

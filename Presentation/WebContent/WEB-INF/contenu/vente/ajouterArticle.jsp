@@ -8,7 +8,7 @@
         		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<link rel="stylesheet" href="cssFormOOC.css" />
 		<link rel="stylesheet" href="assets/css/main.css" >
-        <title> Formations </title>
+        <title> Vends du rêve </title>
         	
 				
     </head>
@@ -22,7 +22,7 @@
 			
 		<section>   
 		
-		 <h4> Ajouter article MVC </h4>
+		 <h4> Ajouter un article  </h4>
 		<form action="addArticleMVC" method="post" >
 		<fieldset>
 		
@@ -100,29 +100,6 @@
             <a href="vueConnection.jsp"> Se connecter </a>
             
 	
-			
-		
-		<h4>Tableau des Articles </h4>
-	
-		<table border="1">
-			<th>NOM</th><th>PRENOM</th>
-			  <c:forEach var="article" items="${model.articles}"> 
-				<tr>
-				
-				<td><c:out value="${ article.id}"/></td>
-				
-					<td><c:out value="${ article.nom}"/></td>
-					
-						<td><c:out value="${ article.themeString}"/></td>
-					<td><c:out value="${article.description}"/></td>
-					
-					<td><c:out value="${article.contenu}"/></td>
-				</tr> 
-		      </c:forEach>
-		      
-		</table>
-		
-		
 					
         
       <a href="/WEB-INF/JSP/vueConnection.jsp"> Se connecter </a>

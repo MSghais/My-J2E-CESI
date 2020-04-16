@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="cssFormOOC.css" />
 	
 	
-		<title>Ma vue</title>
+		<title> Inscription </title>
 	</head>
 	<body>
 		<%@ page import="utilisateurs.entite.Role" %>
@@ -36,7 +36,7 @@
 		                 
 		                 	<c:out value="${erreurs}"/><br>
 		
-		<h4> Inscription Field SET </h4>
+		<h4> Inscription </h4>
 		<form action="Inscription" method="post" >
 		<fieldset>
 		

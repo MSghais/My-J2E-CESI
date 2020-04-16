@@ -106,18 +106,24 @@ public class MesVentes extends HttpServlet {
 				System.out.println("Boutton supprimer un Article avec la Commande ");
 				Long article_id = Long.valueOf(request.getParameter("supprimer"));
 				System.out.println("Article id params = "+ article_id);
-				System.out.println("Select commande by article");
-				Commande commande = metierCommande.selectCommandeByArticle(article_id);
-				System.out.println("Commande article is = "+ commande.getArticle());
-				System.out.println("Supprimer commande");
-				metierCommande.supprimerCommande(commande);
 				
-				System.out.println("Recherche dommande by index");
-				Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
-				System.out.println("Article id a supprimer est = "+ articleDelete.getId());
-				System.out.println("Supprimer article");
-				metierArticle.supprimerArticle(articleDelete);
 				
+				System.out.println("supprimer article by index exception");
+				metierArticle.supprimerArticleByIndexException(article_id);
+				
+			/*
+			 * System.out.println("Select commande by article"); Commande commande =
+			 * metierCommande.selectCommandeByArticle(article_id);
+			 * System.out.println("Commande article is = "+ commande.getArticle());
+			 * System.out.println("Supprimer commande");
+			 * metierCommande.supprimerCommande(commande);
+			 * 
+			 * System.out.println("Recherche dommande by index"); Article articleDelete =
+			 * metierArticle.rechercherArticleIndex(article_id);
+			 * System.out.println("Article id a supprimer est = "+ articleDelete.getId());
+			 * System.out.println("Supprimer article");
+			 * metierArticle.supprimerArticle(articleDelete);
+			 */
 			}
 		
 		

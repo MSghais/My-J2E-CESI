@@ -54,9 +54,7 @@ public class LoginServlet extends HttpServlet {
 		doPost(request, response);
 	}
 
-	/**
-	 *
-	 */
+
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("LoginServlet - doPost");
@@ -76,14 +74,14 @@ public class LoginServlet extends HttpServlet {
 			  if(!isExist || isExist==false ){
 			  
 				  request.setAttribute(ATTRIBUT_ERREUR_MSG,erreurMsg);			  
-				  request.setAttribute(ATTRIBUT_ERREURS,erreurs);		  
+				  request.setAttribute(ATTRIBUT_ERREURS,erreurs);		
+				  erreursMaps = metier.getErreurs();
 				  request.setAttribute(ATTRIBUT_ERREUR_MAP,erreursMaps);			  
-				  
-				  // request.setAttribute(ATTRIBUT_ERREUR_MAP); //
+				 
 				  session.setAttribute(ATTRIBUT_ERREUR_MSG,erreurMsg);
 				  session.setAttribute("utilisateur",null);
 				  
-			  
+				  
 			  
 			  System.out.println("Renvoi au formulaire de connexion avec erreurs");
 			  request.getRequestDispatcher(URL_VUE_CONNEXION).include(request, response);
@@ -92,20 +90,14 @@ public class LoginServlet extends HttpServlet {
 			  if( isExist || isExist == true) {
 		  
 					  System.out.println("User Session in test : " + userSession);
-					  
 					  User utilisateurBoolean = connecterUtilisateurBDD(login, password);
 					  System.out.println("isExist ok : User are +" + utilisateurBoolean);
 					  
 					  session.setAttribute(ATTRIBUT_USER_LOGIN,utilisateurBoolean.getLogin());
 					  request.setAttribute(ATTRIBUT_USER_LOGIN, utilisateurBoolean.getLogin());
-					  System.out.println(ATTRIBUT_USER_LOGIN + " = " +
-					  utilisateurBoolean.getLogin());
+					  System.out.println(ATTRIBUT_USER_LOGIN + " = " + utilisateurBoolean.getLogin());
 					  
-					  
-				/*
-				 * session.setAttribute(ATTRIBUT_USER_ID, utilisateurBoolean.getUser_id() );
-				 * request.setAttribute(ATTRIBUT_USER_ID, utilisateurBoolean.getUser_id());
-				 */
+				
 					  Long userId = (Long) utilisateurBoolean.getUser_id() ;	 
 					  session.setAttribute(ATTRIBUT_USER_ID, userId );
 					  request.setAttribute(ATTRIBUT_USER_ID, userId);  
@@ -123,17 +115,16 @@ public class LoginServlet extends HttpServlet {
 					  request.setAttribute(ATTRIBUT_USER_SESSION, userSession);
 					  System.out.println("userSession = " + session.getAttribute(ATTRIBUT_USER_SESSION));					  
 				
-					  Cookie cook_log =new
-					  Cookie("user_login",utilisateurBoolean.getLogin());//creating cookie object
-					  response.addCookie(cook_log);//adding cookie in the response
-					  System.out.println("Cookie login : " + cook_log.getValue ());
-					  
-					  Cookie cook_name =new Cookie("user_id",utilisateurBoolean.getUsername());
-					  //creating cookie object response.addCookie(cook_name);//adding cookie in
-					 System.out.println("Cookie name : " + cook_name.getValue());
-			  
-					  System.out.println("Redirection ajouterArticle Boolean");
-					  request.getRequestDispatcher("/addArticleMVC").include(request, response);
+						  Cookie cook_log =new  Cookie("user_login",utilisateurBoolean.getLogin());//creating cookie object
+						  response.addCookie(cook_log);//adding cookie in the response
+						  System.out.println("Cookie login : " + cook_log.getValue ());
+						  
+						  Cookie cook_name =new Cookie("user_id",utilisateurBoolean.getUsername());
+						  //creating cookie object response.addCookie(cook_name);//adding cookie in
+						 System.out.println("Cookie name : " + cook_name.getValue());
+				  
+						  System.out.println("Redirection ajouterArticle Boolean");
+						  request.getRequestDispatcher("/addArticleMVC").include(request, response);
 		 
 			  
 			  }
@@ -160,7 +151,10 @@ public class LoginServlet extends HttpServlet {
 		}
 		// User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
 		if (!isExist) {
-			erreurMsg = "L'utilisateur " + login + " - " + password + ", n'a pas de compte associé.";
+			erreurMsg = "L'utilisateur " + login +  "n'a pas de compte associé.";
+			
+			erreurs= "Veuillez réesayer avec un autre identifiant ou mot de passe";
+			
 			return false;
 		}
 		return isExist;

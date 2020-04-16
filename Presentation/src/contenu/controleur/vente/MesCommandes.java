@@ -85,14 +85,13 @@ public class MesCommandes extends HttpServlet {
 		Long session_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
 		System.out.println("acheteur_id = " + session_id);
 		
-	
-	
-		
-		
+
 		User userSession = metierArticle.rechercherUserIndex(session_id);
 		System.out.println("User session mes COmmandes = " +userSession);
 		System.out.println("recherche vente article statut reserve and user session");
-		List<Article> ventesArticles = metierCommande.lireTousArticleReserveByVendeurException(session_id);
+		//List<Article> ventesArticles = metierCommande.lireTousArticleReserveByVendeurException(session_id);
+		
+		List<Article> ventesArticles = metierCommande.lireTousArticleByVendeurException(session_id);
 		
 		modelCommande.setVentesArticles(ventesArticles);
 
@@ -112,14 +111,9 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Article modif is " + articleModif);
 			request.setAttribute(ATTRIBUT_ARTICLE_MODIF, articleModif);
 			
-			/*
-			 * System.out.println(" response toutArticle sendRedirect acheter Article");
-			 * response.sendRedirect( request.getContextPath() + "/modificationArticle");
-			 */
 			System.out.println("Renvoi modification Article");		
 			request.getRequestDispatcher("/modificationArticle").include(request, response);
-			//request.getRequestDispatcher(VUE).forward(request, response); 
-			
+		
 		}
 		
 		if( request.getParameter("supprimer") != null)
@@ -131,14 +125,17 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("supprimer commande with Article index");
 			metierCommande.supprimerCommandeByArticleIndexException(article_id);
 			
+			
+			System.out.println("supprimer article by index exception");
+			metierArticle.supprimerArticleByIndexException(article_id);
+			
+
 			/*
 			 * Commande commande = metierCommande.selectCommandeByArticle(article_id);
 			 * System.out.println("supprimer commande");
 			 * metierCommande.supprimerCommande(commande);
 			 */
 			
-			System.out.println("supprimer article by index exception");
-			metierArticle.supprimerArticleByIndexException(article_id);
 			/*
 			 * Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
 			 * 
@@ -168,12 +165,9 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Update article with index and status");
 			metierArticle.validerArticeByIndexException(article_id);	
 			
-			
 			System.out.println("Valider Commande statut with article index");
 			metierCommande.validerCommandeByArticleIndexException(article_id);
-					
-			
-			
+	
 			//request.getRequestDispatcher("/mesCommandes").include(request, response);
 			request.getRequestDispatcher(VUE).forward(request, response); 
 			

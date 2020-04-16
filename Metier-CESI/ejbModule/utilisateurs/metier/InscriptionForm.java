@@ -8,9 +8,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 
+import utilisateurs.entite.Administrateur;
 import utilisateurs.entite.Role;
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
+
 import utilisateurs.persistance.PersistanceUserItf;
 
 
@@ -104,19 +105,20 @@ public class InscriptionForm implements InscriptionFormInterface  {
         
         User user = new User();
 
-        Utilisateur utilisateur = new Utilisateur();
+  
         
         System.out.println("metier: Analsye des erreurs et exceptions ");
         
       // User userInBDD = persistanceUser.lireLoginUser(login);
         
-       /* Validation du champ username */
+ 
         
-		/*
-		 * if(role != null) {
-		 * 
-		 * Role roleUser = Role.getRole(); user.setRole(role); }
-		 */
+		
+		  if(role != null) {
+		  
+		  Role roleEnum = Role.valueOf(role);
+		  user.setRole(roleEnum); 
+    		}
         
        try {
            validationUsername( username );
@@ -165,42 +167,7 @@ public class InscriptionForm implements InscriptionFormInterface  {
             this.setErreur( CHAMP_ERRORS, e.getMessage() );
         }
         user.setPassword( password );
-        
-		/*
-		 * System.out.println("Test  metier: User already in BDD ?"); try { User
-		 * userAlreadyExist = persistanceUser.connecterUtilisateurLoginMdp(login,
-		 * password); if(userAlreadyExist!= null) {
-		 * 
-		 * 
-		 * } } catch ( Exception e ) {
-		 * 
-		 * this.setErreur( CHAMP_PASS, e.getMessage() ); this.setErreur( CHAMP_ERRORS,
-		 * e.getMessage() ); }
-		 */
-     
-        
-		/*
-		 * System.out.println("Test  metier: User already in BDD ?"); //User
-		 * userAlready; try { userAlreadyExist(login, password);
-		 * 
-		 * } catch ( Exception e ) {
-		 * 
-		 * this.setErreur( CHAMP_EXISTE, e.getMessage() ); }
-		 */
-		/*
-		 * System.out.println("Test  metier: User already in BDD Hardcore ?"); //User
-		 * userAlready; try { userAlreadyExistHard(login, password);
-		 * 
-		 * } catch ( Exception e ) {
-		 * 
-		 * this.setErreur( CHAMP_EXISTE_HARD, e.getMessage() );
-		 * 
-		 * this.setErreur( CHAMP_EXISTE, e.getMessage() ); //return false; }
-		 */
-        
-        
-        // || !user.getLogin().isEmpty() 
-        
+   
         /* Initialisation du résultat global de la validation. */
         if ( erreurs.isEmpty() 
         		|| !getErreurs().containsKey(CHAMP_EXISTE)
@@ -224,83 +191,26 @@ public class InscriptionForm implements InscriptionFormInterface  {
         		|| erreurs.containsKey(CHAMP_EXISTE)
         		|| erreurs.containsValue(CHAMP_EXISTE)
         		|| CHAMP_EXISTE_HARD.isEmpty()
-        		||  ( user.getLogin().isEmpty() && user.getPassword().isEmpty() && user.getEmail().isEmpty() )    ){
-        	       /*  erreurs.isEmpty() 
-        		|| !getErreurs().containsKey(CHAMP_EXISTE)
-        		|| !erreurs.containsKey(CHAMP_EXISTE)
-        		|| !erreurs.containsValue(CHAMP_EXISTE) */ 	
-        	this.setResultat("Échec de l'inscription.");
-        	this.resultat = "Échec de  l'inscription..";
-            resultat = "Échec de la connexion.";
-            
-           // this.setErreur(CHAMP_EXISTE_HARD, message);
-            this.getErreurs();
-            
-         	System.out.println("Erreurs : " + erreurs);
-         	//return erreurs;
-            System.out.println("Echec de la connexion  metier ");
-        }
+        		||  ( user.getLogin().isEmpty() && user.getPassword().isEmpty() && user.getEmail().isEmpty() )    )
+        	{
+        	  
+		        	this.setResultat("Échec de l'inscription.");
+		        	this.resultat = "Échec de  l'inscription..";
+		            resultat = "Échec de la connexion.";
+		            
+		           // this.setErreur(CHAMP_EXISTE_HARD, message);
+		            this.getErreurs();
+		            
+		         	System.out.println("Erreurs : " + erreurs);
+		         	//return erreurs;
+		            System.out.println("Echec de la connexion  metier ");
+        	}
         
-        /*
-        persisterUser(user);
-        */
-/*
-        persistanceUser.persisterUser(user);
-        
-        persistanceUser.persisterUtilisateur(utilisateur);*/
-        
-       // return user;
+   
         return user;
     }
-    
-    @Override
-    public void userAlreadyExist( String login, String password ) throws Exception {
-  	  
-  	  User userExist = persistanceUser.connecterUtilisateurLoginMdp(login, password);
-  	  
-  	    //if ( motDePasse != null && confirmation != null ) {
-  	        if ( userExist!=null ) {
-  	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
-  	        }
-  	      /*  } else if ( password.length() < 3 ) {
-  	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
-  	        }
-  	     else {
-  	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
-  	    }*/
-  	}
-    
-    @Override
-    public void userAlreadyExistHard( String login, String password ) throws Exception {
-  	  
-  	  
-    	
-    		User userExist = persistanceUser.rechercherUserLogin(login);
-    	
-  	  
-  	  
-  	    //if ( motDePasse != null && confirmation != null ) {
-  	        if ( userExist!=null || userExist.getLogin().contentEquals(login) ) {
-  	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
-  	        }
-  	        else if( userExist.getPassword().contentEquals(password) ) {
-  	        	
-  	        	
-  	        	 throw new Exception( "Veuillez changez de Login et améliorer votre mot de passe. ");
-  	        	
-  	        }
-  	        
-  	        else {
-  	        	
-  	        	System.out.println("User non existant. Création en BDD");
-  	        }
-  	      /*  } else if ( password.length() < 3 ) {
-  	            throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
-  	        }
-  	     else {
-  	        throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
-  	    }*/
-  	}
+ 
+  
     
     
    
@@ -357,19 +267,6 @@ public class InscriptionForm implements InscriptionFormInterface  {
       }
   }
   
-    /**
-     * Valide le mot de passe saisi.
-     */
- /* @Override
-    public void validationMotDePasse( String motDePasse ) throws Exception {
-        if ( motDePasse != null ) {
-            if ( motDePasse.length() < 3 ) {
-                throw new Exception( "Le mot de passe doit contenir au moins 3 caractères." );
-            }
-        } else {
-            throw new Exception( "Merci de saisir votre mot de passe." );
-        }
-    } */
   @Override
   public void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception {
 	    if ( motDePasse != null && confirmation != null ) {
@@ -416,20 +313,6 @@ public class InscriptionForm implements InscriptionFormInterface  {
         }
     }
 
-@Override
-public void persisterUtilisateur(Utilisateur utilisateur) {
-	// TODO Auto-generated method stub
-	
-	//persistanceUser.persisterUtilisateur(utilisateur);
-	
-	System.out.println("User en cours de  persistance");
-	
-	
-	persistanceUser.persisterUtilisateur(utilisateur);
-	
-	System.out.println("Utilisateur ! FIn de la fonction");
-	
-}
 
 @Override
 public void persisterUser(User user) {
@@ -447,6 +330,12 @@ public void init() {
 	System.out.println("Metier - init");
 	
 		/*
+		 * User admin = new Administrateur("admintest", "admin", "admin@admin", "admin",
+		 * Role.Administrateur);
+		 * 
+		 * persisterUser(User) admin);
+		 */
+		/*
 		 * User user = new User("Hiii","Galiere", "lesondusud@13oklm.fr",
 		 * "puissantleMDP"); persistanceUser.persisterUser(user);
 		 * 
@@ -457,120 +346,39 @@ public void init() {
 		 * Role.Administrateur); persistanceUser.persisterUser(user2);
 		 */
 	
-		/*
-		 * User user2 = new User("salut","ehooo", "baba@oklmtest.fr", "MDPahash");
-		 * persistanceUser.persisterUser(user2);
-		 * 
-		 * 
-		 * Utilisateur util1 = new Utilisateur("bijour","ehooo", "leson@oklmtest.fr",
-		 * "lighttleMDP"); persistanceUser.persisterUtilisateur(util1);
-		 * 
-		 * Utilisateur util2 = new Utilisateur("salut","ehooo", "baba@oklmtest.fr",
-		 * "MDPahash"); persisterUtilisateur(util2);
-		 */
-	
 }
 
 public void setResultat(String resultat) {
 	this.resultat = resultat;
 }
 
+
 @Override
-public Utilisateur connecterUtilisateur( HttpServletRequest request ) {
-    /* Récupération des champs du formulaire */
-	/*
-	System.out.println("Récupération des données utilisateurs ");
-    String username = getValeurChamp( request, CHAMP_USERNAME );
-    String login = getValeurChamp( request, CHAMP_LOGIN );
-    
-    
-    String email = getValeurChamp( request, CHAMP_EMAIL );
-    String password = getValeurChamp( request, CHAMP_PASS );
-    String confirmation = getValeurChamp( request, CHAMP_CONF);*/
-
+public void userAlreadyExistHard( String login, String password ) throws Exception {
+	  
+	  
 	
+		User userExist = persistanceUser.rechercherUserLogin(login);
 	
-    String username = request.getParameter("username");
-    String login = request.getParameter("login");
-    
-    String email = request.getParameter("email");
-    String password = request.getParameter("password");
-    String confirmation = request.getParameter("confirmation");
-    
-    
-    User user = new User();
-
-    Utilisateur utilisateur = new Utilisateur();
-  
-    System.out.println("Test des exceptions du formulaire a partir du MEtier");
-    
-    System.out.println("Test  metier : username ");
-    /* Validation du champ username */
-    try {
-        validationUsername( username );
-    } catch ( Exception e ) {
-        setErreur( CHAMP_USERNAME, e.getMessage() );
-    }       
-    utilisateur.setUsername(username);
-    
-    System.out.println("Test  metier : login ");
-    /* Validation du champ username */
-    try {
-        validationLogin( login );
-    } catch ( Exception e ) {
-        setErreur( CHAMP_LOGIN, e.getMessage() );
-    }       
-    utilisateur.setLogin(login);
-    
-    
-    System.out.println("Test metier : email");
-    /* Validation du champ email. */
-    try {
-        validationEmail( email );
-    } catch ( Exception e ) {
-        setErreur( CHAMP_EMAIL, e.getMessage() );
-    }     
-    utilisateur.setEmail( email );
-    
-    
-    System.out.println("Test  metier : mot de passe");
-    /* Validation du champ mot de passe. */
-    try {
-        validationMotsDePasse( password, confirmation );
-    } catch ( Exception e ) {
-        setErreur( CHAMP_PASS, e.getMessage() );
-    }
-    utilisateur.setMotDePasse( password );
-    
-    
-    // || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
-    
-    /* Initialisation du résultat global de la validation. */
-    if ( erreurs.isEmpty()   || ( !utilisateur.getLogin().isEmpty() && !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty() ) ) {
-    	
-   
-    	this.setResultat("Succès de l'inscription.");
-    	this.resultat = "Succès de l'inscription.";
-    	
-        System.out.println("Succes de l'inscription");
-     
-        resultat = "Succès de la connexion.";
-        System.out.println("Succes de l'inscription ");
-     	System.out.println("Erreurs : " + erreurs);
-     persistanceUser.persisterUtilisateur(utilisateur);
-     
-     System.out.println("Persister utilisateur OK ");
-    } else {
-        resultat = "Échec de la connexion.";
-        System.out.println("Echec de la connexion ");
-     	System.out.println("Erreur : " + erreurs);
-    }
-
-    
-   // return user;
-    return utilisateur;
-}
-
+	  
+	  
+	    //if ( motDePasse != null && confirmation != null ) {
+	        if ( userExist!=null || userExist.getLogin().contentEquals(login) ) {
+	            throw new Exception( "Cette utilisateur est déja existant, veuillez changer de Login ");
+	        }
+	        else if( userExist.getPassword().contentEquals(password) ) {
+	        	
+	        	
+	        	 throw new Exception( "Veuillez changez de Login et améliorer votre mot de passe. ");
+	        	
+	        }
+	        
+	        else {
+	        	
+	        	System.out.println("User non existant. Création en BDD");
+	        }
+	      
+	}
 
 /*   @Override
     public Utilisateur connecterUtilisateur( HttpServletRequest request ) {

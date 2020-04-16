@@ -73,7 +73,7 @@ public class User {
 	
 	//
 	//@OneToMany
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="acheteur_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)

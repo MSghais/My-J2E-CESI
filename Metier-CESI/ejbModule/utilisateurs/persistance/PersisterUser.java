@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
 
 
 
@@ -19,21 +18,7 @@ public class PersisterUser implements PersistanceUserItf {
 	
 	private EntityManager entityManager;
 	
-	/*
-	 * @Override public User connecterUtilisateurLoginMdp(String login, String
-	 * passwd) throws Exception{
-	 * System.out.println("PersistanceUtilisateur - connecterUtilisateur"); try{
-	 * Query query = entityManager.
-	 * createQuery("select u from User u where login=:login and password=:password"
-	 * ); query.setParameter("login", login); query.setParameter("password",
-	 * passwd); return (User) query.getSingleResult(); }catch(Exception) {
-	 * 
-	 * throws new Exception }
-	 * 
-	 * 
-	 * }
-	 */
-	
+
 	@Override
 	public User connecterUtilisateurLoginMdp(String login, String passwd) {
 		System.out.println("PersistanceUtilisateur - connecterUtilisateur");
@@ -149,23 +134,6 @@ public class PersisterUser implements PersistanceUserItf {
 		
 	}
 	
-
-
-	@Override
-	public void persisterUtilisateur(Utilisateur utilisateur) {
-		// TODO Auto-generated method stub
-		
-		entityManager.persist(utilisateur);
-	}
-
-
-
-	@Override
-	public void persisterUserTeacher(User user) {
-		// TODO Auto-generated method stub
-		entityManager.persist(user);
-		
-	}
 
 	@Override
 	public User lireEmailUser(String email) {

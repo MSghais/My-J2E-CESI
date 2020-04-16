@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import contenu.AllContent.metier.MetierInterfaceAllContent;
 import contenu.entite.Article;
 import contenu.entite.Theme;
 import contenu.metier.article.MetierInterfaceArticle;

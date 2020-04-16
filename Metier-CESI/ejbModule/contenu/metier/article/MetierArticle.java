@@ -22,7 +22,7 @@ import contenu.persistance.theme.PersistanceThemeItf;
 import interaction.entite.Commande;
 import interaction.enume.StatutCommande;
 import utilisateurs.entite.User;
-import utilisateurs.entite.Utilisateur;
+
 import utilisateurs.persistance.PersistanceUserItf;
 
 @Stateless
@@ -52,6 +52,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 	private final String CHAMP_CONTENT = "art_contenu";
 
 	private final String CHAMP_CONF = "confirmation";
+	public static final String ATTRIBUT_ARTICLE_MODIF      = "articleModification";
 
 	public MetierArticle() {
 		System.out.println("Constructeur Metier");
@@ -67,17 +68,6 @@ public class MetierArticle implements MetierInterfaceArticle {
 		persistanceArticle.persisterArticle(article);
 	}
 
-	public void creerArticle(Article article) {
-		articles.put(article.getId(), article);
-	}
-
-	public Article lireArticle(Long id) {
-		return articles.get(id);
-	}
-
-	public void mettreAJourArticle(Article article) {
-		articles.put(article.getId(), article);
-	}
 
 	@Override
 	public void supprimerArticle(Article article) {
@@ -290,7 +280,9 @@ public class MetierArticle implements MetierInterfaceArticle {
 		System.out.println(acronymeTheme);
 		Theme theme = persistanceTheme.lireThemeName(acronymeTheme);
 		System.out.println(theme);
-		Article article = new Article();
+		
+		Article article = (Article) request.getAttribute(ATTRIBUT_ARTICLE_MODIF);
+		//Article article = new Article();
 
 		System.out.println("Test des exceptions du formulaire a partir du MEtier");
 
@@ -358,17 +350,12 @@ public class MetierArticle implements MetierInterfaceArticle {
 			System.out.println("Succes du dépot Article ");
 			System.out.println("Erreurs : " + erreurs);
 			
-			System.out.println("Persister Article in Metier User Index Method");
-
-			persistanceArticle.persisterArticle(article);
-		
-			
-			System.out.println("modifier Article");
+			System.out.println("Update Article in Metier User Index Method");
 			
 			modifierArticleReturn(article);
 			
-		//	persistanceArticle.updateArticleWithUser(article, userLectureBDD);
-
+			
+		
 			
 			System.out.println("Persister Article OK ");
 			return article;
@@ -386,11 +373,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 		return article;
 	}
 
-	@Override
-	public void updateArticleDate(Article article) {
-		// TODO Auto-generated method stub
-		persistanceArticle.updateArticleDate(article);
-	}
+
 	@Override
 	public void validationTitre(String titre) throws Exception {
 		// TODO Auto-generated method stub
@@ -491,9 +474,20 @@ public class MetierArticle implements MetierInterfaceArticle {
 	public Article modifierArticleReturn(Article article) {
 		return persistanceArticle.modifierArticle(article);
 	}
+	
+	
+	@Override
+	public void modifierArticle(Article article) {
+		System.out.println("modifier un article");
+		 persistanceArticle.mergeArticle(article);
+	}
 
 	
-	
+	@Override
+	public void updateArticleDate(Article article) {
+		// TODO Auto-generated method stub
+		persistanceArticle.updateArticleDate(article);
+	}
 	
 	
 	@Override 
@@ -534,7 +528,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 	@Override
 	public void supprimerArticleByIndexException(Long article_id) {
 		// TODO Auto-generated method stub
-		Article article = lireArticle(article_id);
+		Article article = rechercherArticleIndex(article_id);
 		
 		System.out.println("Commande Index is =" + article);
 		
@@ -547,7 +541,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 	@Override
 	public void validerArticeByIndexException(Long article_id) {
 		// TODO Auto-generated method stub
-		Article article = lireArticle(article_id);
+		Article article = rechercherArticleIndex(article_id);
 		
 		updateArticleStatut(article, StatutArticle.VENDU);
 		
@@ -558,7 +552,5 @@ public class MetierArticle implements MetierInterfaceArticle {
 	public void updateArticleStatut(Article article, StatutArticle status) {
 		persistanceArticle.updateArticleStatut(article, status);
 	}
-	
-	
-	/*   */
+
 }

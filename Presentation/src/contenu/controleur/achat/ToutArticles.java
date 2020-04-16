@@ -69,20 +69,14 @@ public class ToutArticles extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int nb = 0;
+
 		System.out.println("MyServlet Tout article");
-		nb++;
-	
-		
-		
 		ModelAllContent modelTheme = new ModelAllContent();
 		
 		List<Theme> themes = metierTheme.lireTousTheme();
 		modelTheme.setThemes(themes);
 		
 		request.setAttribute("modelTheme", modelTheme);
-		
-		
 		HttpSession session = request.getSession();
 		
 		Long user_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
@@ -92,63 +86,14 @@ public class ToutArticles extends HttpServlet {
 		
 		
 		ModelUser modelUser = new ModelUser(); 
-		
 		ModelContenu modelContenu = new ModelContenu(); 
 		
 		List<Article> articles = metierArticle.lireTousArticle();
-		 
-		 modelContenu.setArticles(articles);
-			request.setAttribute("modelContenu", modelContenu);
-			
-
+		modelContenu.setArticles(articles);
+		request.setAttribute("modelContenu", modelContenu);
 		request.getRequestDispatcher(VUE).forward(request, response); 
 			
-			
-			//request.getRequestDispatcher(VUE).forward(request, response); 
-			//request.getAttribute(arg0)
-			if(request.getParameter("acheterA") != null ) {
-				System.out.println("acheterA capté");
-				Long id = Long.valueOf(request.getParameter("acheterA"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				System.out.println("article session id in tout article is =" + session.getAttribute(ATTRIBUT_ARTICLE_ID));
-		
-				response.sendRedirect( request.getContextPath() + "/acheterArticle");
-				
-				request.getRequestDispatcher("/acheterArticle").forward(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				
-			}
-			
-			if(request.getParameter("acheter") != null ) {
-				System.out.println("acheter--- article ID capté");
-				Long id = Long.valueOf(request.getParameter("acheter"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
-			
-			/*
-			 * System.out.println(" Response getContextPath acheter  Article forward");
-			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
-			 */
-				System.out.println(" response toutArticle sendRedirect acheter Article");
-				response.sendRedirect( request.getContextPath() + "/acheterArticle");
-				
-				
-				System.out.println(" Acheter Article forward");
-				request.getRequestDispatcher("acheterArticle").forward(request, response);
-			
-			}
+	
 			if(request.getParameter("choixTheme") != null ) {
 				System.out.println("condition select theme");
 				String theme_id = String.valueOf(request.getParameter("acronymeTheme"));
@@ -156,148 +101,25 @@ public class ToutArticles extends HttpServlet {
 				
 				System.out.println("theme =" + theme_id);
 				
-				
-			/*
-			 * Theme theme = metierTheme.selectThemeTitre(theme_id);
-			 * System.out.println(theme);
-			 * 
-			 */
 				ModelContenu modelContenuSelect = new ModelContenu(); 
 				
 				System.out.println("select Article By Theme");
 				
 				List<Article> articlesThemes = metierArticle.selectArticleByTheme(theme_id);
 				modelContenuSelect.setArticles(articlesThemes);
-					request.setAttribute("modelContenuSelect", modelContenuSelect);
-		
-			/*
-			 * System.out.println("return include shopping with Article Theme");
-			 * request.getRequestDispatcher("/Shopping").include(request, response);
-			 * 
-			 * System.out.println("response send redirect shopping with Article Theme");
-			 * response.sendRedirect( request.getContextPath() + "/Shopping");
-			 */
-					
-				/*
-			 * 
-			 * System.out.println(" response toutArticle sendRedirect acheter Article");
-			 * response.sendRedirect( request.getContextPath() + "/acheterArticle");
-			 * 
-			 * 
-			 * System.out.println(" Acheter Article forward");
-			 * request.getRequestDispatcher("acheterArticle").forward(request, response);
-			 */
-			//	System.out.println(" Acheter Article include"); 
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
+				request.setAttribute("modelContenuSelect", modelContenuSelect);
 			
 				
-			}
-			if(request.getParameter("lienAcheterIn") != null ) {
-				System.out.println("Lien acheter In : acheter article ID capté");
-				Long id = Long.valueOf(request.getParameter("acheter"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
-		
-				
-				System.out.println("lienIn include ");
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				request.getRequestDispatcher("/acheterArticle").include(request, response);
+				}
+			
 
-					
-			}
+			if(request.getParameter("supprimer") != null ) {
 			
 			
-			if(request.getParameter("lienAcheter") != null ) {
-				System.out.println("lienacheter article");
-				Long id = Long.valueOf(request.getParameter("acheter"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
-			/*
-			 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
-			 * System.out.println("article Achat = " + articleAchat);
-			 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * 
-			 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-			 */
-				
-				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-				
-				System.out.println("Redirection metier commande vue Acheter Article forward");
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				request.getRequestDispatcher("/acheterArticle").include(request, response);
 			
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				
-			}
-			
-			
-			if(request.getParameter("acheterButton") != null ) {
-				System.out.println("acheter article ID capté");
-				Long id = Long.valueOf(request.getParameter("article_id"));
-				System.out.println("achat article id=" + id);
-				
-				
-				request.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				session.setAttribute(ATTRIBUT_ARTICLE_ID, id);
-				
-				
-				System.out.println("Redirection metier commande vue Acheter Article forward");
-				request.getRequestDispatcher("/acheterArticle").forward(request, response);
-			/*
-			 * Article articleAchat = metierArticle.rechercherArticleIndex(id);
-			 * System.out.println("article Achat = " + articleAchat);
-			 * request.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * session.setAttribute(ATTRIBUT_ARTICLE_ACHAT, articleAchat);
-			 * 
-			 * System.out.println(session.getAttribute(ATTRIBUT_ARTICLE_ACHAT));
-			 */
-				
-				//metierArticle.ajouterArticleAchat(userSession, articleAchat);
-				
-
-				//request.getRequestDispatcher("/acheterArticle").include(request, response);
-				
-				//request.getRequestDispatcher(VUE_COMMANDE).forward(request, response);
-				
-			//	metierArticle.
-				//metier.ajouterRetard(id);
-				
-			}
-		/*
-		 * if(request.getParameter("acheter") != null ) {
-		 * 
-		 * 
-		 * 
-		 * }
-		 */
-			
+			}	
+		
+	} // Fin DO POST
 	
-		if(request.getParameter("supprimer") != null ) {
-			
-			
-			
-		}
-		
-	}
-}
+} // Fin de classe
 
