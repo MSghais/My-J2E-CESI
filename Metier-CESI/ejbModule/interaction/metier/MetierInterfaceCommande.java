@@ -89,5 +89,13 @@ public interface MetierInterfaceCommande {
 	
 	void updateCommandeDateCreation(Commande commande);
 	void updateCommandeDateEnvoi(Commande commande);
+	
+	
+	Commande lireCommandeByArticleIndexException(Long article_id);
+	
+	Commande modifierCommande(Long id, StatutCommande statut);
+	void supprimerCommandeByArticleIndexException(Long article_id);
+	void validerCommandeByArticleIndexException(Long article_id);
+	void envoyerCommandeByArticleIndexException(Long article_id);
 
 }

@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import contenu.entite.Article;
 import contenu.entite.Theme;
 import contenu.enume.StatutArticle;
+
 import utilisateurs.entite.User;
 
 
@@ -24,7 +25,6 @@ public class PersisterArticle implements PersistanceArticleItf{
 	
 	
 
-	
 
 	@Override
 	public List<Article> lireTousArticle() {
@@ -110,6 +110,13 @@ public class PersisterArticle implements PersistanceArticleItf{
 		entityManager.merge(article);
 		entityManager.remove(article);
 	}
+
+	@Override 
+	public Article mergeArticleReturn(Article article) {
+		
+		return entityManager.merge(article);
+	}
+	
 	
 	/* 
 	

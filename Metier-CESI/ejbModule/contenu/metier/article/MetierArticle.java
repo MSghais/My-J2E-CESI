@@ -2,6 +2,7 @@ package contenu.metier.article;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,8 @@ import contenu.entite.Theme;
 import contenu.enume.StatutArticle;
 import contenu.persistance.article.PersistanceArticleItf;
 import contenu.persistance.theme.PersistanceThemeItf;
+import interaction.entite.Commande;
+import interaction.enume.StatutCommande;
 import utilisateurs.entite.User;
 import utilisateurs.entite.Utilisateur;
 import utilisateurs.persistance.PersistanceUserItf;
@@ -195,6 +198,8 @@ public class MetierArticle implements MetierInterfaceArticle {
 		
 		article.setTheme(theme);
 		
+		article.setDate(new Date());
+		
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
 				&& !article.getContenu().isEmpty())) {
@@ -270,7 +275,11 @@ public class MetierArticle implements MetierInterfaceArticle {
 		String art_contenu = request.getParameter("art_contenu");
 		String art_frais = request.getParameter("art_frais");
 		String art_prix = request.getParameter("art_prix");
-
+		
+		String acronymeTheme = request.getParameter("acronymeTheme");
+		System.out.println(acronymeTheme);
+		Theme theme = persistanceTheme.lireThemeName(acronymeTheme);
+		System.out.println(theme);
 		Article article = new Article();
 
 		System.out.println("Test des exceptions du formulaire a partir du MEtier");
@@ -320,6 +329,10 @@ public class MetierArticle implements MetierInterfaceArticle {
 		}
 
 		article.setStatus(StatutArticle.DISPONIBLE);
+		
+		article.setTheme(theme);
+		
+		article.setDate(new Date());
 	
 		/* Initialisation du résultat global de la validation. */
 		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
@@ -862,6 +875,32 @@ public class MetierArticle implements MetierInterfaceArticle {
 	public Article rechercherArticleIndex(Long id) {
 		// TODO Auto-generated method stub
 		return persistanceArticle.rechercherArticleIndex(id);
+	}
+	
+	@Override
+	public void supprimerArticleByIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		
+		System.out.println("Commande Index is =" + article);
+		
+		supprimerArticle(article);
+		
+	}
+	
+	@Override
+	public void updateArticleStatut(Article article, StatutArticle status) {
+		persistanceArticle.updateArticleStatut(article, status);
+	}
+	
+	@Override
+	public void validerArticeByIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		
+		updateArticleStatut(article, StatutArticle.VENDU);
+		
+		
 	}
 	
 	/*   */

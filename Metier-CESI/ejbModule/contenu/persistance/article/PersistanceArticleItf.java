@@ -59,5 +59,6 @@ public interface PersistanceArticleItf {
 	//List<Article> selectArticleByTheme(String theme);
 	//List<Article> selectArticleByTheme(Theme theme);
 	List<Article> selectArticleByTheme(String theme);
+	Article mergeArticleReturn(Article article);
 	
 }

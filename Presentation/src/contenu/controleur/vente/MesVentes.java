@@ -91,8 +91,10 @@ public class MesVentes extends HttpServlet {
 				System.out.println("Article modif is " + articleModif);
 				request.setAttribute(ATTRIBUT_ARTICLE_MODIF, articleModif);
 				
-				System.out.println(" response toutArticle sendRedirect acheter Article");
-				response.sendRedirect( request.getContextPath() + "/modificationArticle");
+			/*
+			 * System.out.println(" response toutArticle sendRedirect acheter Article");
+			 * response.sendRedirect( request.getContextPath() + "/modificationArticle");
+			 */
 				System.out.println("Renvoi modification Article with include");
 				request.getRequestDispatcher("/modificationArticle").include(request, response);
 				
@@ -103,11 +105,17 @@ public class MesVentes extends HttpServlet {
 				
 				System.out.println("Boutton supprimer un Article avec la Commande ");
 				Long article_id = Long.valueOf(request.getParameter("supprimer"));
-							
+				System.out.println("Article id params = "+ article_id);
+				System.out.println("Select commande by article");
 				Commande commande = metierCommande.selectCommandeByArticle(article_id);
+				System.out.println("Commande article is = "+ commande.getArticle());
+				System.out.println("Supprimer commande");
 				metierCommande.supprimerCommande(commande);
 				
+				System.out.println("Recherche dommande by index");
 				Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
+				System.out.println("Article id a supprimer est = "+ articleDelete.getId());
+				System.out.println("Supprimer article");
 				metierArticle.supprimerArticle(articleDelete);
 				
 			}

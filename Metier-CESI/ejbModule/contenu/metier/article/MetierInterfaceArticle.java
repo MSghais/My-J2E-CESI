@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import contenu.entite.Article;
+import contenu.enume.StatutArticle;
 import utilisateurs.entite.User;
 import utilisateurs.entite.Utilisateur;
 
@@ -87,6 +88,10 @@ public interface MetierInterfaceArticle {
 	/*
 	User connecterUser(HttpServletRequest request);
 	*/
+
+		void validerArticeByIndexException(Long article_id);
+		void updateArticleStatut(Article article, StatutArticle status);
+		void supprimerArticleByIndexException(Long article_id);
 	
 	//void ajouterAbsence(Long etudiantId);
 	//void ajouterRetard(Long etudiantId);

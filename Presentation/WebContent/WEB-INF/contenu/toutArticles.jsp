@@ -27,7 +27,7 @@
 	<div id="main">
 	
 	
-		<section class="tiles">
+		<section >
 							
 						<div class="inner">
 				
@@ -40,10 +40,10 @@
 								<a href="Connexion" > </a>
 								
 								</c:if>
-	<div class="table-wrapper">
+	<div >
 									
 	<form action="toutArticles" method="post">
-	<table class="alt">
+	<table >
 		
 			<thead> <th> Titre </th> <th> Theme </th> <th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>    <th> Achat </th> </thead>
 			  
@@ -118,7 +118,7 @@
 		
 		</form>
 		
-<table class="alt">
+<table>
 						
 				<thead> 
 				<th> Titre </th> <th> Theme </th> <th> Description </th> <th> Contenu </th> 

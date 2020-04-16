@@ -180,6 +180,12 @@ public class PersisterCommande implements PersistanceCommandeItf{
 	}
 	
 	@Override
+	public void supprimerCommande(Commande commande) {
+		entityManager.merge(commande);
+		entityManager.remove(commande);
+	}
+	
+	@Override
 	public Commande selectCommandeByArticle(Long article_id) {
 		// TODO Auto-generated method stub
 		Commande commande;
@@ -196,6 +202,14 @@ public class PersisterCommande implements PersistanceCommandeItf{
 			return commande;
 	}
 	
+	
+
+	@Override 
+	public Commande mergeCommandeReturn(Commande commande) {
+		
+		return entityManager.merge(commande);
+	}
+	
 	@Override
 	public void updateCommandeWithVendeur(Commande commande, User user, Article article) {
 		
@@ -210,6 +224,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		commandeModif.setStatus(StatutCommande.ENCOURS);
 
 
+		
 		
 	}
 	
@@ -261,7 +276,9 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		  
 				Article articleModif = entityManager.find(Article.class, article.getId());
 				
-				articleModif.setStatus(status);
+				articleModif.setStatus( StatutArticle.;
+				
+				entityManager.merge(articleModif);
 	}
 
 	@Override
@@ -273,8 +290,13 @@ public class PersisterCommande implements PersistanceCommandeItf{
 				
 		commandeModif.setStatus(status);
 		
+		
+		entityManager.merge(commandeModif);
+		
+			
 	}
 	
+
 
 	@Override
 	public void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur) {
@@ -601,6 +623,8 @@ public void updateCommandeDateCreation(Commande commande) {
 	
 	
 }
+
+
 /*  @Override
 	public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
 		// TODO Auto-generated method stub

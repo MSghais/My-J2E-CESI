@@ -1,6 +1,7 @@
 package interaction.metier;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import contenu.entite.Article;
 import contenu.entite.Theme;
 import contenu.enume.StatutArticle;
+
 import contenu.persistance.article.PersistanceArticleItf;
 import contenu.persistance.theme.PersistanceThemeItf;
 import interaction.entite.Commande;
@@ -97,6 +99,20 @@ public class MetierCommande implements MetierInterfaceCommande {
 
 	
 	}
+	
+
+	@Override
+	public Commande modifierCommande(Long id,  StatutCommande statut) {
+	
+		Commande commande = selectCommandeByArticle(id);
+	
+		commande.setStatus(statut);
+		return persistanceCommande.mergeCommandeReturn(commande);	
+	}
+	
+	
+	
+	
 
 	@Override
 	public Commande creerCommandeRequest(HttpServletRequest request) {
@@ -203,7 +219,7 @@ public Commande selectCommandeByLastIndex() {
 	@Override
 	public String getResultat() {
 		// TODO Auto-generated method stub
-		return null;
+		return resultat;
 	}
 
 	@Override
@@ -241,8 +257,64 @@ public Commande selectCommandeByLastIndex() {
 	@Override
 	public void supprimerCommande(Commande commande) {
 		// TODO Auto-generated method stub
+		
+		persistanceCommande.supprimerCommande(commande);
 
 	}
+	@Override
+	public Commande lireCommandeByArticleIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
+		System.out.println("Commande Index is =" + commande);
+		
+		return commande;
+		
+	}
+	
+	@Override
+	public void supprimerCommandeByArticleIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
+		System.out.println("Commande Index is =" + commande);
+		
+		supprimerCommande(commande);
+		
+	}
+	
+	@Override
+	public void validerCommandeByArticleIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		
+		updateArticleStatut(article, StatutArticle.VENDU);
+		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
+		System.out.println("Commande Index is =" + commande);
+		
+		updateCommandeStatut(commande, StatutCommande.VALIDEE);
+		
+		
+	}
+	
+	@Override
+	public void envoyerCommandeByArticleIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		
+		updateArticleStatut(article, StatutArticle.VENDU);
+		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
+		System.out.println("Commande Index is =" + commande);
+		
+		updateCommandeStatut(commande, StatutCommande.ENVOYEE);
+		
+		updateCommandeDateEnvoi(commande);
+		
+		
+	}
+	
+	
+	
 
 	@Override
 	public void validationBanquaire(String CB) throws Exception {
@@ -365,6 +437,8 @@ public Commande selectCommandeByArticle(Long article_id) {
 		article.setStatus(StatutArticle.RESERVE);
 		Commande commande = new Commande(article.getPrix(), article, uconnecte);
 		commande.setStatus(StatutCommande.ENCOURS);
+		
+		commande.setDateCreation(new Date());
 		persistanceCommande.persisterCommande(commande);
 	}
 

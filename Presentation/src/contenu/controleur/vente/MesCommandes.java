@@ -111,8 +111,13 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Article modif is " + articleModif);
 			request.setAttribute(ATTRIBUT_ARTICLE_MODIF, articleModif);
 			
-			System.out.println("Renvoi modification Article");
-			request.getRequestDispatcher("/modificationArticle").include(request, response);
+			/*
+			 * System.out.println(" response toutArticle sendRedirect acheter Article");
+			 * response.sendRedirect( request.getContextPath() + "/modificationArticle");
+			 */
+			System.out.println("Renvoi modification Article");		
+			request.getRequestDispatcher("/modificationArticle").forward(request, response);
+			//request.getRequestDispatcher(VUE).forward(request, response); 
 			
 		}
 		
@@ -122,14 +127,25 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Boutton supprimer un Article");
 			Long article_id = Long.valueOf(request.getParameter("supprimer"));
 			
+			System.out.println("supprimer commande with Article index");
+			metierCommande.supprimerCommandeByArticleIndexException(article_id);
 			
-			Commande commande = metierCommande.selectCommandeByArticle(article_id);
-			metierCommande.supprimerCommande(commande);
+			/*
+			 * Commande commande = metierCommande.selectCommandeByArticle(article_id);
+			 * System.out.println("supprimer commande");
+			 * metierCommande.supprimerCommande(commande);
+			 */
 			
-			Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
-			metierArticle.supprimerArticle(articleDelete);
-			
-			request.getRequestDispatcher("/mesCommandes").include(request, response);
+			System.out.println("supprimer article by index exception");
+			metierArticle.supprimerArticleByIndexException(article_id);
+			/*
+			 * Article articleDelete = metierArticle.rechercherArticleIndex(article_id);
+			 * 
+			 * System.out.println("supprimer article");
+			 * metierArticle.supprimerArticle(articleDelete);
+			 */
+			//request.getRequestDispatcher("/mesCommandes").include(request, response);
+			request.getRequestDispatcher(VUE).forward(request, response); 
 			
 		}
 		
@@ -138,19 +154,27 @@ public class MesCommandes extends HttpServlet {
 			
 			System.out.println("Boutton Valider un Article");
 			Long article_id = Long.valueOf(request.getParameter("valider"));	
-			Article articleEnvoyer = metierArticle.rechercherArticleIndex(article_id);
-			
-			System.out.println("Update article statut");
-			metierCommande.updateArticleStatut(articleEnvoyer, StatutArticle.VENDU);
-					
-			System.out.println("Update Commande statut");
+			//Article articleEnvoyer = metierArticle.rechercherArticleIndex(article_id);
+			//System.out.println("Update article statut");
+			// metierCommande.updateArticleStatut(articleEnvoyer, StatutArticle.VENDU);
+			/* System.out.println("Update Commande statut");
 			Commande commande = metierCommande.selectCommandeByArticle(article_id);
 			metierCommande.updateCommandeStatut( commande, StatutCommande.VALIDEE);
 			
 			System.out.println("Update Date envoi statut");
 			metierCommande.updateCommandeDateEnvoi(commande);
+			 */
+			System.out.println("Update article with index and status");
+			metierArticle.validerArticeByIndexException(article_id);	
 			
-			request.getRequestDispatcher("/mesCommandes").include(request, response);
+			
+			System.out.println("Valider Commande statut with article index");
+			metierCommande.validerCommandeByArticleIndexException(article_id);
+					
+			
+			
+			//request.getRequestDispatcher("/mesCommandes").include(request, response);
+			request.getRequestDispatcher(VUE).forward(request, response); 
 			
 		}
 		
@@ -169,7 +193,8 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Update Date envoi Commande");
 			metierCommande.updateCommandeDateEnvoi(commande);
 			
-			request.getRequestDispatcher("/mesCommandes").include(request, response);
+			//request.getRequestDispatcher("/mesCommandes").include(request, response);
+			request.getRequestDispatcher(VUE).forward(request, response); 
 			
 			
 		}
@@ -180,14 +205,18 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Boutton supprimer une Commande");
 			Long commande_id = Long.valueOf(request.getParameter("supprimerCommande"));
 			System.out.println("Commande Index is =" + commande_id);
-			
-			Commande commande = metierCommande.lireCommande(commande_id);
-			System.out.println("Commande Index is =" + commande);
-			metierCommande.supprimerCommande(commande);
-
+			/*
+			 * Commande commande = metierCommande.lireCommande(commande_id);
+			 * System.out.println("Commande Index is =" + commande);
+			 * metierCommande.supprimerCommande(commande);
+			 */
+			System.out.println("supprimer une Commande avec un article index");
+			metierCommande.supprimerCommandeByArticleIndexException(commande_id);
 			System.out.println("Commande supprimer");
 			
-			request.getRequestDispatcher("/mesCommandes").include(request, response);
+			//request.getRequestDispatcher("/mesCommandes").include(request, response);
+			request.getRequestDispatcher(VUE).forward(request, response); 
+			
 			
 		}
 		
@@ -197,13 +226,18 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Boutton validez une Commande");
 	
 			Long commande_id = Long.valueOf(request.getParameter("validerCommande"));
-			System.out.println("Commande Index is =" + commande_id);
-			Commande commandeEnvoi = metierCommande.lireCommande(commande_id);
-			System.out.println("Commande Index is =" + commandeEnvoi);
-			System.out.println("Update commande statut");
-			metierCommande.updateCommandeStatut( commandeEnvoi, StatutCommande.VALIDEE);
-			System.out.println("Update date commande");
-			metierCommande.updateCommandeDateEnvoi(commandeEnvoi);
+			
+			System.out.println("valider une Commande avec un article index");
+			metierCommande.validerCommandeByArticleIndexException(commande_id);
+			/*
+			 * System.out.println("Commande Index is =" + commande_id); Commande
+			 * commandeEnvoi = metierCommande.lireCommande(commande_id);
+			 * System.out.println("Commande Index is =" + commandeEnvoi);
+			 * System.out.println("Update commande statut");
+			 * metierCommande.updateCommandeStatut( commandeEnvoi, StatutCommande.VALIDEE);
+			 * System.out.println("Update date commande");
+			 * metierCommande.updateCommandeDateEnvoi(commandeEnvoi);
+			 */
 			
 			request.getRequestDispatcher("/mesCommandes").include(request, response);
 			
@@ -216,10 +250,18 @@ public class MesCommandes extends HttpServlet {
 			System.out.println("Boutton envoyer une Commande");
 			Long commande_id = Long.valueOf(request.getParameter("envoyerCommande"));
 			System.out.println("Commande Index is =" + commande_id);
+			
+
+			System.out.println("ENVOYER une Commande avec un article index");
+			metierCommande.envoyerCommandeByArticleIndexException(commande_id);
+			
 			Commande commandeEnvoi = metierCommande.lireCommande(commande_id);		
 			System.out.println("Commande Index is =" + commandeEnvoi);
 			System.out.println("Update commande statut");
-			metierCommande.updateCommandeStatut( commandeEnvoi, StatutCommande.ENVOYEE);	
+			metierCommande.updateCommandeStatut( commandeEnvoi, StatutCommande.ENVOYEE);
+			System.out.println("Update date commande");
+			metierCommande.updateCommandeDateEnvoi(commandeEnvoi);
+			
 			
 			request.getRequestDispatcher("/mesCommandes").include(request, response);
 			

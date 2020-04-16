@@ -84,6 +84,7 @@ public class ModificationArticle extends HttpServlet {
 	  
 	     	System.out.println(user);
 	 
+	     	System.out.println("Envoi vue Modificaiton article en forward");
 	    	request.getRequestDispatcher(VUE).forward(request, response);
 	    	
 	    
@@ -136,6 +137,7 @@ public class ModificationArticle extends HttpServlet {
 			  User userSessionTEST = (User) session.getAttribute(ATTRIBUT_USER_SESSION);	  
 			  System.out.println("user SESSION TEST boolean = " + userSessionTEST);
 			  	  
+			  
 		        System.out.println("Modification Metier Article EJB  " );
 		        Article articleSessionRequest =  metierArticle.updateArticleUserRequestSession(request, userTESTING, session);
 		        System.out.println(articleSessionRequest);

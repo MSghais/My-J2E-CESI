@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Phantom by HTML5 UP</title>
+		<title> Mes commandes</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	
@@ -26,7 +26,7 @@
 	<div id="main">
 	
 	
-		<section class="tiles">
+		<section >
 							
 						<div class="inner">
 				
@@ -35,11 +35,11 @@
 		<h4> Mes Articles en Vente </h4>
 	
 		<form action="mesCommandes" method="post">
-		<table border="1">
+		<table >
 			
 			<thead>
 			 <th> Titre </th> <th> Theme </th><th> Description </th>
-			<th> Contenu </th> <th> Frais </th>   <th> Prix </th>  <th> Statut </th> 
+			<th> Contenu </th> <th> Frais </th>   <th> Prix </th>  <th> Statut </th>   <th> Date </th>
 			 <th> Gérer Article </th>   <th>  Gérer sa Commande</th>  
 			 </thead>
 			 
@@ -60,6 +60,10 @@
 					<td><c:out value="${article.prix}"/></td>
 				
 					<td><c:out value="${article.status}"/></td>
+					
+						<td><c:out value="${article.date}"/></td>
+						
+					
 					
 					
 					<td> <a  id="modifier" href="?modifier=${article.id}" > 1.  Modifier </a>  <br>
