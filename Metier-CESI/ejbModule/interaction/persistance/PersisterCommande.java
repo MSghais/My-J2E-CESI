@@ -259,7 +259,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 	@Override
 	public List<Commande> lireTousCommandeByAcheteur(Long user_id) {
 		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery("select c from Commande c  where acheteur_id=: user_id ");
+		Query req = entityManager.createQuery("select c from Commande c  where c.acheteur_id=: user_id ");
 		req.setParameter("user_id", user_id);
 		return (List<Commande>)  req.getResultList();
 	}
@@ -347,7 +347,7 @@ public List<Commande> lireTousCommandeByAcheteurException(Long user_id) {
 List<Commande> commandes;
 	try {
 		
-		Query req = entityManager.createQuery("select c from Commande c  where c.user=: user_id ");
+		Query req = entityManager.createQuery("select c from Commande c  where c.acheteur=: user_id ");
 		req.setParameter("user_id", user_id);
 		commandes = req.getResultList();
 	}catch(Exception e) {

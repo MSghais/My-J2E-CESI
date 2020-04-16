@@ -99,7 +99,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	@Override
 	public void supprimerCommandeByArticleIndexException(Long article_id) {
 		// TODO Auto-generated method stub
-		Article article = lireArticle(article_id);
+		Article article = persistanceArticle.rechercherArticleIndex(article_id);
 		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
 		System.out.println("Commande Index is =" + commande);
 		
@@ -116,7 +116,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	@Override
 	public void validerCommandeByArticleIndexException(Long article_id) {
 		// TODO Auto-generated method stub
-		Article article = lireArticle(article_id);
+		Article article = persistanceArticle.rechercherArticleIndex(article_id);
 		
 		updateArticleStatut(article, StatutArticle.VENDU);
 		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
@@ -130,7 +130,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	@Override
 	public void envoyerCommandeByArticleIndexException(Long article_id) {
 		// TODO Auto-generated method stub
-		Article article = lireArticle(article_id);
+		Article article = persistanceArticle.rechercherArticleIndex(article_id);
 		
 		updateArticleStatut(article, StatutArticle.VENDU);
 		Commande commande = lireTousCommandeByArticleException(article.getId()) ;

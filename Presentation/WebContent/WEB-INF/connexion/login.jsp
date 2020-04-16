@@ -17,15 +17,19 @@
 		 
 		<c:if test="${!empty sessionScope.utilisateur}">
     		${sessionScope.utilisateur.login} : <a href="deconnexion">Déconnexion</a>
-        </c:if>
-        <a href="accesPublic.jsp">acces public</a>
+    		 <a href="accesPublic.jsp">acces public</a>
         <a href="accesrestreint">acces privé</a>
+        </c:if>
+       
 		<h4>Login</h4>
 		
-			
-		
-					
 
+		 <h4> Se connecter  </h4>
+		 
+	
+ 		<c:out value="${erreursMap}"/><br>
+		<c:out value="${msgErreur}"/><br>
+			 <c:out value="${erreurs}"/><br>
 		
 		<form action="Connexion" method="post">
 			<table>
@@ -45,18 +49,7 @@
 		</form>	
 		<br>
 		
-		<c:out value="${requestScope.erreurs}"/><br>
-						<c:out value="${requestScope.erreurs}"/><br>
-				<c:out value="${requestScope.msgErreur}"/><br>
-			<c:out value="${msgErreur}"/><br>
-		
-		
-			<c:out value="${requestScope.erreursMap}"/><br>
-			
-						<c:out value="${requestScope.erreurs}"/><br>
-						<c:out value="${requestScope.msgErreur}"/><br>
-						<c:out value="${msgErreur}"/><br>
-		
+					
 
          <%@ include file="/WEB-INF/footerPhantom.jsp" %>
          
@@ -65,5 +58,3 @@
 	
 	
 </html>
-
-<!--  -->

@@ -240,11 +240,8 @@ public class MetierArticle implements MetierInterfaceArticle {
 	public Article updateArticleUserRequestSession(HttpServletRequest request,  HttpSession session) {
 		// TODO Auto-generated method stub
 
-		System.out.println("Creer article User Request Session");
-		
-		//System.out.println("User paramse : " + userParams.toString() );
-		
-	Enumeration<String> sessionAttributs = session.getAttributeNames(); System.out.println(sessionAttributs);
+		System.out.println("Creer article User Request Session");	
+		//Enumeration<String> sessionAttributs = session.getAttributeNames(); System.out.println(sessionAttributs);
 	
 	
 	String loginUser = (String) session.getAttribute("userLogin");
@@ -256,13 +253,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 
 	User userLectureBDD = (User)persistanceUser.lireUser(user_id); 
 	System.out.println("Lire User BDD select are : " + userLectureBDD); System.out.println("User BDD  ID select are : " + userLectureBDD.getUser_id( ));
-	
 
-	Cookie[] cookies = request.getCookies();
-
-	
-
-	
 		System.out.println("Request user are : " + request.getAttribute("utilisateur"));
 		
 		System.out.println("Session user are : " + session.getAttribute("utilisateur"));
@@ -282,6 +273,7 @@ public class MetierArticle implements MetierInterfaceArticle {
 		System.out.println(theme);
 		
 		Article article = (Article) request.getAttribute(ATTRIBUT_ARTICLE_MODIF);
+		System.out.println("Article a modifier" + article);
 		//Article article = new Article();
 
 		System.out.println("Test des exceptions du formulaire a partir du MEtier");

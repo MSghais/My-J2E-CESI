@@ -63,7 +63,7 @@
 	<h4> Mes Achats en cours d'acheminement </h4>
 	
 		<table border="1">
-		<thead>  <th>Titre  </th> <th> Contenu  </th> <th>Description </th>
+		<thead>  <th>Titre  </th> <th> Contenu  </th> 
 			<th>Prix </th><th> Frais </th>  <th> Statut </th> </thead>
 			<th>Date d'achat </th><th> Date d'envoi </th> 
 			
@@ -78,8 +78,7 @@
 					
 						<td><c:out value="${ commande.article.contenu}"/></td>
 			
-			  					  	
-			  			<td><c:out value="${ commande.article.description}"/></td>
+					<td><c:out value="${achat.article.vendeur.login}"/></td>
 			  			
 					
 					  			<td><c:out value="${ commande.article.prix}"/></td>
