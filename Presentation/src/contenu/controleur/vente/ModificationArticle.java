@@ -58,10 +58,8 @@ public class ModificationArticle extends HttpServlet {
 	    	System.out.println("Arrivé doGET");
 	    
 	    	
-	    	doPost(request,response);/*
-	        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
-	        */
-	       // System.out.println("doGET envoi la page");
+	    	doPost(request,response);
+	     
 	    }
 		
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
@@ -70,76 +68,33 @@ public class ModificationArticle extends HttpServlet {
 	  
 	      //  InscriptionForm form = new InscriptionForm();
 	    		ModelAllContent modelAll = new ModelAllContent();
-	     
-	        List<Theme> themes = formContent.lireTousTheme();
-	        
-	        modelAll.setThemes(themes);
-	        
-	        
+	        List<Theme> themes = formContent.lireTousTheme();   
+	        modelAll.setThemes(themes);   
 	        request.setAttribute("modelAll", modelAll);
 	        
 	        
 	  
 	     	User user =  (User) request.getAttribute(ATTRIBUT_USER);
-	  
-	     	System.out.println(user);
-	 
+	    	System.out.println("user in session are " + user);
 	     	System.out.println("Envoi vue Modificaiton article en forward");
-	    	request.getRequestDispatcher(VUE).forward(request, response);
+	    	request.getRequestDispatcher(VUE).include(request, response);
 	    	
 	    
 	    	System.out.println("doPOST envoi la vue");
-	    	HttpSession session = request.getSession();
-	    	
+	    	HttpSession session = request.getSession();	
 	     	//HttpSession sessionServlet = request.getSession();
 	     	Cookie[] cookies = request.getCookies(); System.out.println(cookies);
-	
-	    	System.err.println( "Request cookie in addArticle : " + request.getCookies());
+	    	System.err.println( "Request cookie in modification Article : " + request.getCookies());
 
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER));   	
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_SESSION));   	
-	    	User userTESTING = (User) session.getAttribute(ATTRIBUT_USER);
-	    	
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ID));
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_LOGIN));
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ROLE));
-	    	
-	    	
 
 	   if(request.getParameter("modifierArticle") != null ) {
 
 		 	System.out.println("button activé par User ppur Article");
 		 	
 				        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-
-			
-			System.out.println("Request User object " +request.getAttribute(ATTRIBUT_USER));
-			
-			System.out.println("Request ID" + request.getAttribute(ATTRIBUT_USER_ID));
-			System.out.println("Request LOGIN " + request.getAttribute(ATTRIBUT_USER_LOGIN));
-			
-			System.out.println("session User object " +session.getAttribute(ATTRIBUT_USER));
-			
-			System.out.println("session ID" + session.getAttribute(ATTRIBUT_USER_ID));
-			System.out.println("session LOGIN " + session.getAttribute(ATTRIBUT_USER_LOGIN));
-			
-			session.setAttribute(ATTRIBUT_USER,user);
-	     	request.setAttribute(ATTRIBUT_USER, (User) user);
-	     	
-	     	
-			  
-			  User userRequest= (User) request.getAttribute(ATTRIBUT_USER);			  
-			  System.out.println("userRequest = " + userRequest);
-			  
-			  User userSession = (User) session.getAttribute(ATTRIBUT_USER);
-			  System.out.println("user SESSION = " + userSession);
-			  
-			  User userSessionTEST = (User) session.getAttribute(ATTRIBUT_USER_SESSION);	  
-			  System.out.println("user SESSION TEST boolean = " + userSessionTEST);
-			  	  
-			  
+		 	
 		        System.out.println("Modification Metier Article EJB  " );
-		        Article articleSessionRequest =  metierArticle.updateArticleUserRequestSession(request, userTESTING, session);
+		        Article articleSessionRequest =  metierArticle.updateArticleUserRequestSession(request, session);
 		        System.out.println(articleSessionRequest);
 		
 			  

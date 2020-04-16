@@ -116,208 +116,19 @@ public class PersisterArticle implements PersistanceArticleItf{
 		
 		return entityManager.merge(article);
 	}
-	
-	
-	/* 
-	
-	 	@Override
-	public void inscrireEtudiantPromotion(String acronyme, Etudiant etudiant) {
-		System.out.println("Persistance - inscrireEtudiantPromotion acronyme=" + acronyme + " etudiant" + etudiant);
-	
-	}
-	
-	*/
+
 	
 	@Override
 	public void persisterUserArticle(User user, Article article) {
 		// TODO Auto-generated method stub
-		/*
-		 * article.setUser_vendeur(user); entityManager.persist(article);
-		 * 
-		 * article.setUser_vendeur(user);
-		 */
-		
+	
 		entityManager.persist(article);
-		
-		// article.getUser_vendeur().addUser(user);
-		
 		Article articleModif = entityManager.find(Article.class, article.getId());
-		articleModif.setUser_vendeur(user);
-		
-		
-		entityManager.merge(articleModif);
-		
-		
+		articleModif.setVendeur(user);	
+		entityManager.merge(articleModif);	
 		
 	}
 	
-	@Override
-	public void persisterUserAndArticle(User user, Article article) {
-		// TODO Auto-generated method stub
-		/*
-		 * article.setUser_vendeur(user); entityManager.persist(article);
-		 * 
-		 * article.setUser_vendeur(user);
-		 */
-		
-		entityManager.persist(article);
-		
-		
-		user.addArticlesVentes(article);
-		
-		
-		User userTest = entityManager.find(User.class, user.getUser_id());
-    
-		
-		/*
-		 * Article articleModif = entityManager.find(Article.class, article.getId());
-		 * articleModif.setUser_vendeur(user);
-		 * 
-		 * 
-		 * entityManager.merge(articleModif);
-		 */
-		
-		
-		
-	}
-	
-
-	@Override
-	public void persisterArticleInUser(User user, Article article) {
-		// TODO Auto-generated method stub
-		/*
-		 * article.setUser_vendeur(user); entityManager.persist(article);
-		 * 
-		 * article.setUser_vendeur(user);
-		 */
-		
-		entityManager.persist(article);
-		
-
-		Article articleModif = entityManager.find(Article.class, article.getId());
-		
-		//entityManager.getTransaction().begin();
-		  
-		  
-		articleModif.setUser_vendeur(user);
-		
-		System.out.println("update column" + 	articleModif.getUser_vendeur())  ; 
-		insertIntoVenteUser(user, articleModif);
-		
-		 entityManager.merge(articleModif);
-		entityManager.persist(articleModif);
-		// entityManager.merge(articleModif);
-//		entityManager.persist(articleModif);
-		
-		
-		//entityManager.getTransaction().commit();
-	
-		
-		
-	}
-	
-	
-	//
-	@Transactional
-	@Override
-	public void insertJoinArticleUserWithQuery(User user, Article article) {
-	    entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id) VALUES (?,?)")
-
-	      .setParameter(1, user.getUser_id())
-	      .setParameter(2, article.getId())
-	   
-	      .executeUpdate();
-	}
-	
-	@Transactional
-	@Override
-	public void insertJoinArticleUserWithQueryIndex(Long userid, Long articleId) {
-		
-		entityManager.getTransaction().begin();
-		
-		
-	    entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id) VALUES (?,?)")
-
-	      .setParameter(1,userid)
-	      .setParameter(2, articleId)
-	   
-	      .executeUpdate();
-	}
-
-	
-	
-	@Override
-	public void insertionJoinTableId(Long userid, Long articleId) {
-		
-	
-		
-		
-			Query query = entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id) VALUES (?,?)");
-
-		 // entityManager.getTransaction().begin();
-			
-	      query.setParameter(1,userid);
-	      query.setParameter(2, articleId);
-	   
-	      query.executeUpdate();
-			
-		//	entityManager.getTransaction().commit();
-	}
-	
-	@Override
-	public void insertionJoinTableIdAndKey(Long userid, Long articleId) {
-		
-	
-		
-		
-			Query query = entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id, ventesArticles_KEY) VALUES (?,?, ?)");
-
-		 // entityManager.getTransaction().begin();
-			
-	      query.setParameter(1,userid);
-	      query.setParameter(2, articleId);
-	      query.setParameter(3, userid);
-	      
-	      query.executeUpdate();
-			
-		//	entityManager.getTransaction().commit();
-	}
-
-
-
-
-	@Override
-	public void insertionJoinTableObject(User user, Article article) {
-		
-			Query query = entityManager.createNativeQuery("INSERT INTO vendeur_article (user_id, fk_article_id) VALUES (:user_id,:fk_article_id);");
-
-		//  entityManager.getTransaction().begin();
-			
-	      query.setParameter("user_id" ,user.getUser_id());
-	      query.setParameter("fk_article_id", article.getId());
-	   
-	      query.executeUpdate();
-			
-		//	entityManager.getTransaction().commit();
-	}
-
-	@Override
-	public void updateArticleWithUser(Article article, User user) {
-		
-		//  entityManager.getTransaction().begin();
-		  
-		Article articleModif = entityManager.find(Article.class, article.getId());
-		
-		articleModif.setUser_vendeur(user);
-
-		
-		 //  entityManager.persist(articleModif);
-		 
-		//  entityManager.getTransaction().commit();
-		  
-		  
-		
-	}
 	
 	@Override
 	public void updateArticleStatut(Article article, StatutArticle status) {
@@ -327,30 +138,14 @@ public class PersisterArticle implements PersistanceArticleItf{
 		Article articleModif = entityManager.find(Article.class, article.getId());
 		
 		articleModif.setStatus(status);
-
 		
-		 //  entityManager.persist(articleModif);
-		 
-		//  entityManager.getTransaction().commit();
-		  
-		  
+		modifierArticle(articleModif);
 		
 	}
-	
-	
-	
+
 	@Override
-	public void insertIntoVenteUser(User user, Article article ) {
-		
-		System.out.println("Add Article in User list");
-		
-		//entityManager.getTransaction().begin();
-		
-		user.addArticlesVentes(article);
-		
-	//	user.getVentesArticles().put(user.getUser_id(), article);
-		
-		
+	public Article modifierArticle(Article article) {
+		return entityManager.merge(article);
 	}
 
 @Override

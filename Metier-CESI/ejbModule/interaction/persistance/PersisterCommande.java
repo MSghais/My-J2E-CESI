@@ -62,41 +62,24 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		
 	}
 
-	@Override
-	public Commande selectCommandeByUser(Long user_id) {
-		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery("select a from user_article a  where c.user_id =: user_id ");
-		req.setParameter("user_id", user_id);
-		return (Commande) req.getSingleResult();
-		
-	}
-	
-	@Override
-	public Commande selectCommandeByAcheteur(Long user_id) {
-		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery("select c from Commande c  where acheteur_id =: user_id ");
-		req.setParameter("user_id", user_id);
-		return (Commande) req.getSingleResult();
-		
-	}
 
 	
-	@Override
-	public Commande selectUserByCommande(Long article_id) {
-		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery("select a from user_article a  where a.fk_article_user =: article_id ");
-		req.setParameter("article_id", article_id);
-		return (Commande) req.getSingleResult();
-		
-	}
 	
 	@Override
-	public Commande selectListCommandeAcheteur() {
+	public List<Commande> selectListCommandeAcheteur(Long id) {
 		// TODO Auto-generated method stub
-		Query req = entityManager.createQuery ("SELECT c FROM Commande c WHERE c.acheteur_id = (SELECT MAX(c.id) FROM Commande )");
-		Commande result = (Commande) req.getSingleResult ();
-	//req.setParameter("id", id);
-		return (Commande) req.getSingleResult();
+		List<Commande> commandes;
+		try {
+			
+			Query req = entityManager.createQuery ("SELECT c FROM Commande c WHERE c.acheteur_id = id");
+			req.setParameter("id", id);
+			commandes = req.getResultList();
+		}catch(Exception e) {
+			
+			commandes=null;
+		}
+		
+		return commandes;
 		
 	}
 	
@@ -110,14 +93,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		
 	}
 
-	@Override
-	public Commande persisterCommandeAndReturn(Commande commande) {
-		// TODO Auto-generated method stub
-		
-		entityManager.persist(commande);
-		return commande;
-		
-	}
+	
 
 
 	@Override
@@ -228,46 +204,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		
 	}
 	
-	@Override
-	public void voidInsertCommandeMetier(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 System.out.println("Creation commande with Paramater");
-		Commande commandeID = new Commande(article.getPrix(), article, userAcheteur, article.getUser_vendeur()); 
 
-		 System.out.println("Persister cette commande");
-		persisterCommande(commandeID);
-
-		
-		//return persistanceCommande.selectCommandeByLastIndex();
-	}
-	
-	@Override
-	public Commande voidInsertCommandeArray(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 System.out.println("Creation commande with Paramater");
-		Commande commandeID = new Commande(article.getPrix(), article, userAcheteur, article.getUser_vendeur(), StatutCommande.ENCOURS); 
-
-		return commandeID;
-		//return persistanceCommande.selectCommandeByLastIndex();
-	}
-	
-	@Override
-	public Commande insertCommandeMetier(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 System.out.println("Creation commande with Paramater");
-		Commande commandeID = new Commande(article.getPrix(), article, userAcheteur, article.getUser_vendeur()); 
-
-		System.out.println(commandeID.toString());
-		 System.out.println("Persister cette commande");
-		persisterCommande(commandeID);
-
-		System.out.println("Rechercher and Return commande");
-		return selectCommandeByIndex(commandeID.getCommande_id());
-		//return persistanceCommande.selectCommandeByLastIndex();
-	}
 	
 
 	@Override
@@ -276,7 +213,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		  
 				Article articleModif = entityManager.find(Article.class, article.getId());
 				
-				articleModif.setStatus( StatutArticle.;
+				articleModif.setStatus( StatutArticle.VENDU);
 				
 				entityManager.merge(articleModif);
 	}
@@ -316,79 +253,7 @@ public class PersisterCommande implements PersistanceCommandeItf{
 		entityManager.merge(commandeModif);
 		
 	}
-	
-	@Override
-	public Commande creerCommandeAll(Article article, User acheteur) {
-		// TODO Auto-generated method stub
 
-		
-		
-		Query query = entityManager.createNativeQuery("INSERT INTO commande "
-				+ "( date_creation,  prix,  acheteur_id, article_id)"
-				+ " VALUES"
-				+ " ( now(), :prix,  :acheteur_id, :article_id );");
-
-
-		 
-		
-		 query.setParameter("prix", article.getPrix());
-	      query.setParameter("acheteur_id", acheteur.getUser_id());
-	  
-	   
-	      query.setParameter("article_id", article.getId());
-	      // :vendeur_id query.setParameter("vendeur_id", article.getUser_vendeur());
-	      query.executeUpdate();
-		
-	      nombreCommande++;
-	      
-	      
-	     
-	      //return  selectCommandeByIndex(nombreCommande-1);
-	      
-	      return  selectCommandeByAcheteur(acheteur.getUser_id());
-	      
-	     // article.setStatus(StatutArticle.RESERVE);
-		
-		//entityManager.persist(article);
-		  
-		
-		
-	}
-	
-
-	
-	@Override
-	public void insertIntoCommandeAcheteurVendeur(User user, Article article ) {
-		
-		System.out.println("Add Article VENTE ");
-		
-		//entityManager.getTransaction().begin();
-		
-		user.addArticleAchat(article);
-		
-		
-		System.out.println("Get and Ajouter Article VENTE ");
-		user.getAchatArticles().add(article);
-	
-	}
-
-
-	
-	
-
-	@Override
-	public Commande createAndInsertCommandeMetier(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 System.out.println("Creation commande with Paramater");
-			Commande commandeID = new Commande(article.getPrix(), article, userAcheteur, article.getUser_vendeur());
-			
-			persisterCommande(commandeID);
-			
-			Commande commande = selectCommandeByIndex(commandeID.getCommande_id()) ;
-		return commande;
-
-	}
 
 	@Override
 	public List<Commande> rechercherCommandeByAcheteur(Long id_acheteur) {
@@ -539,13 +404,7 @@ public void insertArticleAchat(User user, Article article) {
       // :vendeur_id query.setParameter("vendeur_id", article.getUser_vendeur());
       query.executeUpdate();
 	
-      
-
-      
-     // article.setStatus(StatutArticle.RESERVE);
-	
-	//entityManager.persist(article);
-	  
+  
 	
 }
 @Override
@@ -597,11 +456,13 @@ public void ajouterArticleCommande(User user, Commande commande) {
 }
 
 @Override
-public void updateCommandeStatutindex(Long index, StatutCommande status) {
+public void updateCommandeStatutIndex(Long index, StatutCommande status) {
 	// TODO Auto-generated method stub
 	Commande commandeModif = entityManager.find(Commande.class, index);
 	
 	commandeModif.setStatus(status);
+
+	mergeCommandeReturn(commandeModif);
 }
 
 @Override

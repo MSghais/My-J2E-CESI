@@ -86,6 +86,7 @@ public class MesCommandes extends HttpServlet {
 		System.out.println("acheteur_id = " + session_id);
 		
 	
+	
 		
 		
 		User userSession = metierArticle.rechercherUserIndex(session_id);
@@ -116,7 +117,7 @@ public class MesCommandes extends HttpServlet {
 			 * response.sendRedirect( request.getContextPath() + "/modificationArticle");
 			 */
 			System.out.println("Renvoi modification Article");		
-			request.getRequestDispatcher("/modificationArticle").forward(request, response);
+			request.getRequestDispatcher("/modificationArticle").include(request, response);
 			//request.getRequestDispatcher(VUE).forward(request, response); 
 			
 		}

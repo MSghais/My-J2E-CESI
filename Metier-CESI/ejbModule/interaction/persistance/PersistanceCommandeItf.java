@@ -23,14 +23,10 @@ public interface PersistanceCommandeItf {
 
 	
 	void persisterUserCommande(User user, Commande article);
-	
 	void persisterAcheteurVendeurCommande(User vendeur, User acheteur, Article article);
 	
 	Commande selectArticleTitre(String titre);
-	
-	Commande selectCommandeByUser(Long user_id);
-	Commande selectUserByCommande(Long article_id);
-	Commande selectCommandeTitre(String titre);
+Commande selectCommandeTitre(String titre);
 	
 	
 	void updateCommandeWithAcheteur(Commande commande, User user);
@@ -39,40 +35,26 @@ public interface PersistanceCommandeItf {
 	
 	void updateArticleStatut(Article article, StatutArticle status);
 	void updateCommandeStatut(Commande commande,  StatutCommande status);
-	void updateCommandeStatutindex(Long index, StatutCommande status) ;
+	void updateCommandeStatutIndex(Long index, StatutCommande status) ;
 	
-	void insertIntoCommandeAcheteurVendeur(User user, Article article);
 	void ajouterArticleCommande(User user, Commande commande);
 	Commande selectCommandeByIndex(Long id);
+	
 	void ajouterArticleAchat(User user, Article article);
-	Commande selectCommandeByAcheteur(Long user_id);
-	
-	Commande creerCommandeAll(Article article, User acheteur);
-	
+
 	
 	void updateCommandeReservationAll(Commande commande, StatutCommande status, Article article, User acheteur);
 	
 	
 	Commande selectCommandeByLastIndex();
-
 	Commande selectCommandeByArticle(Long article_id);
 	
-	
-	void voidInsertCommandeMetier(Article article, User userAcheteur);
-	Commande insertCommandeMetier(Article article, User userAcheteur);
-	
-	Commande createAndInsertCommandeMetier(Article article, User userAcheteur );
-	Commande voidInsertCommandeArray(Article article, User userAcheteur);
-	Commande persisterCommandeAndReturn(Commande commande);
 	
 	
 	
 	List<Commande> rechercherCommandeByAcheteur(Long acheteur_id);
 	List<Article> rechercherArticleByCommande(Long id);
 	List<Article> rechercherArticleByStatut(Long id, StatutArticle statut);
-	Commande selectListCommandeAcheteur();
-	
-	
 	
 	List<Commande> lireTousAchats(Long id);
 	List<Commande> lireTousVenteEnCours(Long login);
@@ -93,5 +75,7 @@ public interface PersistanceCommandeItf {
 	void updateCommandeDateEnvoi(Commande commande);
 	Commande mergeCommandeReturn(Commande commande);
 	void supprimerCommande(Commande commande);
+	
+	List<Commande> selectListCommandeAcheteur(Long id);
 
 }

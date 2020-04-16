@@ -39,9 +39,7 @@ public interface MetierInterfaceArticle {
 	
 	//void validationMotDePasse(String motdepasse) throws Exception;;
 	
-	Article creerArticle(HttpServletRequest request);
-
-
+	
 	String getValeurChamp(HttpServletRequest request, String nomChamp);
 	
 	void setErreur(String champ, String message);
@@ -50,24 +48,6 @@ public interface MetierInterfaceArticle {
 	String getResultat();
 	
 	
-	Article creerArticleRequestSession(HttpServletRequest request, HttpSession session);
-
-	void insertJoinArticleUserWithQuery(User user, Article article);
-	
-
-	void insertJoinArticleUserWithQueryIndex(Long user_id, Long id);
-	
-	 void updateArticleWithUser(Article article, User user);
-	 
-	 
-		void insertIntoVenteUser(User user, Article article);
-		
-
-		void insertionJoinTableId(Long userid, Long articleId);
-		void insertionJoinTableObject(User user, Article article);
-		
-		Article creerArticleUserRequestSession(HttpServletRequest request, User userParams, HttpSession session);
-
 
 		User rechercherUserLogin(String login);
 
@@ -82,8 +62,8 @@ public interface MetierInterfaceArticle {
 	
 		
 		Article rechercherArticleIndex(Long id);
-		Article updateArticleUserRequestSession(HttpServletRequest request, User userParams, HttpSession session);
-		Article updateArticle(HttpServletRequest request);
+		Article updateArticleUserRequestSession(HttpServletRequest request,  HttpSession session);
+	
 		void updateArticleDate(Article article);
 	/*
 	User connecterUser(HttpServletRequest request);
@@ -92,6 +72,9 @@ public interface MetierInterfaceArticle {
 		void validerArticeByIndexException(Long article_id);
 		void updateArticleStatut(Article article, StatutArticle status);
 		void supprimerArticleByIndexException(Long article_id);
+		Article modifierArticleReturn(Article article);
+		
+		Article creerArticleUserRequestSession(HttpServletRequest request, HttpSession session);
 	
 	//void ajouterAbsence(Long etudiantId);
 	//void ajouterRetard(Long etudiantId);

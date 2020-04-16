@@ -104,13 +104,15 @@ ModelCommande modelCommande = new ModelCommande();
 		
 		modelCommande.setAchatArticles(achatArticles);
 		
-		/*
-		 * 
-		 * List<Commande> listeAchatUser =
-		 * metierCommande.lireTousCommandeByAcheteur(session_id);
-		 * 
-		 * modelCommande.setCommandesListe(listeAchatUser);
-		 */
+
+		
+		  
+		  List<Commande> listeAchatUser =  metierCommande.lireTousCommandeByAcheteur(session_id);
+		  
+		  modelCommande.setCommandesListe(listeAchatUser);
+		 
+		
+		
 		
 		
 		request.setAttribute("modelCommande", modelCommande);

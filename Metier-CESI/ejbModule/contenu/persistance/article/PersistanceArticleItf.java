@@ -30,22 +30,7 @@ public interface PersistanceArticleItf {
 	Article selectUserByArticle(Long article_id);
 	void supprimerArticle(Article article);
 	Article insertUserByArticle(Long article_id);
-	void persisterArticleInUser(User user, Article article);
-	void persisterUserAndArticle(User user, Article article);
-	
-	
-	void insertJoinArticleUserWithQuery(User user, Article article);
-	void insertJoinArticleUserWithQueryIndex(Long userid, Long articleid);
-	void updateArticleWithUser(Article article, User user);
-	
 
-	
-	void insertIntoVenteUser(User user, Article article);
-	
-	void insertionJoinTableObject(User user, Article article);
-	
-	void insertionJoinTableId(Long userid, Long articleId);
-	void insertionJoinTableIdAndKey(Long userid, Long articleId);
 	List<Article> lireTousArticleByUserVente(Long user_id);
 	
 
@@ -60,5 +45,6 @@ public interface PersistanceArticleItf {
 	//List<Article> selectArticleByTheme(Theme theme);
 	List<Article> selectArticleByTheme(String theme);
 	Article mergeArticleReturn(Article article);
+	Article modifierArticle(Article article);
 	
 }

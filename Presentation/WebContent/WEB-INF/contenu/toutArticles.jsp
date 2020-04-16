@@ -45,7 +45,8 @@
 	<form action="toutArticles" method="post">
 	<table >
 		
-			<thead> <th> Titre </th> <th> Theme </th> <th> Description </th> <th> Contenu </th> <th> Frais </th>   <th> Prix </th>    <th> Achat </th> </thead>
+			<thead> <th> Titre </th> <th> Theme </th> <th> Description </th> <th> Contenu </th>
+			 <th> Frais </th>   <th> Prix </th> <th> Date </th>      <th> Achat </th> </thead>
 			  
 			  	<tbody>
 			  	
@@ -67,6 +68,11 @@
 								<td><c:out value="${article.frais}"/></td>
 								
 								<td><c:out value="${article.prix}"/></td>
+								
+								
+								<td>
+								<fmt:formatDate value="${article.date}" pattern="dd-MM-yyyy"/>
+								</td>
 					
 				
 					
@@ -114,10 +120,7 @@
 		 <input type="submit" value="Selectionner"  name="choixTheme"  /> 
 						
 
-		
-		
-		</form>
-		
+			
 <table>
 						
 				<thead> 
@@ -163,6 +166,9 @@
 		      </c:forEach>
 		</tbody>
 		</table>
+		
+		</form>
+	
 							
 										
 			
@@ -174,24 +180,31 @@
 							
 							<c:forEach var="articleCarre" items="${modelContenu.articles}">
 						
+						<label> Titre : </label><h2> </h2><c:out value="${articleCarre.titre}"/>
 							<article>
+							
+							
 							
 									<span class="image">
 										<img src="images/pic01.jpg" alt="" />
-									</span>
-								
-								<a href="generic.html">
+									
+							<label> Description : </label>		<c:out value="${articleCarre.description}"/>
+										
+								<label> Contenu : </label>			<br> <c:out value="${articleCarre.contenu}"/>
+									
+							<label> Frais : </label>			<br> <c:out value="${articleCarre.frais}"/>
 												
-								<h2>  		<option> <c:out value="${articleCarre.titre}"/> </option>        </h2>
-								
+								<label> Prix : </label>			<br> <c:out value="${articleCarre.prix}"/>
+										 
+									
+									</span>
 								
 										<div class="content">
 										
-										 <c:out value="${articleCarre.description}"/>
-										
-											 <c:out value="${articleCarre.contenu}"/>
+										 
+								<a  href="acheterArticle?acheter=${article.id}" > Acheter </a>
 										</div>
-									</a>
+								
 								</article>
 							
 							
@@ -199,34 +212,7 @@
 								
 								
 								
-								
-			
-								<article class="style5">
-									<span class="image">
-										<img src="images/pic10.jpg" alt="" />
-									</span>
-									<a href="generic.html">
-										<h2>Ultricies</h2>
-										<div class="content">
-											<p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-										</div>
-									</a>
-								</article>
-								
-								<article class="style4">
-									<span class="image">
-										<img src="images/pic12.jpg" alt="" />
-									</span>
-									<a href="generic.html">
-										<h2>Pretium</h2>
-										<div class="content">
-											<p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-										</div>
-									</a>
-								</article>
-							</section>
-						</div>
-		
+					
 
 
 				

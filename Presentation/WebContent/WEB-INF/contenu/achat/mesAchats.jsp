@@ -17,8 +17,9 @@
 	
 	<h4> Mes Articles acheter </h4>
 	
-		<table border="1">
-			<thead> <th>Prix </th><th> Statut </th>  <th> Prix </th> <th>PRENOM</th></thead>
+		<table >
+			<thead>  <th>Titre  </th> <th> Contenu  </th> <th>Description </th>
+			<th>Prix </th><th> Frais </th>  <th> Statut </th> </thead>
 			  <c:forEach var="article" items="${modelCommande.achatArticles}"> 
 				
 				
@@ -45,6 +46,57 @@
 					
 				
 				
+						
+						</tr> 
+						
+						   </tbody>
+		      </c:forEach>
+		      
+		  
+		      
+		</table>
+		
+		
+		
+			
+	
+	<h4> Mes Achats en cours d'acheminement </h4>
+	
+		<table border="1">
+		<thead>  <th>Titre  </th> <th> Contenu  </th> <th>Description </th>
+			<th>Prix </th><th> Frais </th>  <th> Statut </th> </thead>
+			<th>Date d'achat </th><th> Date d'envoi </th> 
+			
+			  <c:forEach var="commande" items="${modelCommande.commandesListe}"> 
+				
+				
+					  	<tbody>
+					  	
+					  	<tr>
+					  	
+					  		<td><c:out value="${ commande.article.titre}"/></td>
+					
+						<td><c:out value="${ commande.article.contenu}"/></td>
+			
+			  					  	
+			  			<td><c:out value="${ commande.article.description}"/></td>
+			  			
+					
+					  			<td><c:out value="${ commande.article.prix}"/></td>
+					
+							  	
+			  			<td><c:out value="${ commande.article.frais}"/></td>
+					
+							  	
+			  			<td><c:out value="${ commande.article.status}"/></td>
+					
+				
+				
+			  			<td><c:out value="${ commande.date_creation}"/></td>
+			  			
+			  							
+				
+			  			<td><c:out value="${ commande.date_envoi}"/></td>
 						
 						</tr> 
 						

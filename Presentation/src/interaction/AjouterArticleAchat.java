@@ -94,79 +94,138 @@ public class AjouterArticleAchat extends HttpServlet {
 		System.out.println(" Acheter Article doPost");
 
 		HttpSession sessionPOST = request.getSession();
-		
-		
 
 		User userConnecter = (User) sessionPOST.getAttribute(ATTRIBUT_USER);
 		System.out.println("user connecter est : " + userConnecter);
 
-
-		
 		Long acheter_id = (Long) sessionPOST.getAttribute(ATTRIBUT_ARTICLE_ID);
 		System.out.println("achat article id=" + acheter_id);
-	
-
 		Article articleAchatID = metierArticle.rechercherArticleIndex(acheter_id);
-
 		System.out.println("article Achat = " + articleAchatID);
-
 		ModelArticleUnique modelArticle = new ModelArticleUnique();
 
 		modelArticle.setArticle(articleAchatID);
-
 		request.setAttribute("modelArticle", modelArticle);
 
 		System.out.println(" Response getContextPath acheter  Article forward");
-		// response.sendRedirect( request.getContextPath() + "/acheterArticle");
-
 		System.out.println("Envoi vue acheter article Do POST include ");
 		request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
 
-		// request.getRequestDispatcher(VUE_ACHETER_ARTICLE).include(request, response);
-
-		if (request.getParameter("acheterArticleInput") != null) {
-
-			System.out.println("acheter Input activé. Validation en cours");
-
-			String cb_code = request.getParameter("codeBanquaire");
-			System.out.println("cb = " + cb_code);
-			String chiffre = request.getParameter("chiffreSecret");
-			System.out.println("picot = " + chiffre);
-
-			if ( (!cb_code.isEmpty() && !chiffre.isEmpty() ) 
-					
-					&& ( cb_code.length() == 10 || chiffre.length() == 3)
-
-			) {
-
-				System.out.println("Paramètre non null, activé la couche metier Commande");
-
-				HttpSession sessionAcheter = request.getSession();
-				Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
-				System.out.println("user id  est : " + user_idAcheter);
-				User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
-				System.out.println("user connecter est : " + userAcheteur);
-
-				  System.out.println("creer commande simply");
-				  metierCommande.creerCommandeSimply(userAcheteur.getLogin(), articleAchatID.getId());
-				
-
-				  System.out.println("Update  article statut Reservé");
-				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
- 
-				 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
-				 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
-				 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
-				 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
-				 
-				 System.out.println("Update commande Date Creation");
-				 metierCommande.updateCommandeDateCreation(commandeLastID);
-				 
+			if (request.getParameter("acheterArticleInput") != null) {
 	
-				metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
-				metierCommande.insertArticleCommande(userVendeur, articleAchatID);
+				System.out.println("acheter Input activé. Validation en cours");
+				String cb_code = request.getParameter("codeBanquaire");
+				System.out.println("cb = " + cb_code);
+				String chiffre = request.getParameter("chiffreSecret");
+				System.out.println("picot = " + chiffre);
+
 			
-		  System.out.println("metier try validation banquaire : ");
+				boolean isValidation = boolValidationBanque(request);
+				
+				boolean isValidationPicto = boolValidationBanque(request);
+			
+					if (  		( isValidationPicto && isValidation )  )   {
+							/*(!cb_code.isEmpty() && !chiffre.isEmpty() ) 
+							
+							&& ( cb_code.length() == 10 || chiffre.length() == 3)*/
+							
+								System.out.println("Paramètre non null, activé la couche metier Commande");
+				
+								HttpSession sessionAcheter = request.getSession();
+								Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
+								System.out.println("user id  est : " + user_idAcheter);
+								User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
+								System.out.println("user connecter est : " + userAcheteur);
+				
+								  System.out.println("creer commande simply");
+								  metierCommande.creerCommandeSimply(userAcheteur.getLogin(), articleAchatID.getId());
+								
+				
+								  System.out.println("Update  article statut Reservé");
+								  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
+				 
+								 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getVendeur().getUser_id() );
+								 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
+								 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
+								 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
+								 
+								 System.out.println("Update commande Date Creation");
+								 metierCommande.updateCommandeDateCreation(commandeLastID);
+								 
+					
+								metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
+								metierCommande.insertArticleCommande(articleAchatID.getVendeur(),  articleAchatID);
+						}
+					
+						else if ( !isValidation || !isValidationPicto)
+						{
+							
+							  erreurMsg = "Veuillez insérer 10 chiffres pour votre CB";
+							  erreurPicto = "Veuillez insérer votre pictogramme a 3 chiffres";
+							  request.setAttribute(ATTRIBUT_ERREUR_CB, erreurMsg);
+							  request.setAttribute(ATTRIBUT_ERREUR_PICTO, erreurPicto);		
+							}
+		
+			
+				} // FIN IF INPUT SUBMIT
+	  
+				  
+						  
+				if (request.getParameter("supprimer") != null) {
+		
+				}
+				 			
+
+	} // Fin doPost
+	
+
+private boolean boolValidationBanque(HttpServletRequest request) {
+
+	boolean isBanque = metierCommande.validerCodeBanque(request);
+	if (isBanque) {
+		
+		return true;
+	}
+	// User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+	if (!isBanque) {
+		
+		erreurMsg = "Veuillez insérer 10 chiffres pour votre CB";
+		erreurPicto = "Veuillez insérer votre pictogramme a 3 chiffres";
+		
+		
+		return false;
+	}
+	return isBanque;
+
+}
+
+		private boolean boolValidationPicto(HttpServletRequest request) {
+		
+			boolean isBanque = metierCommande.validerPicto(request);
+			if (isBanque) {
+				
+				return true;
+			}
+			// User utilisateur = metier.connecterUtilisateurLoginMdp(login,motDePasse);
+			if (!isBanque) {
+				
+				erreurMsg = "Veuillez insérer 10 chiffres pour votre CB";
+				erreurPicto = "Veuillez insérer votre pictogramme a 3 chiffres";
+				
+				
+				return false;
+			}
+			return isBanque;
+		}
+		
+		
+
+
+}  //FIN CLASSE
+
+
+
+/*   System.out.println("metier try validation banquaire : ");
 		  try {
 			  	metierCommande.validationBanquaire(cb_code); 
 		  }
@@ -185,6 +244,7 @@ public class AjouterArticleAchat extends HttpServlet {
 				  
 				  System.out.println("attribut erreurs Map" + erreursMap.get(ATTRIBUT_ERREUR_CB) );
 		  
+				  request.setAttribute(ATTRIBUT_ERREUR_CB, e.getMessage());
 		  
 		  }
 		  
@@ -202,6 +262,7 @@ public class AjouterArticleAchat extends HttpServlet {
 			  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
 			  erreursMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
 	  
+			  request.setAttribute(ATTRIBUT_ERREUR_PICTO, erreurPicto);
 		  }
 		 
 
@@ -229,49 +290,28 @@ public class AjouterArticleAchat extends HttpServlet {
 				  erreurMsg.isEmpty() || erreurPicto.isEmpty() ) {
 					  System.out.println("Paramètre non null, activé la couche metier Commande");
 
-					/*
-					 * HttpSession sessionAcheter = request.getSession(); Long user_idAcheter =
-					 * (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
-					 * System.out.println("user id  est : " + user_idAcheter); User userAcheteur =
-					 * metierArticle.rechercherUserIndex(user_idAcheter);
-					 * System.out.println("user connecter est : " + userAcheteur);
-					 * 
-					 * System.out.println("creer commande simply");
-					 * metierCommande.creerCommandeSimply(userAcheteur.getLogin(),
-					 * articleAchatID.getId());
-					 * 
-					 * 
-					 * System.out.println("Update  article statut Reservé");
-					 * metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
-					 * 
-					 * User userVendeur =
-					 * metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id
-					 * () ); System.out.println("Uservendeur ID " + userVendeur.getUser_id());
-					 * Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
-					 * System.out.println("Commande last id + " + commandeLastID.getCommande_id());
-					 * 
-					 * System.out.println("Update commande Date Creation");
-					 * metierCommande.updateCommandeDateCreation(commandeLastID);
-					 * 
-					 * 
-					 * metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);
-					 * 
-					 * metierCommande.insertArticleCommande(userVendeur, articleAchatID);
-					 */
-					  
-				  }
-				  
+					/* HttpSession sessionAcheter = request.getSession();
+				Long user_idAcheter = (Long) sessionAcheter.getAttribute(ATTRIBUT_USER_ID);
+				System.out.println("user id  est : " + user_idAcheter);
+				User userAcheteur = metierArticle.rechercherUserIndex(user_idAcheter);
+				System.out.println("user connecter est : " + userAcheteur);
+
+				  System.out.println("creer commande simply");
+				  metierCommande.creerCommandeSimply(userAcheteur.getLogin(), articleAchatID.getId());
 				
+
+				  System.out.println("Update  article statut Reservé");
+				  metierCommande.updateArticleStatut(articleAchatID, StatutArticle.RESERVE);
+ 
+				 User userVendeur = metierArticle.rechercherUserIndex(articleAchatID.getUser_vendeur().getUser_id() );
+				 System.out.println("Uservendeur ID " + userVendeur.getUser_id());
+				 Commande commandeLastID = metierCommande.selectCommandeByLastIndex();
+				 System.out.println("Commande last id + " + commandeLastID.getCommande_id());
 				 
-
-			} // FIN IF INPUT SUBMIT
-
-			if (request.getParameter("supprimer") != null) {
-
-			}
-
-		} // FIN CONDITION
-
-	} // FIN DO POST
-
-} // FIN CLASSE
+				 System.out.println("Update commande Date Creation");
+				 metierCommande.updateCommandeDateCreation(commandeLastID);
+				 
+	
+				metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
+				metierCommande.insertArticleCommande(userVendeur, articleAchatID);
+			 */  

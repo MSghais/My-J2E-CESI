@@ -64,11 +64,10 @@ public class Article {
 	
 	
 	protected StatutArticle status;
-	//private Long user_vendeur;
-
+	
 	public void addUser(User user) {
 		
-		this.setUser_vendeur(user);
+		this.setVendeur(user);
 	}
 
 	public Article() {}
@@ -283,13 +282,13 @@ public Article(String nom, Theme theme, String description) {
 
 
 
-	public User getUser_vendeur() {
+	public User getVendeur() {
 		return vendeur;
 	}
 
 
 
-	public void setUser_vendeur(User user_vendeur) {
+	public void setVendeur(User user_vendeur) {
 		this.vendeur = user_vendeur;
 	}
 

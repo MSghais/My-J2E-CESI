@@ -10,6 +10,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.resteasy.spi.HttpRequest;
+
 import contenu.entite.Article;
 import contenu.entite.Theme;
 import contenu.enume.StatutArticle;
@@ -44,7 +46,11 @@ public class MetierCommande implements MetierInterfaceCommande {
 
 	private Map<Theme, Article> articlesThematiques;
 
-	private Map<String, String> erreurs;
+	private Map<String, String> erreurMap;
+	
+	private String erreurMsg;
+
+	private String erreurPicto;
 
 	private String resultat;
 
@@ -57,220 +63,21 @@ public class MetierCommande implements MetierInterfaceCommande {
 
 	public static final String ATTRIBUT_ERREUR_MSG = "msgErreur";
 	public static final String ATTRIBUT_ERREUR_MAP_CB = "erreursMapCB";
+	public static final String ATTRIBUT_ERREUR = "erreurs";
+
+	public static final String ATTRIBUT_ERREUR_CB = "erreurCB";
+	public static final String ATTRIBUT_ERREUR_PICTO = "erreurPicto";
 
 	public MetierCommande() {
 		System.out.println("Constructeur Metier");
 		articles = new HashMap<Long, Article>();
 
-		erreurs = new HashMap<String, String>();
+		erreurMap = new HashMap<String, String>();
 
 		articlesThematiques = new HashMap<Theme, Article>();
 		init();
 	}
 
-	public void creerArticle(Article article) {
-		articles.put(article.getId(), article);
-	}
-
-	public Article lireArticle(Long id) {
-		return articles.get(id);
-	}
-
-	@Override
-	public Commande selectCommandeByIndex(Long id) {
-		return persistanceCommande.selectCommandeByIndex(id);
-	}
-	public void mettreAJourArticle(Article article) {
-		articles.put(article.getId(), article);
-	}
-
-	public void supprimerArticle(Article article) {
-		articles.remove(article.getId());
-	}
-
-	public List<Commande> lireTousCommande() {
-		// return new ArrayList<>(etudiants.values());
-
-		return persistanceCommande.lireTousCommande();
-	}
-
-	private void init() {
-		System.out.println("Metier - init");
-
-	
-	}
-	
-
-	@Override
-	public Commande modifierCommande(Long id,  StatutCommande statut) {
-	
-		Commande commande = selectCommandeByArticle(id);
-	
-		commande.setStatus(statut);
-		return persistanceCommande.mergeCommandeReturn(commande);	
-	}
-	
-	
-	
-	
-
-	@Override
-	public Commande creerCommandeRequest(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-
-		String art_titre = request.getParameter("art_titre");
-		String art_url = request.getParameter("art_url");
-
-		String art_description = request.getParameter("art_description");
-		String art_contenu = request.getParameter("art_contenu");
-		Article article = new Article();
-
-		Commande commande = new Commande();
-
-		System.out.println("Test des exceptions du formulaire a partir du MEtier");
-
-		System.out.println("Test  metier : titre ");
-		/* Validation du champ username */
-		try {
-			//validationTitre(art_titre);
-		} catch (Exception e) {
-			this.setErreur(CHAMP_TITRE, e.getMessage());
-		}
-		article.setTitre(art_titre);
-
-		System.out.println("Test  metier : url ");
-		/* Validation du champ username */
-		try {
-			//validationUrl(art_url);
-
-		} catch (Exception e) {
-			this.setErreur(CHAMP_URL, e.getMessage());
-		}
-		article.setUrl(art_url);
-
-		System.out.println("Test  metier : description ");
-		/* Validation du champ username */
-		try {
-		//	validationDescription(art_description);
-
-		} catch (Exception e) {
-			setErreur(CHAMP_DESCL, e.getMessage());
-		}
-		article.setDescription(art_description);
-
-		System.out.println("Test  metier : Contenu");
-		/* Validation du champ mot de passe. */
-		try {
-			//validationContenu(art_contenu);
-		} catch (Exception e) {
-			setErreur(CHAMP_CONTENT, e.getMessage());
-		}
-		article.setContenu(art_contenu);
-
-		// || ( !utilisateur.getLogin().isEmpty() &&
-		// !utilisateur.getMotDePasse().isEmpty() && !utilisateur.getEmail().isEmpty()
-
-		/* Initialisation du résultat global de la validation. */
-		if (erreurs.isEmpty() || (!article.getTitre().isEmpty() && !article.getDescription().isEmpty()
-				&& !article.getContenu().isEmpty())) {
-			// || ( !article.getArt_titre().isEmpty() && !article.getArt_url().isEmpty() &&
-			// !article.getArt_description().isEmpty() &&
-			// !article.getArt_contenu().isEmpty() )
-			this.setResultat("Succès dépot Article");
-			this.resultat = "Succès du dépot Article";
-
-			resultat = "Succès de la connexion.";
-			System.out.println("Succes du dépot Article ");
-			System.out.println("Erreurs : " + erreurs);
-			// persistanceCommande.persisterArticle(article);
-
-			System.out.println("Persister utilisateur OK ");
-		} else {
-			resultat = "Échec de la connexion.";
-
-			this.setResultat(resultat);
-
-			System.out.println("Echec de la connexion ");
-			System.out.println("Erreur : " + erreurs);
-		}
-
-		// return user;
-		return commande;
-	}
-
-	
-@Override
-public Commande selectCommandeByLastIndex() {
-	// TODO Auto-generated method stub
-	return persistanceCommande.selectCommandeByLastIndex();
-}
-	@Override
-	public void setErreur(String champ, String message) {
-		// TODO Auto-generated method stub
-		erreurs.put(champ, message);
-	}
-
-	@Override
-	public Map<String, String> getErreurs() {
-		// TODO Auto-generated method stub
-		return erreurs;
-	}
-
-	@Override
-	public String getResultat() {
-		// TODO Auto-generated method stub
-		return resultat;
-	}
-
-	@Override
-	public String getValeurChamp(HttpServletRequest request, String nomChamp) {
-		String valeur = request.getParameter(nomChamp);
-		if (valeur == null || valeur.trim().length() == 0) {
-			return null;
-		} else {
-			return valeur;
-		}
-	}
-
-	public void setResultat(String resultat) {
-		this.resultat = resultat;
-	}
-
-	@Override
-	public void creerCommande(Commande commande) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Commande lireCommande(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void mettreAJourCommande(Commande commande) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void supprimerCommande(Commande commande) {
-		// TODO Auto-generated method stub
-		
-		persistanceCommande.supprimerCommande(commande);
-
-	}
-	@Override
-	public Commande lireCommandeByArticleIndexException(Long article_id) {
-		// TODO Auto-generated method stub
-		Article article = lireArticle(article_id);
-		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
-		System.out.println("Commande Index is =" + commande);
-		
-		return commande;
-		
-	}
 	
 	@Override
 	public void supprimerCommandeByArticleIndexException(Long article_id) {
@@ -313,7 +120,22 @@ public Commande selectCommandeByLastIndex() {
 		
 	}
 	
+
 	
+	@Override
+	public void creerCommandeSimply(String login, Long article_id) {	
+		User uconnecte = (User) persistanceUser.rechercherUserLogin(login);
+	
+		Article article = (Article) persistanceArticle.rechercherArticleIndex(article_id);
+		
+		article.setStatus(StatutArticle.RESERVE);
+		Commande commande = new Commande(article.getPrix(), article, uconnecte);
+		commande.setStatus(StatutCommande.ENCOURS);
+		
+		commande.setDateCreation(new Date());
+		persistanceCommande.persisterCommande(commande);
+	}
+
 	
 
 	@Override
@@ -339,6 +161,173 @@ public Commande selectCommandeByLastIndex() {
 		}
 
 	}
+	
+	@Override
+	public boolean validerCodeBanque(HttpServletRequest request) {
+		
+		
+		String codeBanquaire = request.getParameter("codeBanquaire");
+		 System.out.println("metier try validation banquaire : ");
+		  try {
+			  	validationBanquaire(codeBanquaire); 
+			  	return true;
+		  }
+		  catch (Exception e) 
+		  { // TODO
+			 // e.printStackTrace();
+			  
+				  System.out.println("Catch exception banquaire."); setErreur(  ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
+				setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() ); 				 
+			   setErreur(ATTRIBUT_ERREUR_CB, e.getMessage() );
+		  
+				  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
+				  erreurMap.put(ATTRIBUT_ERREUR_CB, e.getMessage() );
+				  
+				  erreurMsg = e.getMessage();
+				  
+				  System.out.println("attribut erreurs Map" + erreurMap.get(ATTRIBUT_ERREUR_CB) );
+		  
+				  request.setAttribute(ATTRIBUT_ERREUR_CB, e.getMessage());
+		  return false;
+		  }
+		  
+		 
+		 
+	}
+	
+	
+	@Override
+	public boolean validerPicto(HttpServletRequest request) {
+		
+
+		String chiffreSecret = request.getParameter("chiffreSecret");
+		
+		 
+		  try {
+			  validationPictogramme(chiffreSecret); 
+			  return true;
+		  } catch (Exception e) { //
+		 //e.printStackTrace();
+			 setErreur( ATTRIBUT_ERREUR_MAP_CB, e.getMessage() );
+			 setErreur( ATTRIBUT_ERREUR_MSG, e.getMessage() );
+			 setErreur( ATTRIBUT_ERREUR_PICTO, e.getMessage() );
+		  
+			 
+			  erreurPicto = e.getMessage();
+			  System.out.println("attribut erreurs Map" + ATTRIBUT_ERREUR_MAP_CB);
+			  erreurMap.put(ATTRIBUT_ERREUR_PICTO, e.getMessage());
+	  
+			  request.setAttribute(ATTRIBUT_ERREUR_PICTO, erreurPicto);
+			  return false;
+		  }
+		 
+		
+		
+	}
+	
+	@Override
+	public Commande selectCommandeByIndex(Long id) {
+		return persistanceCommande.selectCommandeByIndex(id);
+	}
+
+	@Override
+	public List<Commande> lireTousCommande() {
+		// return new ArrayList<>(etudiants.values());
+
+		return persistanceCommande.lireTousCommande();
+	}
+
+	private void init() {
+		System.out.println("Metier Commande");
+
+	
+	}
+	
+
+	@Override
+	public Commande modifierCommande(Long id,  StatutCommande statut) {
+	
+		Commande commande = selectCommandeByArticle(id);
+		commande.setStatus(statut);
+		commande.setDateEnvoi(new Date() );
+		return persistanceCommande.mergeCommandeReturn(commande);	
+	}
+	
+	@Override
+	public Commande selectCommandeByLastIndex() {
+		// TODO Auto-generated method stub
+		return persistanceCommande.selectCommandeByLastIndex();
+	}
+	
+	@Override
+	public void setErreur(String champ, String message) {
+		// TODO Auto-generated method stub
+		erreurMap.put(champ, message);
+	}
+
+	@Override
+	public Map<String, String> getErreurs() {
+		// TODO Auto-generated method stub
+		return erreurMap;
+	}
+
+	@Override
+	public String getResultat() {
+		// TODO Auto-generated method stub
+		return resultat;
+	}
+
+	@Override
+	public String getValeurChamp(HttpServletRequest request, String nomChamp) {
+		String valeur = request.getParameter(nomChamp);
+		if (valeur == null || valeur.trim().length() == 0) {
+			return null;
+		} else {
+			return valeur;
+		}
+	}
+
+	@Override
+	public void setResultat(String resultat) {
+		this.resultat = resultat;
+	}
+
+
+	@Override
+	public Commande lireCommande(Long id) {
+		// TODO Auto-generated method stub
+		return persistanceCommande.lireCommande(id);
+	}
+
+	@Override
+	public void mettreAJourCommande(Commande commande) {
+		persistanceCommande.mergeCommandeReturn(commande);
+
+	}
+
+	@Override
+	public void supprimerCommande(Commande commande) {
+		// TODO Auto-generated method stub
+		
+		persistanceCommande.supprimerCommande(commande);
+
+	}
+	
+	@Override
+	public Article lireArticle(Long article_id) {
+		return persistanceArticle.lireArticle(article_id);
+	}
+	@Override
+	public Commande lireCommandeByArticleIndexException(Long article_id) {
+		// TODO Auto-generated method stub
+		Article article = lireArticle(article_id);
+		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
+		System.out.println("Commande Index is =" + commande);
+		
+		return commande;
+		
+	}
+
 
 	@Override
 	public void persisterCommande(Commande commande) {
@@ -369,7 +358,7 @@ public Commande selectCommandeByArticle(Long article_id) {
 	@Override
 	public void updateCommandeStatutindex(Long index, StatutCommande status) {
 		// TODO Auto-generated method stub
-		persistanceCommande.updateCommandeStatutindex(index, status);
+		persistanceCommande.updateCommandeStatutIndex(index, status);
 	}
 
 
@@ -393,55 +382,16 @@ public Commande selectCommandeByArticle(Long article_id) {
 		persistanceCommande.ajouterArticleAchat(user, article);
 	}
 
-	@Override
-	public Commande selectCommandeByAcheteur(Long user_id) {
-
-		return persistanceCommande.selectCommandeByAcheteur(user_id);
-	}
-	
 
 	@Override
 	public Commande lireTousCommandeByArticleException(Long article_id) {
 		// TODO Auto-generated method stub
 		return persistanceCommande.lireTousCommandeByArticleException(article_id);
 	}
-	
-	@Override
-	public void voidCreateAndInsertCommandeMetierIn(Article article, User userAcheteur ) {
-		// TODO Auto-generated method stub
-		
-		 System.out.println("Creation and Insert  commande In Metier");
-			Commande commandeID = new Commande(article.getPrix(), article, userAcheteur);
-			
-			
-			commandeID.setStatus(StatutCommande.ENCOURS);
-			
-			persistanceCommande.persisterCommande(commandeID);
-			
-			article.setStatus(StatutArticle.RESERVE);
-			
-			System.out.println("array command ID = " +  commandeID.getCommande_id());
-			//Commande commande = selectCommandeByIndex(commandeID.getCommande_id());
-			
-		
-	
-	}
+
 
 	
-	@Override
-	public void creerCommandeSimply(String login, Long article_id) {	
-		User uconnecte = (User) persistanceUser.rechercherUserLogin(login);
 	
-		Article article = (Article) persistanceArticle.rechercherArticleIndex(article_id);
-		
-		article.setStatus(StatutArticle.RESERVE);
-		Commande commande = new Commande(article.getPrix(), article, uconnecte);
-		commande.setStatus(StatutCommande.ENCOURS);
-		
-		commande.setDateCreation(new Date());
-		persistanceCommande.persisterCommande(commande);
-	}
-
 	@Override
 	public List<Commande> rechercherCommandeByAcheteur(Long acheteur_id) {
 		// TODO Auto-generated method stub

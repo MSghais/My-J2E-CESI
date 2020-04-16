@@ -73,78 +73,28 @@ public class CreationArticleMVC extends HttpServlet {
 	    		
 	    		request.setAttribute("modelTheme", modelTheme);
 	  
-	     	User user =  (User) request.getAttribute(ATTRIBUT_USER);
-	     
-	     	System.out.println(user);
+	     	User user =  (User) request.getAttribute(ATTRIBUT_USER);   
+	     	System.out.println("user in session are " + user);
 
 	    	request.getRequestDispatcher(VUE).include(request, response);
-	
 	    	System.out.println("doPOST envoi la vue");
 	    	HttpSession session = request.getSession();
-	    	
 	     	//HttpSession sessionServlet = request.getSession();
 	     	Cookie[] cookies = request.getCookies(); System.out.println(cookies);
 	
-	    	System.err.println( "Request cookie in addArticle : " + request.getCookies());
-	    //	HttpSession session = request.getSession();
-	    	System.out.println("user" + session.getAttribute(ATTRIBUT_USER));   	
-	    	System.out.println("user session" + session.getAttribute(ATTRIBUT_USER_SESSION));   	
-	    	User userTESTING = (User) session.getAttribute(ATTRIBUT_USER);
-	    	
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ID));
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_LOGIN));
-	    	System.out.println(session.getAttribute(ATTRIBUT_USER_ROLE));
-	    	
-	    	
 
 	   if(request.getParameter("creationArticle") != null ) {
 
 		 	System.out.println("button activé par User ppur Article");
-		 	
-				        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
-
-			
-					System.out.println("Request User object " +request.getAttribute(ATTRIBUT_USER));
-					
-					System.out.println("Request ID" + request.getAttribute(ATTRIBUT_USER_ID));
-					System.out.println("Request LOGIN " + request.getAttribute(ATTRIBUT_USER_LOGIN));
-					
-					System.out.println("session User object " +session.getAttribute(ATTRIBUT_USER));
-					
-					System.out.println("session ID" + session.getAttribute(ATTRIBUT_USER_ID));
-					System.out.println("session LOGIN " + session.getAttribute(ATTRIBUT_USER_LOGIN));
-					
-					session.setAttribute(ATTRIBUT_USER,user);
-			     	request.setAttribute(ATTRIBUT_USER, (User) user);
-			     	
-	     	
-			  
-			  User userRequest= (User) request.getAttribute(ATTRIBUT_USER);
-			  
-			  System.out.println("userRequest = " + userRequest);
-			  
-			  User userSession = (User) session.getAttribute(ATTRIBUT_USER);
-			  
-			  System.out.println("user SESSION = " + userSession);
-			  
-			  User userSessionTEST = (User) session.getAttribute(ATTRIBUT_USER_SESSION);
-			  
-			  System.out.println("user SESSION TEST boolean = " + userSession);
-			  
-				//Article article = form.creerArticle(request);
-			  
+	  
 		        System.out.println("Inscription Article EJB  " );
-		        Article articleSessionRequest =  form.creerArticleUserRequestSession(request, userTESTING, session);
+		        Article articleSessionRequest =  form.creerArticleUserRequestSession(request,  session);
 		        System.out.println(articleSessionRequest);
 			
-			   request.setAttribute( ATT_FORM, form );
-		      
-			  
-		        request.setAttribute( ATTRIBUT_ERREUR_MSG, form.getErreurs());
+			    request.setAttribute( ATT_FORM, form );
+			    request.setAttribute( ATTRIBUT_ERREUR_MSG, form.getErreurs());
 		        
-		        System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );
-		        
-		        
+		        System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );	        
 		        System.out.println("doPOST Article renvoi page en forward" );
 
 		      	request.getRequestDispatcher(VUE).forward(request, response);
