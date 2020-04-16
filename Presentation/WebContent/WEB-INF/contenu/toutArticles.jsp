@@ -73,9 +73,9 @@
 								
 					
 				
-					
+						<c:if test="${!empty sessionScope.utilisateur }">
 							<td> <a  href="acheterArticle?acheter=${article.id}" > Acheter </a> </td> 
-					 
+						 </c:if>
  
 							
 		
@@ -168,48 +168,7 @@
 		</form>
 	
 							
-										
-			
-							
-					
-					
-					
-					</div>
-							
-							<c:forEach var="articleCarre" items="${modelContenu.articles}">
-						
-						<label> Titre : </label><h2> </h2><c:out value="${articleCarre.titre}"/>
-							<article>
-							
-							
-							
-									<span class="image">
-										<img src="images/pic01.jpg" alt="" />
-									
-							<label> Description : </label>		<c:out value="${articleCarre.description}"/>
-										
-								<label> Contenu : </label>			<br> <c:out value="${articleCarre.contenu}"/>
-									
-							<label> Frais : </label>			<br> <c:out value="${articleCarre.frais}"/>
-												
-								<label> Prix : </label>			<br> <c:out value="${articleCarre.prix}"/>
-										 
-									
-									</span>
-								
-										<div class="content">
-										
-										 
-								<a  href="acheterArticle?acheter=${article.id}" > Acheter </a>
-										</div>
-								
-								</article>
-							
-							
-							</c:forEach>
-								
-								
-								
+				
 					
 
 </div>

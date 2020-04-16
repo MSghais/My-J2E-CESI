@@ -178,7 +178,7 @@ public class PersisterArticle implements PersistanceArticleItf{
 	public Article rechercherArticleIndex(Long id) {
 		System.out.println("rechercherUserLogin");
 		
-			Query query = entityManager.createQuery("select a from Article a where a.id=:id ");
+			Query query = entityManager.createQuery("select a from Article a where a.id =: id ");
 			query.setParameter("id", id);
 		
 			return (Article) query.getSingleResult();

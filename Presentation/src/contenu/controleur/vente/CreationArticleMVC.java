@@ -3,6 +3,7 @@ package contenu.controleur.vente;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,11 +47,11 @@ public class CreationArticleMVC extends HttpServlet {
 		public static final String ATTRIBUT_USER_ID      = "userId";
 		public static final String ATTRIBUT_USER_ROLE      = "userRole";
 		
-	    public static final String ATTRIBUT_ERREUR_MSG   = "msgErreur";
+	    public static final String ATTRIBUT_ERREUR_MSG   = "msgErreurArticle";
 	    public static final String VUE = "WEB-INF/contenu/vente/ajouterArticle.jsp";
 			
 		private String erreurMsg;
-		
+		private HashMap<String,String> erreursMap;
 		
 		
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
@@ -92,11 +93,31 @@ public class CreationArticleMVC extends HttpServlet {
 			
 			    request.setAttribute( ATT_FORM, form );
 			    request.setAttribute( ATTRIBUT_ERREUR_MSG, form.getErreurs());
+			  
+			    erreursMap = (HashMap<String, String>) form.getErreurs();
+			    
+			    request.setAttribute( "erreursMap", erreursMap);
 		        
-		        System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );	        
-		        System.out.println("doPOST Article renvoi page en forward" );
+			    
+			    if(articleSessionRequest != null && form.getErreurs().isEmpty()) {
+			    	
+			    	System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );	        
+			        System.out.println("doPOST Article renvoi page en forward" );
 
-		      	request.getRequestDispatcher(VUE).forward(request, response);
+			      	request.getRequestDispatcher("/Shopping").forward(request, response);
+				  
+			    	
+			    }
+			    else {
+			    	
+			    	System.out.println("Requete set Attributs de utilisateur et inscriptionForm " );	        
+			        System.out.println("doPOST Article renvoi page en forward" );
+
+			      	request.getRequestDispatcher(VUE).forward(request, response);
+			    	
+			    	
+			    }
+		       
 			  
 			
 	   		}

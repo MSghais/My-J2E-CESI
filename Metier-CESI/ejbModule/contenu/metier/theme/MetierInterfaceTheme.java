@@ -17,17 +17,7 @@ import utilisateurs.entite.User;
 @Local
 public interface MetierInterfaceTheme {
 	// PROMOTIONS
-	void creerArticle(Article article);
-	Article lireArticle(Long id);
-	void mettreAJourArticle(Article article);
-	void supprimerArticle(Article article);
 
-
-	void validationTitre(String titre) throws Exception;
-	Theme creerTheme(HttpServletRequest request);
-	void validationUrl(String url) throws Exception;
-	void validationContenu(String contenu) throws Exception;
-	void validationDescription(String description) throws Exception;
 	void validationTheme(String theme) throws Exception;
 
 	void setErreur(String champ, String message);
@@ -48,6 +38,8 @@ public interface MetierInterfaceTheme {
 	
 	Theme selectThemeByUser(Long user_id);
 	Theme selectUserByTheme(Long theme_id);
+
+	Theme creerTheme(HttpServletRequest request);
 	
 	//void ajouterAbsence(Long etudiantId);
 	//void ajouterRetard(Long etudiantId);

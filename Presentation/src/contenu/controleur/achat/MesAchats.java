@@ -78,9 +78,10 @@ public class MesAchats extends HttpServlet {
 		Long session_id = (Long) session.getAttribute(ATTRIBUT_USER_ID);
 		System.out.println("acheteur_id = " + session_id);
 		User userSession = metierArticle.rechercherUserIndex(session_id);
-		
+		System.out.println(userSession);
 
 		List<Article> achatArticles = userSession.getAchatArticles();
+	//	List<Article> achatArticles = metierCommande.lireTousAr
 		System.out.println(achatArticles);	
 		modelCommande.setAchatArticles(achatArticles);
 		

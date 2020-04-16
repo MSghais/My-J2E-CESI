@@ -70,9 +70,11 @@ public class Inscription extends HttpServlet {
 		        request.setAttribute( ATT_USER, user );
 			        
 			        System.out.println("User créer : renvoi page en include Connexion" );
-			        request.getRequestDispatcher("/Connexion" ).include( request, response );
+			      //  request.getRequestDispatcher("/Connexion" ).include( request, response );
 			        
 			        System.out.println("User créer : renvoi page en forward Connexion" );
+			        
+			        request.getRequestDispatcher("/Connexion").forward(request, response);
 			     }
 			     else if( !inscriptionForm.getErreurs().isEmpty() || user==null  ) {
 			    	 

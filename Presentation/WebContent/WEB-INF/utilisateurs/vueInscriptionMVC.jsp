@@ -40,6 +40,14 @@
 		<form action="Inscription" method="post" >
 		<fieldset>
 		
+		
+		
+		            <c:out value="${erreurs }"></c:out>
+		            
+		            
+		            <c:out value="${erreursAllForm }"></c:out>
+		            
+		
 					<label for="rubrique_name"> Role <span class="requis">* </span> </label>
 							
 								 <select name="role"> 
@@ -58,31 +66,33 @@
                 <input type="text" id="username" name="username" value="<c:out value="${utilisateur.username}"/>" size="20" maxlength="60" />
                 <span class="erreur">${inscriptionForm.erreurs['username']}</span>
                 <br />
-                
+                 <c:out value="${erreurs ['username']}"></c:out>
                  <label for="login"> Login de connexion <span class="requis">*</span> </label>
                 <input type="text" id="login" name="login" value="<c:out value="${utilisateur.login}"/>" size="20" maxlength="20" />
                  <span class="erreur">${inscriptionForm.erreurs['login']}</span>
                  
                
                 <br />
+                             <c:out value="${erreurs ['login']}"></c:out>
                 
                 
 				       <label for="email">Adresse email <span class="requis">*</span></label>
                 <input type="email" id="email" name="email" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" />
                 <span class="erreur">${inscriptionForm.erreurs['email']}</span>
-                          
+                                     <c:out value="${erreurs ['email']}"></c:out>
                 
                 
                 <label for="motdepasse">Mot de passe <span class="requis">*</span></label>
                 <input type="password" id="password" name="password" value="" size="20" maxlength="20" />
                  <span class="erreur">${inscriptionForm.erreurs['password']}</span>
-             
+                       <c:out value="${erreurs ['password']}"></c:out>
                 <br />
 
                 <label for="confirmation">Confirmation du mot de passe <span class="requis">*</span></label>
                 <input type="password" id="confirmation" name="confirmation" value="" size="20" maxlength="20" />
                 <span class="erreur">${inscriptionForm.erreurs['confirmation']}</span>
                  <br />
+                 <c:out value="${erreurs ['confirmation']}"></c:out>
 
 
                 <input type="submit" value="S'incrire"  name="inscriptionUserMVC"  />

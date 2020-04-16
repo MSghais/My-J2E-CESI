@@ -89,7 +89,7 @@ public class MetierTheme implements MetierInterfaceTheme {
 		// TODO Auto-generated method stub
 
 		
-		String theme_intitule = request.getParameter("theme_intitule");
+		String theme_intitule = request.getParameter("intitule");
 		Theme theme = new Theme();
 
 		System.out.println("Test des exceptions du formulaire a partir du MEtier");
@@ -97,7 +97,7 @@ public class MetierTheme implements MetierInterfaceTheme {
 		System.out.println("Test  metier : Creer un Hashtag");
 		/* Validation du champ mot de passe. */
 		try {
-			validationContenu(theme_intitule);
+			validationTheme(theme_intitule);
 		} catch (Exception e) {
 			setErreur(CHAMP_SKILLS_FK, e.getMessage());
 		}
@@ -133,80 +133,6 @@ public class MetierTheme implements MetierInterfaceTheme {
 		return theme;
 	}
 
-	@Override
-	public void validationTitre(String titre) throws Exception {
-		// TODO Auto-generated method stub
-		if (titre != null) {
-			if (titre.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationUrl(String url) throws Exception {
-		if (url != null) {
-			if (url.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationDescription(String description) throws Exception {
-		// TODO Auto-generated method stub
-		if (description != null) {
-			if (description.length() < 3) {
-				throw new Exception("Le titre doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir un titre plus précis.");
-		}
-	}
-
-	@Override
-	public void validationContenu(String contenu) throws Exception {
-		// TODO Auto-generated method stub
-		if (contenu != null) {
-			if (contenu.length() < 3) {
-				throw new Exception("Le contenu doit contenir au moins 3 caractères.");
-			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
-		} else {
-			throw new Exception("Merci de saisir votre mot de passe.");
-		}
-	}
 
 	@Override
 	public void validationTheme(String theme) throws Exception {
@@ -215,13 +141,7 @@ public class MetierTheme implements MetierInterfaceTheme {
 			if (theme.length() < 3) {
 				throw new Exception("Le titre doit contenir au moins 3 caractères.");
 			}
-			/*
-			 * else if(login.get(int i).equals(int.class) ) {
-			 * 
-			 * } else if(login.con) {
-			 * 
-			 * }
-			 */
+			
 		} else {
 			throw new Exception("Merci de saisir un titre plus précis.");
 		}

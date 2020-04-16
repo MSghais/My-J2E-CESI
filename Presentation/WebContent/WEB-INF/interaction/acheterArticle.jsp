@@ -52,10 +52,10 @@
                  <span class="erreur">${form.erreurs['art_frais']}</span>
                 <br />
 
-           <c:out value="${requestScope.erreurCb }"></c:out>                
-           <c:out value="${ erreurCb }"></c:out>
-              <c:out value="${requestScope.erreursMap[erreurCB] }"></c:out>
-             <c:out value="${ erreursMap[erreurCB] }"></c:out>
+                       
+           <c:out value="${ erreurCB }"></c:out>
+              
+             <br>
            
  			<label for="chiffreSecret"> Les pictogrammes <span class="requis">*</span> </label>
                 <input type="number" id="chiffreSecret" name="chiffreSecret" size="10" maxlength="3" />
@@ -63,11 +63,11 @@
                 <br />
 
 
-	       <c:out value="${requestScope.erreurPicto}"></c:out>                
+	                   
            <c:out value="${ erreurPicto }"></c:out>
-             <c:out value="${ erreursMap[erreurPicto] }"></c:out>
-              <c:out value="${requestScope.erreursMap[erreurPicto] }"></c:out>
            
+              <br>
+              
                  
                 
                 <input type="submit" value="Déposer"  name="acheterArticleInput" id="acheterArticleInput" /> 

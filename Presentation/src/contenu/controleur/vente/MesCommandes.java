@@ -89,9 +89,10 @@ public class MesCommandes extends HttpServlet {
 		User userSession = metierArticle.rechercherUserIndex(session_id);
 		System.out.println("User session mes COmmandes = " +userSession);
 		System.out.println("recherche vente article statut reserve and user session");
-		//List<Article> ventesArticles = metierCommande.lireTousArticleReserveByVendeurException(session_id);
+		//	List<Article> ventesArticles = metierCommande.lireTousArticleByVendeurException(session_id);
 		
-		List<Article> ventesArticles = metierCommande.lireTousArticleByVendeurException(session_id);
+	
+		List<Article> ventesArticles = metierCommande.lireTousArticleReserveByVendeurException(session_id);
 		
 		modelCommande.setVentesArticles(ventesArticles);
 

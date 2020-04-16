@@ -63,9 +63,9 @@
 	<h4> Mes Achats en cours d'acheminement </h4>
 	
 		<table border="1">
-		<thead>  <th>Titre  </th> <th> Contenu  </th> 
+		<thead>  <th>Titre  </th> <th> Contenu  </th>  <th> Vendeur  </th> 
 			<th>Prix </th><th> Frais </th>  <th> Statut </th> </thead>
-			<th>Date d'achat </th><th> Date d'envoi </th> 
+			<th>Date</th>
 			
 			  <c:forEach var="commande" items="${modelCommande.commandesListe}"> 
 				
@@ -87,15 +87,23 @@
 			  			<td><c:out value="${ commande.article.frais}"/></td>
 					
 							  	
-			  			<td><c:out value="${ commande.article.status}"/></td>
+			  			<td><c:out value="${ commande.article.status}"/>
+			  			
+		  		
+			  			</td>
 					
 				
 				
-			  			<td><c:out value="${ commande.date_creation}"/></td>
+	
 			  			
 			  							
 				
-			  			<td><c:out value="${ commande.date_envoi}"/></td>
+			  			<td>
+			  				<td><c:out value="${ commande.date_creation}"/>
+			  					<c:out value="${ commande.date_envoi}"/>
+			  				
+			  				</td>
+		
 						
 						</tr> 
 						

@@ -68,12 +68,9 @@ public class User {
 			)
 	private List<Article >ventesArticles;
 	
-
 	
 	
-	//
-	//@OneToMany
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="achat_article", joinColumns=@JoinColumn(name="acheteur_id"),
 	inverseJoinColumns=@JoinColumn(name="fk_article_id")
 			)

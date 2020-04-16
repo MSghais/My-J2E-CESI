@@ -82,16 +82,19 @@ public class MetierCommande implements MetierInterfaceCommande {
 	
 	@Override
 	public void creerCommandeSimply(String login, Long article_id) {	
-		User uconnecte = (User) persistanceUser.rechercherUserLogin(login);
+		User user = (User) persistanceUser.rechercherUserLogin(login);
 	
-		Article article = (Article) persistanceArticle.rechercherArticleIndex(article_id);
+		Article article = (Article) persistanceArticle.lireArticle(article_id);
 		
-		article.setStatus(StatutArticle.RESERVE);
-		Commande commande = new Commande(article.getPrix(), article, uconnecte);
+		//article.setStatus(StatutArticle.RESERVE);
+		updateArticleStatut(article, StatutArticle.RESERVE);
+		Commande commande = new Commande(article.getPrix(), article, user);
 		commande.setStatus(StatutCommande.ENCOURS);
 		
 		commande.setDateCreation(new Date());
 		persistanceCommande.persisterCommande(commande);
+		
+		//ajouterArticleAchat(user, article);
 	}
 
 	
@@ -99,7 +102,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	@Override
 	public void supprimerCommandeByArticleIndexException(Long article_id) {
 		// TODO Auto-generated method stub
-		Article article = persistanceArticle.rechercherArticleIndex(article_id);
+		Article article = persistanceArticle.lireArticle(article_id);
 		Commande commande = lireTousCommandeByArticleException(article.getId()) ;
 		System.out.println("Commande Index is =" + commande);
 		
@@ -162,7 +165,7 @@ public class MetierCommande implements MetierInterfaceCommande {
 	public void validationPictogramme(String picto) throws Exception {
 		// TODO Auto-generated method stub
 		if (picto != null) {
-			if (picto.length() < 2) {
+			if (picto.length() < 2 || picto.length() > 3) {
 				throw new Exception("Le pictogramme doit faire 3 chiffres.");
 			}
 		}

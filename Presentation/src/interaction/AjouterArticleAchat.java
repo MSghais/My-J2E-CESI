@@ -156,12 +156,18 @@ public class AjouterArticleAchat extends HttpServlet {
 				 * System.out.println("Update commande Date Creation");
 				 * metierCommande.updateCommandeDateCreation(commandeLastID);
 				 * 
-				 */
-								metierCommande.ajouterArticleAchat(userConnecter, articleAchatID);			
-								metierCommande.insertArticleCommande(articleAchatID.getVendeur(),  articleAchatID);
-						}
+		 */					metierCommande.insertArticleAchat(userAcheteur, articleAchatID);
+							metierCommande.insertArticleCommande(articleAchatID.getVendeur(),  articleAchatID);
 					
-						else if ( !isValidation || !isValidationPicto)
+							
+
+					      	request.getRequestDispatcher("/mesAchats").forward(request, response);
+						  
+							//metierCommande.ajouterArticleAchat(userAcheteur, articleAchatID);
+							
+									}
+					
+						else // if ( !isValidation && !isValidationPicto)
 						{
 							
 							  erreurMsg = "Veuillez insérer 10 chiffres pour votre CB";

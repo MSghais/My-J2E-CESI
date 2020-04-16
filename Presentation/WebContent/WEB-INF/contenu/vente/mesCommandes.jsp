@@ -50,7 +50,7 @@
 				
 					<td><c:out value="${ article.titre}"/></td>
 					
-						<td><c:out value="${ article.theme}"/></td>
+					<td><c:out value="${ article.theme.theme_intitule}"/></td>
 					<td><c:out value="${article.description}"/></td>
 					
 					<td><c:out value="${article.contenu}"/></td>

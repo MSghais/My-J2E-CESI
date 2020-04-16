@@ -272,7 +272,10 @@ public class MetierArticle implements MetierInterfaceArticle {
 		Theme theme = persistanceTheme.lireThemeName(acronymeTheme);
 		System.out.println(theme);
 		
-		Article article = (Article) request.getAttribute(ATTRIBUT_ARTICLE_MODIF);
+		
+		Long article_id = (Long) request.getAttribute("modifier");
+		Article article = rechercherArticleIndex(article_id);
+		//Article article = (Article) request.getAttribute(ATTRIBUT_ARTICLE_MODIF);
 		System.out.println("Article a modifier" + article);
 		//Article article = new Article();
 

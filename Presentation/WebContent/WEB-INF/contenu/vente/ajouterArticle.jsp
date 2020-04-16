@@ -27,9 +27,11 @@
 		<fieldset>
 		
 
-	
-	
-									
+						<c:if test="${ !empty msgErreurArticle }">
+						 <span class="erreur">${form.erreurs}</span>
+						<c:out value="${ msgErreurArticle }"></c:out>
+						</c:if>  
+	        		
 				
                 <label for="art_titre"> Titre <span class="requis">* </span> </label>
                 <input type="text" id="art_titre" name=art_titre value="<c:out value="${article.titre}"/>" size="20" maxlength="60" />
@@ -47,17 +49,12 @@
 					
 					</select>
 					
-                
-	     	  <label for="art_url"> Image ou lien ? <span class="requis">*</span></label>
-                <input type="url" id="art_url" name="art_url" value="<c:out value="${article.url}"/>" size="20" maxlength="60" />
-                <span class="erreur">${form.erreurs['art_url']}</span>
-                 <br />
-                
+             
                  <label for="art_description"> Description <span class="requis">*</span> </label>
                 <input type="text" id="art_description" name="art_description" value="<c:out value="${article.description}"/>" size="20" maxlength="20" />
                  <span class="erreur">${form.erreurs['art_description']}</span>
                 <br />
-                
+   
                   <label for="art_contenu"> Contenu <span class="requis">*</span> </label>
                 <div class="field">
 					<textarea name="art_contenu" id="art_contenu" placeholder="Message">
@@ -65,26 +62,35 @@
 					</textarea>
 					   <span class="erreur">${form.erreurs['art_contenu']}</span>
 				</div>
-                                
+                    
              
                 
  			<label for="art_frais"> Frais <span class="requis">*</span> </label>
-                <input type="text" id="art_frais" name="art_frais" value="<c:out value="${article.frais}"/>" size="20" maxlength="20" />
+                <input type="number" id="art_frais" name="art_frais" value="<c:out value="${article.frais}"/>" size="20" maxlength="20" />
                  <span class="erreur">${form.erreurs['art_frais']}</span>
                 <br />
-
+				             
+         
            
  			<label for="art_frais"> Prix <span class="requis">*</span> </label>
-                <input type="text" id="art_prix" name="art_prix" value="<c:out value="${article.prix}"/>" size="20" maxlength="20" />
+                <input type="number" id="art_prix" name="art_prix" value="<c:out value="${article.prix}"/>" size="20" maxlength="20" />
                  <span class="erreur">${form.erreurs['art_prix']}</span>
                 <br />
 
-
+   
+	     	  <label for="art_url"> Image ou lien ? <span class="requis">*</span></label>
+                <input type="url" id="art_url" name="art_url" value="<c:out value="${article.url}"/>" size="20" maxlength="60" />
+                <span class="erreur">${form.erreurs['art_url']}</span>
+                 <br />
+          
 
 
                 <input type="submit" value="Déposer"  name="creationArticle"  />
                 <br />
                 
+                   
+                            
+                            
                  <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
 					
 			</fieldset>
