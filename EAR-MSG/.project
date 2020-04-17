@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>EAR-CESI</name>
+	<name>EAR-MSgHackaton</name>
 	<comment></comment>
 	<projects>
-		<project>Presentation</project>
-		<project>Metier-CESI</project>
+		<project>Presentation-MSgHackaton</project>
+		<project>Metier-MSgHackaton</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

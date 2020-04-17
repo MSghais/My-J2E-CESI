@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Metier-CESI</name>
+	<name>Metier-MSgHackaton</name>
 	<comment></comment>
 	<projects>
+		<project>Presentation-MSgHackaton</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
